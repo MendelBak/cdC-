@@ -186,12 +186,6 @@ namespace basic13
 
 
 
-
-
-
-
-
-
         static void Main(string[] args)
         {
 
@@ -209,8 +203,8 @@ namespace basic13
 
 
             // Find Max in array function call
-            // int[] myArr = { -5, -7, -1, 770, 0, -3 };
-            // findMax(myArr);
+            // int[] myArr1 = { -5, -7, -1, 770, 0, -3 };
+            // findMax(myArr1);
 
 
             // Get Average from Array function call
@@ -223,27 +217,27 @@ namespace basic13
 
 
             // Takes an array and Y and returns number larger than Y: Function call.
-            // int[] myArr = {1, 3, 7, 8, 13, -4, -7, 0, 3};
+            // int[] myArr2 = {1, 3, 7, 8, 13, -4, -7, 0, 3};
             // int y = 7; 
-            // greaterThanY(myArr, y);
+            // greaterThanY(myArr2, y);
 
 
             // Squares all values in given array: Function Call.
-            // int[] myArr = {1, 3, 7, 613, 770};
-            // squareArr(myArr);
+            int[] myArr3 = {1, 3, 7, 613, 770};
+            squareArr(myArr3);
 
 
             // Replaces negatives in a given array with zeros: Function Call.
-            // int[] myArr = {-1, 770, -613, -306, 306};
-            // noNegNums(myArr);
+            int[] myArr4 = {-1, 770, -613, -306, 306};
+            noNegNums(myArr4);
 
 
             // Finds Min, Max, and Avg in a given array: Function Call.
-            // minMaxAvg(new int[] {1, 3, 5, 7, 9, 614, -614, 306});
+            minMaxAvg(new int[] {1, 3, 5, 7, 9, 614, -614, 306});
 
 
             // Shift values in array frontwards: Function Call.
-            // shiftValsFront(new int[] {1, 2, 3, 4, 5});
+            shiftValsFront(new int[] {1, 2, 3, 4, 5});
 
 
             // Negative number to String: Function Call.

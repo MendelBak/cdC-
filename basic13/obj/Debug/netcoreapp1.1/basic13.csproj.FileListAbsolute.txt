@@ -1,0 +1,8 @@
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\bin\Debug\netcoreapp1.1\basic13.deps.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\bin\Debug\netcoreapp1.1\basic13.runtimeconfig.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\bin\Debug\netcoreapp1.1\basic13.runtimeconfig.dev.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\bin\Debug\netcoreapp1.1\basic13.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\bin\Debug\netcoreapp1.1\basic13.pdb
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\obj\Debug\netcoreapp1.1\basic13.AssemblyInfo.cs
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\obj\Debug\netcoreapp1.1\basic13.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\basic13\obj\Debug\netcoreapp1.1\basic13.pdb

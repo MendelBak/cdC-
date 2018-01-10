@@ -99,18 +99,12 @@ namespace puzzles
         }
 
 
-
-
         static void Main(string[] args)
         {
 
-        // RandomArray();
-        // TossCoin(10);
+        RandomArray();
+        TossCoin(10);
         Names();
-
-
-
-
         }
     }
 }

@@ -22,10 +22,11 @@ namespace human
                 Health = newHealth;
         }
 
-        public void Attack(Human enemy) 
+        public void Attack(object val) 
         {
-            if(enemy is Human)
+            if(val is Human)
             {
+            Human enemy = val as Human;
             enemy.Health -= Strength * 5;
             }
             else 

@@ -72,18 +72,10 @@ namespace ConsoleApplication
             }
 
             //(Optional) Display the artist names of all members of the group 'Wu-Tang Clan'
-            var WuTangMembers = Artists.Join(Groups, artist => artist.GroupId, group => group.Id, (artist, group) =>
-            {
-                if (artist.GroupId == 1)
-                {
-                    return artist.ArtistName;
-                }
-                else
-                {
-                    return null;
-
-                }
-            }).ToList().Distinct();
+            var WuTangMembers = (from a in Artists
+                join g in Groups on a.GroupId equals g.Id
+                where a.GroupId == 100
+                select a.ArtistName).ToList();
             if (WuTangMembers.Any())
             {
                 System.Console.WriteLine("Here are all the members of the Wu Tang Clan");

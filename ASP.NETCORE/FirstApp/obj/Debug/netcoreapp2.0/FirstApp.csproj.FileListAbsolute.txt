@@ -1,0 +1,10 @@
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\bin\Debug\netcoreapp2.0\FirstApp.deps.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\bin\Debug\netcoreapp2.0\FirstApp.runtimeconfig.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\bin\Debug\netcoreapp2.0\FirstApp.runtimeconfig.dev.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\bin\Debug\netcoreapp2.0\FirstApp.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\bin\Debug\netcoreapp2.0\FirstApp.pdb
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\obj\Debug\netcoreapp2.0\FirstApp.csproj.CoreCompileInputs.cache
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\obj\Debug\netcoreapp2.0\FirstApp.AssemblyInfoInputs.cache
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\obj\Debug\netcoreapp2.0\FirstApp.AssemblyInfo.cs
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\obj\Debug\netcoreapp2.0\FirstApp.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\FirstApp\obj\Debug\netcoreapp2.0\FirstApp.pdb

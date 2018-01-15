@@ -1,0 +1,18 @@
+div {
+    border: 4px solid black;
+    height: 300px;
+    width: 600px;
+    margin: 100px auto;
+}
+
+h1{
+    color: firebrick;
+    display: inline-block;
+    /* margin: 100px auto; */
+    text-align: center;
+}
+
+h2{
+    margin: 25px auto;
+    text-align: center;
+}

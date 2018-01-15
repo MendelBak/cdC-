@@ -1,0 +1,10 @@
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\obj\Debug\netcoreapp2.0\TimeDisplay.csproj.CoreCompileInputs.cache
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\obj\Debug\netcoreapp2.0\TimeDisplay.AssemblyInfoInputs.cache
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\obj\Debug\netcoreapp2.0\TimeDisplay.AssemblyInfo.cs
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\bin\Debug\netcoreapp2.0\TimeDisplay.deps.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\bin\Debug\netcoreapp2.0\TimeDisplay.runtimeconfig.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\bin\Debug\netcoreapp2.0\TimeDisplay.runtimeconfig.dev.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\bin\Debug\netcoreapp2.0\TimeDisplay.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\bin\Debug\netcoreapp2.0\TimeDisplay.pdb
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\obj\Debug\netcoreapp2.0\TimeDisplay.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\TimeDisplay\obj\Debug\netcoreapp2.0\TimeDisplay.pdb

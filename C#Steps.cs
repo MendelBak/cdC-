@@ -79,7 +79,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 
 // Update Controller
 [HttpGet]
-[Route("index")]
+[Route("")]
 public string Index()
 {
     return "Hello World!";

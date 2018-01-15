@@ -9,9 +9,9 @@ namespace FirstApp.Controllers
         // A GET method
         [HttpGet]
         [Route("")]
-        public string Index()
+        public IActionResult Index()
         {
-            return "Goodbye World!";
+            return View();
         }
 
         // Other code

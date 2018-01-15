@@ -97,8 +97,11 @@ public string Index()
 public void Configure(IApplicationBuilder app)
 {
     app.UseMvc(); 
+    app.UseStaticFiles();
 }
 
+
+// *********************************** //
 //  THE FINAL PRODUCT SHOULD LOOK LIKE THIS //
 
 //*************** */ .csProj **************//
@@ -116,6 +119,7 @@ public void Configure(IApplicationBuilder app)
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
   </ItemGroup>
 
 <ItemGroup>
@@ -154,6 +158,7 @@ namespace CallingCard
                 app.UseDeveloperExceptionPage();
             }
             app.UseMvc();
+            app.UseStaticFiles();
         }
 
     }
@@ -167,7 +172,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace YourNamespace.Controllers
 {
-    public class HelloController : Controller
+    public class HomeController : Controller
     {
         [HttpGet]
         [Route("index")]
@@ -187,3 +192,7 @@ namespace YourNamespace.Controllers
     }
 }
 //*************** */ END HomeController.cs **************//
+
+<link rel="stylesheet" href="~/css/style.css"/>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/style.css"/>     
+    <title>Dojodachi</title>
+</head>
+<body>
+    <div id="info"> <h4>Fullness: @TempData["Fullness"]</h4> <h4>Happiness: @TempData["Happiness"]</h4> <h4>Energy: @TempData["Energy"]</h4> <h4>Meals: @TempData["Meals"]</h4> </div>
+    <div id="main">
+        <div id="status">@TempData["Message"]</div>
+    </div>
+
+    @{
+        if(TempData["GameStatus"] == "playing")
+        {
+            <div id="buttons">
+            <a href="feed" class="btn btn-primary">Feed</a>
+            <a href="play" class="btn btn-primary">Play</a>
+            <a href="work" class="btn btn-primary">Work</a>
+            <a href="sleep" class="btn btn-primary">Sleep</a>
+            </div>
+        }
+        else if (TempData["GameStatus"] == "over")
+        {
+            <a href="reset" id="resetButton" class="btn btn-primary">Reset</a>
+        }
+    }
+
+    
+</body>
+</html>

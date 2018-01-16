@@ -102,7 +102,12 @@ public void Configure(IApplicationBuilder app)
 
 
 // *********************************** //
+// *********************************** //
 //  THE FINAL PRODUCT SHOULD LOOK LIKE THIS //
+//  THE FINAL PRODUCT SHOULD LOOK LIKE THIS //
+//  THE FINAL PRODUCT SHOULD LOOK LIKE THIS //
+// *********************************** //
+// *********************************** //
 
 //*************** */ .csProj **************//
 
@@ -175,7 +180,7 @@ namespace YourNamespace.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        [Route("index")]
+        [Route("")]
         public string Index()
         {
             return "Goodbye World!";
@@ -193,6 +198,7 @@ namespace YourNamespace.Controllers
 }
 //*************** */ END HomeController.cs **************//
 
-<link rel="stylesheet" href="~/css/style.css"/>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+<link rel="stylesheet" href="~/css/style.css"/>
 

@@ -1,0 +1,10 @@
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\bin\Debug\netcoreapp2.0\DojoSurvey.deps.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\bin\Debug\netcoreapp2.0\DojoSurvey.runtimeconfig.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\bin\Debug\netcoreapp2.0\DojoSurvey.runtimeconfig.dev.json
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\bin\Debug\netcoreapp2.0\DojoSurvey.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\bin\Debug\netcoreapp2.0\DojoSurvey.pdb
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\obj\Debug\netcoreapp2.0\DojoSurvey.csproj.CoreCompileInputs.cache
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\obj\Debug\netcoreapp2.0\DojoSurvey.AssemblyInfoInputs.cache
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\obj\Debug\netcoreapp2.0\DojoSurvey.AssemblyInfo.cs
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\obj\Debug\netcoreapp2.0\DojoSurvey.dll
+C:\Users\mende\Documents\Coding Dojo\DojoAssignments\C#_cd\ASP.NETCORE\DojoSurvey\obj\Debug\netcoreapp2.0\DojoSurvey.pdb

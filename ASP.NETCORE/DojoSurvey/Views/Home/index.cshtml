@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/style.css"/>
+    <title>Dojo Survey | Home Page</title>
+</head>
+<body>
+
+    <form action="formSubmit" method="post">
+        <div class="form-group">
+            <label class="control-label" for="name">Name</label>
+            <input type="text" class="form-control" name="name">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="location">Dojo Location</label>
+            <select class="form-control" name="location">
+                <option value="LA">LA</option>
+                <option value="Chicago">Chicago</option>
+                <option value="Seattle">Seattle</option>
+                <option value="DC">DC</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="comment">Comment (Optional)</label>
+            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>

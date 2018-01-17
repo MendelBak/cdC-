@@ -1,5 +1,24 @@
-@{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quoting Dojo</title>
+</head>
+<body>
+    
+</body>
+</html>@{
     ViewData["Title"] = "Home Page";
 }
-<h1>Default Blank Page~</h1>
-<p>Get to adding stuff</p>
+<h1>Welcome to Quoting Dojo</h1>
+
+<form action="submitQuote" method="POST">
+    <input name="name" placeholder="Your Name"> </input>
+    <br> <br>
+    <textarea name="quote" placeholder="Your Quote" col="10" row="20"></textarea>
+    <button type="submit">Submit Quote</button>
+
+    <a href="Results">See All Quotes</a>
+</form>

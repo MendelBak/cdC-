@@ -1,0 +1,10 @@
+#add #edit{
+    display: inline-block;
+}
+
+p{
+    display: block;
+}
+h4, p{
+    display: inline-block;
+}

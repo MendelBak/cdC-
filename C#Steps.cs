@@ -123,13 +123,11 @@ public void Configure(IApplicationBuilder app)
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.1" />
-</ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
 </ItemGroup>
 
 <ItemGroup>
@@ -205,4 +203,6 @@ namespace YourNamespace.Controllers
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
 <link rel="stylesheet" href="~/css/style.css"/>
+
+
 

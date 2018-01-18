@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h1>Ajax Notes</h1>
+
+<div id="notes">
+    @foreach(var note in @ViewBag.AllNotes)
+    {
+        <span></span>
+        <h4>Note ID: </h4>
+        <p>@note["id"]</p>
+
+        <br>
+
+        <h4>Title: </h4>
+        <p>@note["title"]</p>
+
+        <br>
+
+        <h4>Note Description: </h4>
+        <p>@note["description"]</p>
+
+        <div id="delete">
+        <form action="delete/@note["id"]" method="POST">
+        <button type="submit" class="btn btn-danger">Delete This Note</button>
+        </form>
+            <!-- <a href="delete/" class="btn btn-primary">Delete This Note</a> -->
+        </div>
+        <hr>
+    }
+</div>
+
+<div id="add">
+    <h2>Create a New Note</h2>
+    <form action="newNote" method="post">
+        <input type="text" placeholder="Insert Note Title Here" name="title">
+        <br><br>
+        <textarea placeholder="Enter Your Note Here" name="description"></textarea> 
+        <button class="btn btn-primary">Submit New Note</button>
+    </form>
+</div>
+
+<div id="edit">
+    <form action="editNote" method="post">
+    <h2>Edit a Note</h2>
+    <input type="text" placeholder="Note ID" name="noteID">
+    <br><br>
+    <input type="text" placeholder="Write New Title Here" name="title">
+    <br><br>
+    <input type="text" placeholder="Write New Description" name="description">
+    <button class="btn btn-primary">Submit Edits</button>
+    </form>
+</div>
+
+

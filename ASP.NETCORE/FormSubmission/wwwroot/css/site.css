@@ -1,0 +1,10 @@
+.input-sm{
+    display: block;
+}
+#success-msg{
+    align-content: center;
+    margin: 30% auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}

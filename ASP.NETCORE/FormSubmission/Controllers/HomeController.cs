@@ -25,6 +25,7 @@ namespace FormSubmission.Controllers
             return View();
         }
 
+        // Should not render from a POST route.
         [HttpPost]
         [Route("submitInfo")]
         public IActionResult submitInfo(string first_name, string last_name, int age, string email, string password)

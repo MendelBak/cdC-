@@ -25,9 +25,18 @@ namespace TheWall.Controllers
         {
             if (HttpContext.Session.GetInt32("UserID") >= 0)
             {
-                // Retreive all messages to display in View.
+                // Save first name in session to display greeting on navbar.
+                ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+                // Save id in session and then send to View using Viewbag
+                ViewBag.UserID = HttpContext.Session.GetInt32("UserID");
+
+                // Retrieve all messages to display in View.
                 string GetMessages = "SELECT messages.id, messages.message, messages.created_at, users.first_name, users.last_name FROM messages JOIN users ON messages.users_id = users.id;";
                 ViewBag.AllMessages = DbConnector.Query(GetMessages);
+
+                // Retrieve all comments to display in View.
+                string GetComments = "SELECT comments.id, comments.messages_id, comments.comment, comments.created_at, users.first_name, users.last_name FROM comments JOIN users ON comments.users_id = users.id; ";
+                ViewBag.AllComments = DbConnector.Query(GetComments);
 
                 return View("main");
             }
@@ -80,12 +89,10 @@ namespace TheWall.Controllers
             var CheckLogin = DbConnector.Query($"SELECT first_name, id FROM users WHERE email = '{model.Log.Email}' AND password = '{model.Log.Password}';");
             if (CheckLogin.Count > 0)
             {
-                // Save first name in session to display greeting on navbar.
+                
                 HttpContext.Session.SetString("FirstName", (string)CheckLogin[0]["first_name"]);
-                TempData["FirstName"] = HttpContext.Session.GetString("FirstName");
-                // Save id in session and then send to View using TempData
                 HttpContext.Session.SetInt32("UserID", (int)CheckLogin[0]["id"]);
-                TempData["UserID"] = HttpContext.Session.GetInt32("UserID");
+                
 
                 return RedirectToAction("main");
             }

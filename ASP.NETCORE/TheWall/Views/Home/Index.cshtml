@@ -1,0 +1,65 @@
+@model TheWall.Models.AllUsers
+
+<h1>Registration</h1>
+
+<form asp-controller="Home" asp-action="submitInfo" method="POST" class="form-group">
+    <label asp-for="Reg.FirstName">First Name</label>
+    <input asp-for="Reg.FirstName" placeholder="First Name" class="form-control" id="FirstName"> 
+    <span asp-validation-for="Reg.FirstName"></span>
+
+    <br>
+    <br>
+
+    <label asp-for="Reg.LastName">Last Name</label>
+    <input asp-for="Reg.LastName" placeholder="Last Name" class="form-control" id="LastName"> 
+    <span asp-validation-for="Reg.LastName"></span>
+    
+    <br>
+    <br>
+
+    <label asp-for="Reg.Email">Email</label>
+    <input asp-for="Reg.Email" placeholder="Email Address" class="form-control" id="Email"> 
+    <span asp-validation-for="Reg.Email"></span>
+
+    <br>
+    <br>
+
+    <label asp-for="Reg.Password">Password</label>
+    <input asp-for="Reg.Password" placeholder="Password" class="form-control" id="Password"> 
+    <span asp-validation-for="Reg.Password"></span>
+
+    <br>
+    <br>
+
+    <label asp-for="Reg.ConfirmPassword">Confirm Password</label>
+    <input asp-for="Reg.ConfirmPassword" placeholder="Confirm Password" class="form-control" id="ConfirmPassword"> 
+    <span asp-validation-for="Reg.ConfirmPassword"></span>
+
+    <br>
+    <br>
+
+    <button class="btn btn-primary">Submit</button>
+
+    <p>@ViewBag.email</p>
+</form>
+
+<hr>
+
+<h1>Login</h1>
+
+<form asp-controller="Home" asp-action="login" method="post" class="form-group">
+    <label asp-for="Log.Email">Email</label>
+    <input asp-for="Log.Email" placeholder="Email Address" class="form-control" id="Email"> 
+    <span asp-validation-for="Log.Email"></span>
+
+    <br><br>
+
+    <label asp-for="Log.Password">Password</label>
+    <input asp-for="Log.Password" placeholder="Password" class="form-control" id="Password"> 
+    <span asp-validation-for="Log.Password"></span>
+
+    <p>@ViewBag.loginError</p>
+    <br><br>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

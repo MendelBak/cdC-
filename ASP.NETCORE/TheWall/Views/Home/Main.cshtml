@@ -1,0 +1,33 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Welcome @TempData["FirstName"] | Your ID is: @TempData["UserID"]</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="logout"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<form action="PostSubmit" method="post" class="form-group">
+    <h2>Post a Message</h2>
+    <textarea name="message" cols="100" rows="5" placeholder="Write Your Message Here"></textarea>
+    <br><br>
+    <button class="btn btn-primary">Post Your Message</button>
+</form>
+
+<div>
+  @foreach(var message in @ViewBag.AllMessages)
+  {
+    <p>@message["first_name"] - @message["created_at"]</p>
+    @message
+
+    <form action="CommentSubmit" method="post" class="form-group">
+    <h2>Post a Message</h2>
+    <textarea name="comment" cols="100" rows="5" placeholder="Write Your Comment Here"></textarea>
+    <br><br>
+    <button class="btn btn-primary">Post Your Message</button>
+</form>
+  }
+</div>

@@ -17,17 +17,29 @@
     <button class="btn btn-primary">Post Your Message</button>
 </form>
 
+<hr>
+
 <div>
   @foreach(var message in @ViewBag.AllMessages)
   {
-    <p>@message["first_name"] - @message["created_at"]</p>
-    @message
+    <p>@message["first_name"] Posted ~ @message["created_at"].ToString("MMM d yyyy")</p>
+    <p>@message["message"]</p>
 
     <form action="CommentSubmit" method="post" class="form-group">
-    <h2>Post a Message</h2>
-    <textarea name="comment" cols="100" rows="5" placeholder="Write Your Comment Here"></textarea>
+    <h3>Write a Comment</h3>
+    <textarea name="comment" cols="50" rows="3" placeholder="Write Your Comment Here"></textarea>
+
     <br><br>
-    <button class="btn btn-primary">Post Your Message</button>
+
+    <!-- // Send PostID through to the CommentSubmit method in the HomeController in order to associate this comment with the proper post. -->
+    @{int PostID = @message["id"];
+    <input type="hidden" name="postID" value="@PostID">
+    <button type="submit" class="btn btn-primary">Submit Your Comment</button>
+    }
+  
 </form>
+@message["id"]
+
+<hr>
   }
 </div>

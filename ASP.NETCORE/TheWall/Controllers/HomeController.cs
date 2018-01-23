@@ -26,7 +26,7 @@ namespace TheWall.Controllers
             if (HttpContext.Session.GetInt32("UserID") >= 0)
             {
                 // Retreive all messages to display in View.
-                string GetMessages = "SELECT messages.message, messages.created_at, users.first_name, users.last_name FROM messages JOIN users ON messages.users_id = users.id;";
+                string GetMessages = "SELECT messages.id, messages.message, messages.created_at, users.first_name, users.last_name FROM messages JOIN users ON messages.users_id = users.id;";
                 ViewBag.AllMessages = DbConnector.Query(GetMessages);
 
                 return View("main");
@@ -104,16 +104,21 @@ namespace TheWall.Controllers
             // User Id was stored in session upon login.
             int? UserID = HttpContext.Session.GetInt32("UserID");
             string NowTime = "NOW()";
-            string MessageQuery = $"INSERT INTO messages (users_id,message, created_at, updated_at) VALUES ({UserID}, {TempMessage},  {NowTime}, {NowTime})";
+            string MessageQuery = $"INSERT INTO messages (users_id, message, created_at,updated_at) VALUES ({UserID}, {TempMessage}, {NowTime}, {NowTime})";
             DbConnector.Execute(MessageQuery);
             return RedirectToAction("main");
         }
 
         [HttpPost]
         [Route("CommentSubmit")]
-        public IActionResult CommentSubmit(string comment)
+        public IActionResult CommentSubmit(string comment, int postID)
         {
-            string Comment = '"' + comment + '"';
+            // string Comment = '"' + comment + '"';
+            string Comment = comment.Replace("'", @"\'");
+            string NowTime = "NOW()";
+            int? UserID = HttpContext.Session.GetInt32("UserID");
+            string CommentQuery = $"INSERT INTO comments (messages_id, users_id, comment, created_at, updated_at) VALUES ({postID}, {UserID}, '{Comment}', {NowTime}, {NowTime})";
+            DbConnector.Execute(CommentQuery);
             return RedirectToAction("main");
         }
 

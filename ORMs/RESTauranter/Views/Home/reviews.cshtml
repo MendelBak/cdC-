@@ -1,0 +1,13 @@
+<h1>All Restaurant Reviews</h1>
+
+@foreach(var review in @ViewBag.reviews)
+{
+    <h3>Review # @review.Review_Id</h3>
+    <p>Restaurant Name: @review.Restaurant</p>
+    <p>Reviewer Name: @review.Reviewer_Name</p>
+    <p>Comment: @review.Comment</p>
+    <p>Date of Reviewer Visit: @review.Date_Of_Visit</p>
+<hr>
+}
+
+<a asp-controller="Home" asp-action="Index">Go Home</a>

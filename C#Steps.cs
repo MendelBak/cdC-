@@ -89,18 +89,6 @@ namespace ajaxnotes
 
 // */end Startup.cs //
 
-
-
-// Development Mode* // 
-TO PUT WORK ENVIRONMENT IN DEVELOPMENT MODE, TYPE IN TERMINAL:
-
-export ASPNETCORE_ENVIRONMENT=Development
-;
-// *end Development Mode // 
-
-
-
-
 // appsettings.json* //
 {
     "DBInfo":
@@ -112,74 +100,7 @@ export ASPNETCORE_ENVIRONMENT=Development
 // *end appsettings.json //
 
 
-// IFactory.cs* //
-using lostinthewoods.Models;
-using System.Collections.Generic;
-namespace lostinthewoods.Factory
-{
-    public interface IFactory<T> where T : BaseEntity
-    {
-        
-    }
-}
-// *end IFactory.cs //
-
-
-
-// TrailFactory.cs* //
-using System.Collections.Generic;
-using System.Linq;
-using Dapper;
-using System.Data;
-using MySql.Data.MySqlClient;
-using lostinthewoods.Models;
-
-
-namespace lostinthewoods.Factory
-{
-    public class TrailFactory : IFactory<Trail>
-    {
-        private string connectionString;
-        internal IDbConnection Connection
-        {
-            get
-            {
-                return new MySqlConnection(connectionString);
-            }
-        }
-        public void Add(Trail item)
-        {
-            using (IDbConnection dbConnection = Connection)
-            {
-                string query = "INSERT INTO trails(name, description, elevationChange, length, lat, lon) VALUES (@name, @description, @elevationChange, @length, @lat, @lon)";
-                dbConnection.Open();
-                dbConnection.Execute(query, item);
-            }
-        }
-        public List<Trail> FindAll()
-        {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                return dbConnection.Query<Trail>("SELECT * FROM trails").ToList();
-            }
-        }
-        public Trail FindByID(int id)
-        {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                return dbConnection.Query<Trail>("SELECT * FROM trails WHERE id = @Id", new { Id = id }).FirstOrDefault();
-            }
-        }
-    }
-}
-// *end TrailFactory.cs //
-
-
-
-
-// DbConnection.cs* //
+// DbConnection.cs* used without Dapper//
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Extensions.Options;
@@ -256,11 +177,12 @@ namespace theWall
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.4" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    // <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" /> Only use this package when using netcoreapp2.0
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.1" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.1" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="7.0.7-*" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
@@ -272,19 +194,6 @@ namespace theWall
   </ItemGroup>
 </Project>
 // *end .csproj //
-
-
-
-
-
-// MVC* //
-// Add dependencies required for ASP.NET Core MVC :
-
-// dotnet add package Microsoft.AspNetCore.Mvc -v=1.1
-// dotnet restore
-// *end MVC //
-
-
 
 
 // Controllers* //
@@ -367,123 +276,8 @@ namespace ajaxnotes.Controllers
 }
 
 
-
-
-
-    // PARAMETERS //
-
-        // [HttpGet]
-        // [Route("template/{Name}")]
-        // public IActionResult Method(string Name)
-        // {
-        //     // Method body
-        // }
-
-
-    // Returning JSON //
-
-        // [HttpGet]
-        // [Route("")]
-        // public JsonResult Example()
-        // {
-        //     // The Json method convert the object passed to it into JSON
-        //     return Json(SomeC#Object);
-        // }
-
-    // Other code
-        // [HttpGet]
-        // [Route("displayint")]
-        // public JsonResult DisplayInt()
-        // {
-        //     return Json(34);
-        // }
-        
-        // Suppose we're working with the Human class we wrote in the previous chapter
-        // [HttpGet]
-        // [Route("displayhuman")]
-        // public JsonResult DisplayHuman()
-        // {
-        //     return Json(new Human());
-        // }
-
-    }
-}
-using ajaxnotes.Models;
-public IActionResult ValidateUser()
-        {
-            User NewUser = new User
-            {
-                Name = "name",
-                Email = "email@email.com",
-                Password = "password"
-            };
-        
-            TryValidateModel(NewUser); // Runs our validations
-            // Other code
-        }
-// *end Controllers //
-
-
-// index.cshtml* //
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <title></title>
-        <link rel="stylesheet" href="~/css/style.css"/>
-    </head>
-    <body>
-
-        <h1>Welcome to QuotingDojo!</h1>
-        <form action="/addquote" method="POST">
-            Name: <input type="text" name="name"><br><br>
-            Quote: <textarea name="quote" rows="2" cols="40"></textarea><br><br>
-            <input type="submit" value="Add my quote!"><br>
-        </form>
-        <br>
-            <a href="/quotes"><button>Skip to quotes!</button></a>
-
-    </body>
-</html>
-
-
-
-        <table>
-            <thead>
-                <th>Name</th>
-                <th>Quote</th>
-                <th>Created at</th>
-            </thead>
-            @{
-                @foreach(var i in @ViewBag.allQuotes)
-                {
-                int userID = i["id"];
-                    <tr>
-                        <td>@i["name"]</td>
-                        <td>@i["quote"]</td>
-                        <td>@i["created_at"]</td>
-                        <td><a href="/delete/@userID"><button>Delete</button></a></td>
-                    </tr>
-                }
-            }
-        </table>
-        <a href="/"><button>Back</button></a>
-
-*** STANDARD() FORM() ***
-
-    <form action="/add" method="POST">
-        First Name: <input type="text" name="first"><br><br>
-        Last Name: <input type="text" name="last"><br><br>
-        Age: <input type="text" name="age"><br><br>
-        Email: <input type="text" name="email"><br><br>
-        Password: <input type="text" name="pass"><br><br>
-        <input type="submit" value="Submit"><br>
-    </form>
-
-*** end() ***
-// *end index.cshtml //
-
 // MODEL User.cs* //
+using System;
 using System.ComponentModel.DataAnnotations;
  
 namespace formSubmission.Models
@@ -530,128 +324,6 @@ namespace ajaxnotes
 
 
 
-
-
-// Ajax Refresh* //
-$(document).ready(function(){
-    // external request
-    $.get("http://pokeapi.co/api/v2/pokemon/1", function(response){
-        // Handle the response data
-    })
-    // back-end request
-    $.get("/getusers", function(response){
-        // Handle the response data
-    })
-})
-// *end Ajax Refresh //
-
-
-
-
-// Redirecting* //
-RedirectToAction() if we want to redirect to other controller methods, rather than rendering a view.;
-
-public class FirstController : Controller
-{
-    //  Other code
-    public IActionResult Method()
-    {
-        // Will redirect to the "OtherMethod" method
-        return RedirectToAction("OtherMethod");
-    }
-    // Other code
-    public IActionResult OtherMethod()
-    {
-        return View();
-    }
-}
-// *end Redirecting //
-
-
-/
-/
-/
-/
-/
-// ***** SESSION ***** //
-using Microsoft.AspNetCore.Http in controller to use session;
-HttpContext.Session.Clear(); to clear session!
-
-// *Inside controller methods*
- 
-  
-// To store a string in session we use ".SetString"
-// The first string passed is the key and the second is the value we want to retrieve later
-HttpContext.Session.SetString("UserName", "Samantha");
-// To retrieve a string from session we use ".GetString"
-string LocalVariable = HttpContext.Session.GetString("UserName");
- 
-// To store an int in session we use ".SetInt32"
-HttpContext.Session.SetInt32("UserAge", 28);
- 
-// To retrieve an int from session we use ".GetInt32"
-int? IntVariable = HttpContext.Session.GetInt32("UserAge");
-
-using Newtonsoft.Json;
- 
-// Somewhere in your namespace, outside other classes
-public static class SessionExtensions
-{
-    // We can call ".SetObjectAsJson" just like our other session set methods, by passing a key and a value
-    public static void SetObjectAsJson(this ISession session, string key, object value)
-    {
-        // This helper function simply serializes theobject to JSON and stores it as a string in session
-        session.SetString(key, JsonConvert.SerializeObject(value));
-    }
-       
-    // generic type T is a stand-in indicating that we need to specify the type on retrieval
-    public static T GetObjectFromJson<T>(this ISession session, string key)
-    {
-        string value = session.GetString(key);
-        // Upon retrieval the object is deserialized based on the type we specified
-        return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
-    }
-}
-
-
-If we copy this code into our project's namespace we can use it from anywhere we want.
-
-// *Inside a controller method*
- 
-List<object> NewList = new List<object>();
- 
-HttpContext.Session.SetObjectAsJson("TheList", NewList);
-  
-// Notice that we specify the type ( List ) on retrieval
-List<object> Retrieve = HttpContext.Session.GetObjectFromJson<List<object>>("TheList");
-
-
-/
-/
-/
-/
-/
-
-
-// TempData *//
-using Microsoft.AspNetCore.Http;
- 
-// Other code
-public IActionResult Method()
-{
-    TempData["Variable"] = "Hello World";
-    return RedirectToAction("OtherMethod");
-}
-public IActionResult OtherMethod()
-{
-    Console.WriteLine(TempData["Variable"]);
-    // writes "Hello World" if redirected to from Method()
-}
-// *end TempData //
-
-
-
-
 // Candyman Boiler Plate* //
 yo candyman <your app name>
 dotnet restore
@@ -660,117 +332,34 @@ dotnet restore
 
 
 
-// ApiCaller.cs* //
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Newtonsoft.Json;
- 
-namespace YourNamespace
+
+// ******************************************** DAPPER ******************************************** //
+// ******************************************** DAPPER ******************************************** //
+// ******************************************** DAPPER ******************************************** //
+// ******************************************** DAPPER ******************************************** //
+// ******************************************** DAPPER ******************************************** //
+
+
+// appsettings.json* //
 {
-    public class WebRequest
+    "DBInfo":
     {
-        // The second parameter is a function that returns a Dictionary of string keys to object values.
-        // If an API returned an array as its top level collection the parameter type would be "Action>"
-        public static async Task GetPokemonDataAsync(int PokeId, Action<Dictionary<string, object>> Callback)
-        {
-            // Create a temporary HttpClient connection.
-            using (var Client = new HttpClient())
-            {
-                try
-                {
-                    Client.BaseAddress = new Uri($"http://pokeapi.co/api/v2/pokemon/{PokeId}");
-                    HttpResponseMessage Response = await Client.GetAsync(""); // Make the actual API call.
-                    Response.EnsureSuccessStatusCode(); // Throw error if not successful.
-                    string StringResponse = await Response.Content.ReadAsStringAsync(); // Read in the response as a string.
-                     
-                    // Then parse the result into JSON and convert to a dictionary that we can use.
-                    // DeserializeObject will only parse the top level object, depending on the API we may need to dig deeper and continue deserializing
-                    Dictionary<string, object> JsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(StringResponse);
-                     
-                    // Finally, execute our callback, passing it the response we got.
-                    Callback(JsonResponse);
-                }
-                catch (HttpRequestException e)
-                {
-                    // If something went wrong, display the error.
-                    Console.WriteLine($"Request exception: {e.Message}");
-                }
-            }
-        }
+        "Name": "MySQLconnect",
+        "ConnectionString": "server=localhost;userid=root;password=root;port=8889;database=mydb;SslMode=None"
     }
 }
+// *end appsettings.json //
 
-*** in YourController.cs ***
-[HttpGet]
-[Route("pokemon/{pokeid}")]
-public IActionResult QueryPoke(int pokeid)
+// Properties/MySqlOptions.cs* //
+namespace ajaxnotes
 {
-    var PokeInfo = new Dictionary<string, object>();
-    WebRequest.GetPokemonDataAsync(pokeid, ApiResponse =>
-        {
-            PokeInfo = ApiResponse;
-        }
-    ).Wait();
-    // Other code
-}
-*** out ***
-
-// *end ApiCaller.cs //
-
-
-
-
-// DEPLOYMENT* //
-*** in web.config ***
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-    <system.webServer>
-        <handlers>
-        <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified"/>
-        </handlers>
-        <aspNetCore processPath="%LAUNCHER_PATH%" arguments="%LAUNCHER_ARGS%" stdoutLogEnabled="false" stdoutLogFile=".\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\logs\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\stdout" forwardWindowsAuthToken="false"/>
-    </system.webServer>
-</configuration>
-copy<div id="copy-toolbar-container"><span id="copy-toolbar" style="cursor: pointer; position: absolute; top: 361.465px; right: 35px; padding: 0px 3px; background: rgba(224, 224, 224, 0.2); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 0px 0px; color: rgb(187, 187, 187); border-radius: 0.5em; font-size: 0.8em;">copy</span></div>
-*** out ***
-
-
-*** in Program.cs ***
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
- 
-namespace YourNamespace
-{
-    public class Program
+    public class MySqlOptions
     {
-        public static void Main(string[] args)
-        {
-            IWebHost host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>();
-                // New Use method
-                .UseIISIntegration()
-                .Build();
-            host.Run();
-        }
+        public string Name { get; set; }
+        public string ConnectionString { get; set; }
     }
 }
-*** out ***
-
-// *end DEPLOYMENT //
-
-
-
-
-
-// ******************************************** DAPPER ******************************************** //
-// ******************************************** DAPPER ******************************************** //
-// ******************************************** DAPPER ******************************************** //
-// ******************************************** DAPPER ******************************************** //
-// ******************************************** DAPPER ******************************************** //
+// *end MySqlOptions.cs //
 
 
 // Startup* //
@@ -831,137 +420,142 @@ namespace lostinthewoods
 // Controller* //
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using LostInTheWoods.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using lostinthewoods.Models;
-using lostinthewoods.Factory;
-
-namespace lostinthewoods.Controllers
+using LostInTheWoods.Factory; //Need to include reference to new Factory Namespace
+namespace LostInTheWoods.Controllers
 {
-    public class TrailController : Controller
+    public class HomeController : Controller
     {
         private readonly TrailFactory trailFactory;
-        public TrailController(TrailFactory _trailfactory)
+        public HomeController()
         {
-            trailFactory = _trailfactory;
+            //Instantiate a UserFactory object that is immutable (READONLY)
+            //This establishes the initial DB connection for us.
+            trailFactory = new TrailFactory();
         }
-
-
+        // GET: /Home/
         [HttpGet]
         [Route("")]
         public IActionResult Index()
         {
-            ViewBag.allTrails = trailFactory.FindAll();
+            //We can call upon the methods of the userFactory directly now.
+            ViewBag.AllTrails = trailFactory.FindAll();
             return View();
         }
-
+        
 
         [HttpGet]
-        [Route("addTrail")]
-        public IActionResult AddTrail()
+        [Route("newtrail")]
+        public IActionResult NewTrail()
         {
-            
             return View("newtrail");
         }
 
 
-        [HttpPost]
-        [Route("createTrail")]
-        public IActionResult createTrail(Trail trail)
-        {
-            if(ModelState.IsValid)
-            {
-                trailFactory.Add(trail);
-                return RedirectToAction("Index");
-            }
-            return View("newtrail");
-        } 
         [HttpGet]
-        [Route("trails/{id}")]  
-        public IActionResult viewTrail(int id)
+        [Route("trails/{id}")]
+        public IActionResult Trails(int id)
         {
-            ViewBag.trail = trailFactory.FindByID(id);
-            return View("trailinfo");
+            ViewBag.Trail = trailFactory.FindByID(id);
+            return View("trails");
+        }
+
+        [HttpPost]
+        [Route("SubmitTrail")]
+        public IActionResult SubmitTrail(Trail trail)
+        {
+            trailFactory.Add(trail);
+            return RedirectToAction("index");
         }
     }
 }
+
 // Controller* // 
 
 
 
 // Model* //
+using System;
 using System.ComponentModel.DataAnnotations;
- 
-namespace lostinthewoods.Models
+
+namespace LostInTheWoods.Models
 {
-    public abstract class BaseEntity {}
+    public abstract class BaseEntity { }
+
     public class Trail : BaseEntity
     {
+        [Key]
+        public long id { get; set; }
+
+
         [Required]
-        [MinLength(1)]
-        public string name { get; set; }
+        [MinLength(4, ErrorMessage = "Trail Name must be at least 4 characters")]
+        public string Name { get; set; }
+
 
         [Required]
-        [MinLength(10, ErrorMessage="Description must be at least 10 characters")]
-        public string desc { get; set; }
+        [MinLength(4, ErrorMessage = "Description must be at least 4 characters")]
+        public string Description { get; set; }
 
 
-        [Required(ErrorMessage = "Length field is required")]
-        public float length { get; set; }
- 
-        [Required(ErrorMessage = "Elevation change field is required")]
-        public int elevation { get; set; }
- 
-        [Required(ErrorMessage = "Longitude field is required")]
-        public string longitude { get; set; }
+        [Required]
+        public int Length { get; set; }
 
-        [Required(ErrorMessage = "Latitude field is required")]
-        public string latitude { get; set; }
+
+        [Required]
+        public int ElevationGain { get; set; }
+
+        [Required]
+        public double Longitude { get; set; }
+
+        [Required]
+        public double Latitude { get; set; }
     }
 }
+
 // *end Model //
 
 
 
 
-// Factory* //
+// Factory* //using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using System.Data;
 using MySql.Data.MySqlClient;
-using lostinthewoods.Models;
-using Microsoft.Extensions.Options;
+using LostInTheWoods.Models;
 
-
-namespace lostinthewoods.Factory
+namespace LostInTheWoods.Factory
 {
     public class TrailFactory : IFactory<Trail>
     {
-        private readonly IOptions<MySqlOptions> MySqlConfig;
-        public TrailFactory(IOptions<MySqlOptions> config)
+        private string connectionString;
+        public TrailFactory()
         {
-            MySqlConfig = config;
+            connectionString = "server=localhost;userid=root;password=root;port=3306;database=lostinthe_db;SslMode=None";
         }
         internal IDbConnection Connection
         {
             get
             {
-                return new MySqlConnection(MySqlConfig.Value.ConnectionString);
+                return new MySqlConnection(connectionString);
             }
         }
 
-        public void Add(Trail item)
+
+        public void Add(Trail trail)
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string query = "INSERT INTO trails (name, desc, elevation, length, longitude, latitude) VALUES (@name, @desc, @elevation, @length, @longitude, @latitude)";
+                string query = "INSERT INTO trails (name, description, length, elevation_gain, longitude, latitude, created_at, updated_at) VALUES (@Name, @Description, @Length, @ElevationGain, @Longitude, @Latitude, NOW(), NOW())";
                 dbConnection.Open();
-                dbConnection.Execute(query, item);
+                dbConnection.Execute(query, trail);
             }
         }
 
+        
         public List<Trail> FindAll()
         {
             using (IDbConnection dbConnection = Connection)
@@ -970,6 +564,7 @@ namespace lostinthewoods.Factory
                 return dbConnection.Query<Trail>("SELECT * FROM trails").ToList();
             }
         }
+
 
         public Trail FindByID(int id)
         {
@@ -982,4 +577,88 @@ namespace lostinthewoods.Factory
 
     }
 }
+
 // *end Factory //
+
+// IFactory.cs* //
+using LostInTheWoods.Models;
+using System.Collections.Generic;
+namespace LostInTheWoods.Factory
+{
+    public interface IFactory<T> where T : BaseEntity
+    {
+    }
+}
+
+// *end IFactory.cs //
+
+
+// ******************************************** ENTITY CORE FRAMEWORK ******************************************** //
+// ******************************************** ENTITY CORE FRAMEWORK ******************************************** //
+// ******************************************** ENTITY CORE FRAMEWORK ******************************************** //
+// ******************************************** ENTITY CORE FRAMEWORK ******************************************** //
+// ******************************************** ENTITY CORE FRAMEWORK ******************************************** //
+
+
+// *end Models/Context.cs //
+using Microsoft.EntityFrameworkCore;
+ 
+namespace RESTauranter.Models
+{
+    public class ReviewContext : DbContext
+    {
+        // base() calls the parent class' constructor passing the "options" parameter along
+        public ReviewContext(DbContextOptions<ReviewContext> options) : base(options) { }
+    }
+}
+// *end Models/Context //
+
+// *Add to Startup.cs //
+using RESTauranter.Models;
+using MySQL.Data.EntityFrameworkCore;
+using MySQL.Data.EntityFrameworkCore.Extensions;
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            // Add framework services.
+            services.AddMvc();
+            services.AddSession();
+            services.Configure<MySqlOptions>(Configuration.GetSection("DBInfo"));
+            services.AddDbContext<ReviewContext>(options => options.UseMySQL(Configuration["DBInfo:ConnectionString"]));
+        }
+// *end Additions to Startup.cs //
+
+
+// *Controller.cs //using System;using System;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using RESTauranter.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
+namespace RESTauranter.Controllers
+{
+
+    public class HomeController : Controller
+    {
+        private ReviewContext _context;
+
+        public HomeController(ReviewContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        [Route("")]
+        public IActionResult Index()
+        {
+            // List<Person> AllUsers = _context.Users.ToList();
+            return View("Index");
+        }
+    }
+
+}
+// *end Controller.cs //

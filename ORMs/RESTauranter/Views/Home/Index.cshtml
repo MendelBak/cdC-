@@ -1,0 +1,47 @@
+@model RESTauranter.Models.Review
+
+<h1>Write A Restaurant Review</h1>
+
+<form asp-controller="Home" asp-action="NewReview" method="post" class="form-class">
+    <label asp-for="Reviewer_Name" >Reviewer Name</label>
+    <input asp-for="Reviewer_Name" class="form-control" placeholder="Reviewer Name">
+    <span asp-validation-for="Reviewer_Name"></span>
+
+    <br>
+
+    <label asp-for="Restaurant">Restaurant Name</label>
+    <input asp-for="Restaurant" class="form-control" placeholder="Restaurant Name">
+    <span asp-validation-for="Restaurant"></span>
+
+    <br>
+
+    <label asp-for="Rating">Rating</label>
+    <select asp-for="Rating" class="form-control" >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <span asp-validation-for="Rating"></span>
+
+    <br>
+
+    <label asp-for="Comment">Review</label>
+    <textarea asp-for="Comment" class="form-control" placeholder="Comment"></textarea>
+    <span asp-validation-for="Comment"></span>
+
+    <br>
+
+    <label asp-for="Date_Of_Visit">Date of Visit</label>
+    <input type="date" class="form-control" asp-for="Date_Of_Visit">
+    <span asp-validation-for="Date_Of_Visit"></span>
+    <span>@ViewBag.DateTimeError</span>
+
+    <br>
+
+    <button class="btn btn-primary" >Submit Review</button>
+
+</form>
+
+<a asp-controller="Home" asp-action="Reviews">See All Reviews</a>

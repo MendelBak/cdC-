@@ -1,0 +1,48 @@
+@model DojoLeague.Models.Ninja
+
+<div id="allNinjas">
+<h1>Registered Ninjas</h1>
+<table>
+    <thead>
+        <th>Ninja Name</th>
+        <th>Home Dojo</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Test Ninja</td>
+            <td>Test Dojo</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div id="registerNinja">
+    <h1>Register A Ninja</h1>
+    <form asp-controller="Home" asp-action="newNinja" method="post" class="form-group"> 
+        <label asp-for="Name">Ninja Name</label>
+        <input asp-for="Name">
+        <span asp-validation-for="Name"></span>
+
+        <label asp-for="Level">Ninja Level</label>
+        <input asp-for="Level">
+        <span asp-validation-for="Level"></span>
+
+        <label asp-for="dojo">Home Dojo</label>
+        <select asp-for="dojo">
+            <option value="Rogue Ninja">Rogue Ninja</option>
+            <option value="Chicago">Chicago</option>
+            <option value="Seattle">Seattle</option>
+            <option value="DC">DC</option>
+        </select>
+        <span asp-validation-for="dojo"></span>
+
+        <label asp-for="Description">Ninja Description</label>
+        <textarea asp-for="Description"  cols="30" rows="5"></textarea>
+        <span asp-validation-for="Description"></span>
+
+        <button type="submit" class="btn btn-primary">Add Ninja</button>
+
+
+    </form>
+        
+</div>

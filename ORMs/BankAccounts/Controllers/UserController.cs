@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using BankAccounts.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BankAccounts.Controllers
 {
@@ -41,12 +42,15 @@ namespace BankAccounts.Controllers
                     var EmailExists = _context.Users.Where(e => e.Email == model.Email).SingleOrDefault();
                     if (EmailExists == null)
                     {
+                        // Hash password
+                        PasswordHasher<RegisterViewModel> Hasher = new PasswordHasher<RegisterViewModel>();
+                        string HashedPassword = Hasher.HashPassword(model, model.Password);
                         User NewUser = new User
                         {
                             FirstName = model.FirstName,
                             LastName = model.LastName,
                             Email = model.Email,
-                            Password = model.Password,
+                            Password = HashedPassword,
                             CreatedAt = DateTime.Now,
                             UpdatedAt = DateTime.Now,
                         };
@@ -89,14 +93,24 @@ namespace BankAccounts.Controllers
         {
             if (ModelState.IsValid)
             {
-                // If no errors on form submit check db for proper creds.
                 try
                 {
+                    // If there are no errors upon form submit check db for proper creds.
                     User LoggedUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
-                    // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
-                    HttpContext.Session.SetInt32("LoggedUserId", LoggedUser.UserId);
-                    HttpContext.Session.SetString("LoggedUserName", LoggedUser.FirstName);
-                    return RedirectToAction("Account", "Account");
+                    var Hasher = new PasswordHasher<User>();
+                    // Check hashed password.
+                    if (Hasher.VerifyHashedPassword(LoggedUser, LoggedUser.Password, model.Password) != 0)
+                    {
+                        // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
+                        HttpContext.Session.SetInt32("LoggedUserId", LoggedUser.UserId);
+                        HttpContext.Session.SetString("LoggedUserName", LoggedUser.FirstName);
+                        return RedirectToAction("Account", "Account");
+                    }
+                    else
+                    {
+                        ViewBag.loginError = "Sorry, your password was incorrect.";
+                        return View("login");
+                    }
                 }
                 // If no proper creds redirect to login page and return error.
                 catch

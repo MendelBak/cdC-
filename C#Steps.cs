@@ -89,7 +89,7 @@ namespace ajaxnotes
 
 // */end Startup.cs //
 
-// appsettings.json* //
+// appsettings.json (SQL Version)* //
 {
     "DBInfo":
     {
@@ -602,18 +602,24 @@ namespace LostInTheWoods.Factory
 
 // *end Models/Context.cs //
 using Microsoft.EntityFrameworkCore;
- 
-namespace RESTauranter.Models
+using System;
+
+
+namespace BankAccounts.Models
 {
-    public class ReviewContext : DbContext
+    public class BankContext : DbContext
     {
         // base() calls the parent class' constructor passing the "options" parameter along
-        public ReviewContext(DbContextOptions<ReviewContext> options) : base(options) { }
+        public BankContext(DbContextOptions<BankContext> options) : base(options) { }
+        // First variable should mirror the model class name. Second variable should mirror DB table name. (In PostgreSQL it will create schemas and tables that mirror these variables.) //
+        public DbSet<User> Users { get; set; }
     }
+
 }
+
 // *end Models/Context //
 
-// *Add to Startup.cs //
+// *Add to Startup.cs (Using MySQL) //
 using RESTauranter.Models;
 using MySQL.Data.EntityFrameworkCore;
 using MySQL.Data.EntityFrameworkCore.Extensions;
@@ -629,7 +635,7 @@ public void ConfigureServices(IServiceCollection services)
 // *end Additions to Startup.cs //
 
 
-// *Controller.cs //using System;using System;
+// *Controller.cs //;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -662,3 +668,113 @@ namespace RESTauranter.Controllers
 
 }
 // *end Controller.cs //
+
+// * This is what .csproj should look like when using PostgreSQL //
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+</ItemGroup>    
+</Project>
+// *End PostgreSQL version of .csproj //
+
+
+// appsettings.json (PostgreSQL Version)* //
+{
+    "DBInfo": 
+    {
+        "Name": "PostGresConnect",
+        "ConnectionString": "server=localhost;userId=root;password=root;port=5432;database=BankAccountDB;"
+    },
+    "tools": 
+    {
+        "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+    },
+    "dependencies": 
+    {
+        "Microsoft.Extensions.Configuration.Json": "1.0.0",
+        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.0-*",
+        "Microsoft.EntityFrameworkCore.Design": 
+        {
+            "version": "1.0.0-preview2-final",
+            "type": "build"
+        }
+    }
+}
+// *end appsettings.json //
+
+
+// Startup.cs (when using PostgreSQL* //
+
+using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
+// using RESTauranter.Models;
+
+namespace BankAccounts
+{
+    public class Startup
+    {
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddSession();
+            services.AddDbContext<YourContext>(options => options.UseNpgsql(Configuration["DBInfo:ConnectionString"]));
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole();
+            app.UseDeveloperExceptionPage();
+            app.UseStaticFiles();
+            app.UseSession();
+            app.UseMvc();
+        }
+
+        public IConfiguration Configuration { get; private set; }
+ 
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
+    }
+}
+// END Startup.cs (when using PostgreSQL* //

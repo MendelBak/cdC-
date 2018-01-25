@@ -1,0 +1,58 @@
+@model BankAccounts.Models.Transaction
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Welcome @ViewBag.FirstName to your Checking Account  | Your ID is: @ViewBag.UserId</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/Logout"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="balance">
+  
+@foreach(var data in @ViewBag.AccountInfo)
+{
+<h4 class="col-sm-2" >Current Balance: @data.Balance</h4>
+}
+</div>
+
+<div id="changeBalance">
+<form asp-controller="Account" asp-action="ChangeBalance" method="post" class="form-group">
+  <label >Deposit/Withdraw To/From Your Account</label>
+  <input name="ChosenInputType" value="Deposit" type="radio" checked>Deposit</input>
+  <input name="ChosenInputType" value="Withdrawal" type="radio">Withdraw</input>
+  <input name="Amount" class="form-control"> 
+  <span ></span>
+
+  <br><br>
+
+  <span>@ViewBag.transactionError</span>
+  <button class="btn btn-primary">Submit</button>
+</form>
+</div>
+
+<div id="transactionInfo">
+  <table>
+    <thead>
+      <th>Amount</th>
+      <th>Date of Transaction</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$1234</td>
+        <td>12 dec 2017</td>
+      </tr>
+      <tr>
+        <td>$1234</td>
+        <td>12 dec 2017</td>
+      </tr>
+      <tr>
+        <td>$1234</td>
+        <td>12 dec 2017</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

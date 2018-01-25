@@ -11,48 +11,45 @@
   </div>
 </nav>
 
-<div id="balance">
+
   
-@foreach(var data in @ViewBag.AccountInfo)
-{
-<h4 class="col-sm-2" >Current Balance: @data.Balance</h4>
-}
-</div>
+  <h4 id="balance" class="col-sm-2" >Current Balance: @ViewBag.AccountInfo.Balance</h4>
+
 
 <div id="changeBalance">
 <form asp-controller="Account" asp-action="ChangeBalance" method="post" class="form-group">
   <label >Deposit/Withdraw To/From Your Account</label>
   <input name="ChosenInputType" value="Deposit" type="radio" checked>Deposit</input>
   <input name="ChosenInputType" value="Withdrawal" type="radio">Withdraw</input>
-  <input name="Amount" class="form-control"> 
+  <input name="Amount" class="form-control" placeholder="$ 000.00"> 
   <span ></span>
 
+  <span>@TempData["transactionError"]</span>
   <br><br>
 
-  <span>@ViewBag.transactionError</span>
   <button class="btn btn-primary">Submit</button>
 </form>
 </div>
 
+@foreach(var data in @ViewBag.AccountInfo.Transactions)
+{
 <div id="transactionInfo">
-  <table>
+  <table class="table table-responsive">
     <thead>
-      <th>Amount</th>
+      <th>Deposits</th>
+      <th>Withdrawals</th>
       <th>Date of Transaction</th>
     </thead>
     <tbody>
       <tr>
-        <td>$1234</td>
-        <td>12 dec 2017</td>
-      </tr>
-      <tr>
-        <td>$1234</td>
-        <td>12 dec 2017</td>
-      </tr>
-      <tr>
-        <td>$1234</td>
-        <td>12 dec 2017</td>
+        <td>@data.Deposit</td>
+        <td>@data.Withdrawal</td>
+        <td>@data.CreatedAt.ToString("D")</td>
       </tr>
     </tbody>
   </table>
 </div>
+
+
+// End bracket for ViewBag.AccountInfo foreach loop. //
+}

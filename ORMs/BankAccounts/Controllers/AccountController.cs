@@ -20,7 +20,7 @@ namespace BankAccounts.Controllers
 
         [HttpGet]
         [Route("Account")]
-        public IActionResult Account(int testID)
+        public IActionResult Account()
         {
             // Check to ensure there is a properly logged in user by checking session.
             if (HttpContext.Session.GetInt32("LoggedUserId") >= 0)
@@ -32,11 +32,15 @@ namespace BankAccounts.Controllers
                     ViewBag.FirstName = HttpContext.Session.GetString("LoggedUserName");
                     // Save id in session and then send to View using Viewbag
                     ViewBag.UserId = HttpContext.Session.GetInt32("LoggedUserId");
-                    var AccountInfo = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("LoggedUserId"));
+                    // Get User info tto display.
+                    var AccountInfo = _context.Users.Include(u => u.Transactions).Where(u => u.UserId == HttpContext.Session.GetInt32("LoggedUserId")).SingleOrDefault();
                     ViewBag.AccountInfo = AccountInfo;
+                    // Second way to get transaction shistory from the db.
+                        // Get transactions history to display
+                        // Transaction TransactionsHistory = _context.Transactions.Where(t => t.UserId == AccountInfo.UserId).SingleOrDefault();
                     return View("Account");
                 }
-                // catch should only fire if there was an error getting/setting sesion id and username to ViewBag but if session id exists (which means a user is logged in). Send to page without greeting on navbar.
+                // Catch should only fire if there was an error getting/setting sesion id and username to ViewBag but if session id exists (which means a user is logged in). Send to page without greeting on navbar.
                 catch
                 {
                     return View("Account");
@@ -53,8 +57,8 @@ namespace BankAccounts.Controllers
         {
             if (Amount < 0)
             {
-                ViewBag.transactionError = "Sorry, you cannot enter a number less than zero(0). Please try again.";
-                return View("Account");
+                TempData["transactionError"] = "Sorry, you cannot enter a number less than zero(0). Please try again.";
+                return RedirectToAction("Account");
             }
             else if(Amount > 0)
             {
@@ -73,6 +77,9 @@ namespace BankAccounts.Controllers
                             CreatedAt = DateTime.Now,
                         };
                         _context.Transactions.Add(NewTransaction);
+                        // After depositing into Transaction table, update balance of user in User table and save (Run) both db operations.
+                        var UserAccount = _context.Users.Where(u => u.UserId == LoggedUserId).SingleOrDefault();
+                        UserAccount.Balance += Amount;
                         _context.SaveChanges();
                     }
                     else if (ChosenInputType == "Withdrawal")
@@ -85,13 +92,17 @@ namespace BankAccounts.Controllers
                             CreatedAt = DateTime.Now,
                         };
                         _context.Transactions.Add(NewTransaction);
+                        // After depositing into Transaction table, update balance of user in User table and save (Run) both db operations.
+                        var UserAccount = _context.Users.Where(u => u.UserId == LoggedUserId).SingleOrDefault();
+                        UserAccount.Balance -= Amount;
                         _context.SaveChanges();
                     }
+                    
                 }
                 // Catch should only run if no user is logged in or if there is an error inserting the transaction into the DB.
                 catch
                 {
-                    ViewBag.transactionError = "We apologize. There was an error processing your transaction. Please try again. If this error repeats please try logging out and back in. ";
+                    TempData["transactionError"] = "We apologize. There was an error processing your transaction. Please try again. If this error repeats please try logging out and back in. ";
                     return View("Account");
                 }
                 return RedirectToAction("Account");

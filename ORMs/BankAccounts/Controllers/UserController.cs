@@ -52,7 +52,9 @@ namespace BankAccounts.Controllers
                         };
                         _context.Add(NewUser);
                         _context.SaveChanges();
+                        // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
                         HttpContext.Session.SetInt32("LoggedUserId", NewUser.UserId);
+                        HttpContext.Session.SetString("LoggedUserName", NewUser.FirstName);
                         // Redirect to Account method in Account controller.
                         return RedirectToAction("Account", "Account");
                     }
@@ -76,7 +78,6 @@ namespace BankAccounts.Controllers
         [Route("LoginPage")]
         public IActionResult LoginPage(LoginViewModel model)
         {
-            // Checks to ensure that user is logged in.
             return View("login");
         }
 
@@ -92,7 +93,7 @@ namespace BankAccounts.Controllers
                 try
                 {
                     User LoggedUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
-                    // Set user id and first name for use in identification, future db calls, and for greeting the user.
+                    // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
                     HttpContext.Session.SetInt32("LoggedUserId", LoggedUser.UserId);
                     HttpContext.Session.SetString("LoggedUserName", LoggedUser.FirstName);
                     return RedirectToAction("Account", "Account");

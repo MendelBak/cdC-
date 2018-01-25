@@ -4,5 +4,6 @@
     padding: 5px;
 }
 #changeBalance{
-    display:block;
+    display: inline-block;
+    margin-left: 10%;
 }

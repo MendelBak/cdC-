@@ -8,8 +8,8 @@ using BankAccounts.Models;
 namespace BankAccounts.Migrations
 {
     [DbContext(typeof(BankContext))]
-    [Migration("20180125201243_secondTransactionMigration")]
-    partial class secondTransactionMigration
+    [Migration("20180125212551_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,17 +24,17 @@ namespace BankAccounts.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<double>("Deposits");
+                    b.Property<double>("Deposit");
 
                     b.Property<int>("UserId");
 
-                    b.Property<double>("Withdrawals");
+                    b.Property<double>("Withdrawal");
 
                     b.HasKey("TransactionId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("BankAccounts.Models.User", b =>
@@ -58,7 +58,7 @@ namespace BankAccounts.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("BankAccounts.Models.Transaction", b =>

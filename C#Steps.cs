@@ -601,8 +601,8 @@ namespace LostInTheWoods.Factory
 
 
 // *end Models/Context.cs //
-using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BankAccounts.Models
@@ -619,7 +619,7 @@ namespace BankAccounts.Models
 
 // *end Models/Context //
 
-// *Add to Startup.cs (Using MySQL) //
+// *Add to Startup.cs (Only when using MySQL) //
 using RESTauranter.Models;
 using MySQL.Data.EntityFrameworkCore;
 using MySQL.Data.EntityFrameworkCore.Extensions;
@@ -635,98 +635,7 @@ public void ConfigureServices(IServiceCollection services)
 // *end Additions to Startup.cs //
 
 
-// *Controller.cs //;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using RESTauranter.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-
-namespace RESTauranter.Controllers
-{
-
-    public class HomeController : Controller
-    {
-        private ReviewContext _context;
-
-        public HomeController(ReviewContext context)
-        {
-            _context = context;
-        }
-
-        [HttpGet]
-        [Route("")]
-        public IActionResult Index()
-        {
-            // List<Person> AllUsers = _context.Users.ToList();
-            return View("Index");
-        }
-    }
-
-}
-// *end Controller.cs //
-
-// * This is what .csproj should look like when using PostgreSQL //
-<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.0.1" />
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.0.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
-</ItemGroup>    
-</Project>
-// *End PostgreSQL version of .csproj //
-
-
-// appsettings.json (PostgreSQL Version)* //
-{
-    "DBInfo": 
-    {
-        "Name": "PostGresConnect",
-        "ConnectionString": "server=localhost;userId=root;password=root;port=5432;database=BankAccountDB;"
-    },
-    "tools": 
-    {
-        "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
-    },
-    "dependencies": 
-    {
-        "Microsoft.Extensions.Configuration.Json": "1.0.0",
-        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.0-*",
-        "Microsoft.EntityFrameworkCore.Design": 
-        {
-            "version": "1.0.0-preview2-final",
-            "type": "build"
-        }
-    }
-}
-// *end appsettings.json //
-
-
-// Startup.cs (when using PostgreSQL* //
+// This is what Startup.cs should look like when using PostgreSQL (Only when using PostgreSQL* //
 
 using System;
 using Microsoft.AspNetCore.Builder;
@@ -740,7 +649,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
-// using RESTauranter.Models;
+using RESTauranter.Models;
 
 namespace BankAccounts
 {
@@ -778,3 +687,92 @@ namespace BankAccounts
     }
 }
 // END Startup.cs (when using PostgreSQL* //
+
+
+// *Controller.cs //;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using BankAccounts.Models;
+using Microsoft.AspNetCore.Identity;
+
+namespace RESTauranter.Controllers
+{
+
+    public class HomeController : Controller
+    {
+        private ReviewContext _context;
+
+        public HomeController(ReviewContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        [Route("")]
+        public IActionResult Index()
+        {
+            // List<Person> AllUsers = _context.Users.ToList();
+            return View("Index");
+        }
+    }
+}
+// *end Controller.cs //
+
+// * This is what .csproj should look like when using PostgreSQL //<Project Sdk="Microsoft.NET.Sdk.Web"><Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+  </ItemGroup>
+</Project>
+// *End PostgreSQL version of .csproj //
+
+
+// appsettings.json (PostgreSQL Version)* //
+{
+    "DBInfo": 
+    {
+        "Name": "PostGresConnect",
+        "ConnectionString": "server=localhost;userId=postgres;password=root;port=5432;database=BankAccountDB;"
+    },
+    "tools": 
+    {
+        "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+    },
+    "dependencies": 
+    {
+        "Microsoft.Extensions.Configuration.Json": "1.0.0",
+        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.0-*",
+        "Microsoft.EntityFrameworkCore.Design": 
+        {
+            "version": "1.0.0-preview2-final",
+            "type": "build"
+        }
+    }
+}
+// *end appsettings.json //
+

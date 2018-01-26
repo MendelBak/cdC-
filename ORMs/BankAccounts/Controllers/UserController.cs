@@ -56,9 +56,11 @@ namespace BankAccounts.Controllers
                         };
                         _context.Add(NewUser);
                         _context.SaveChanges();
+
                         // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
                         HttpContext.Session.SetInt32("LoggedUserId", NewUser.UserId);
                         HttpContext.Session.SetString("LoggedUserName", NewUser.FirstName);
+                        
                         // Redirect to Account method in Account controller.
                         return RedirectToAction("Account", "Account");
                     }

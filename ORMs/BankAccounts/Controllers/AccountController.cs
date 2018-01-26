@@ -32,10 +32,10 @@ namespace BankAccounts.Controllers
                     ViewBag.FirstName = HttpContext.Session.GetString("LoggedUserName");
                     // Save id in session and then send to View using Viewbag
                     ViewBag.UserId = HttpContext.Session.GetInt32("LoggedUserId");
-                    // Get User info tto display.
+                    // Get User info to display.
                     var AccountInfo = _context.Users.Include(u => u.Transactions).Where(u => u.UserId == HttpContext.Session.GetInt32("LoggedUserId")).SingleOrDefault();
                     ViewBag.AccountInfo = AccountInfo;
-                    // Second way to get transaction shistory from the db.
+                    // Second way to get transaction history from the db.
                         // Get transactions history to display
                         // Transaction TransactionsHistory = _context.Transactions.Where(t => t.UserId == AccountInfo.UserId).SingleOrDefault();
                     return View("Account");

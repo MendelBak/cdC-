@@ -1,0 +1,54 @@
+@model WeddingPlanner.Models.WeddingViewModel
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Schrute Farms | Elegant Occasions</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/Account">Home</a></li>
+      <li><a href="/Account">|</a></li>
+      <li><a href="/Logout"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<h1>Plan Your Wedding!</h1>
+
+
+
+<form asp-controller="Wedding" asp-action="NewWedding" method="post" class="form-group">
+    <label asp-for="WifeName">Wife's Name</label>
+    <input asp-for="WifeName" placeholder="Wife's Name" class="form-control" id="WifeName"> 
+    <span asp-validation-for="WifeName"></span>
+
+    <br>
+    <br>
+    
+    <label asp-for="HusbandName">Husband's Name</label>
+    <input asp-for="HusbandName" placeholder="Husband's Name" class="form-control" id="HusbandName"> 
+    <span asp-validation-for="HusbandName"></span>
+
+    
+    <br>
+    <br>
+
+    <label asp-for="Address">Address</label>
+    <input asp-for="Address" placeholder="Address" class="form-control" id="Address"> 
+    <span asp-validation-for="Address"></span>
+
+    <br>
+    <br>
+
+    <label asp-for="DateOfWedding">Date Of Wedding</label>
+    <input type="date" asp-for="DateOfWedding" placeholder="Date Of Wedding" class="form-control" id="DateOfWedding"> 
+    <span asp-validation-for="DateOfWedding"></span>
+
+    <span> @ViewBag.WeddingErrors </span>
+    
+    <br>
+    <br>
+    
+    <button type="submit" class="btn btn-primary">Create New Wedding Plan!</button>
+
+</form>

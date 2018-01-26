@@ -1,0 +1,40 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+     <a class="navbar-brand" href="#">Activity Center </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/Account">Home</a></li>
+      <li><a href="/Account">|</a></li>
+      <li><a href="/Logout"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<h1>@ViewBag.OneActivity.Title</h1>
+
+<h4>Date: @ViewBag.OneActivity.Date.ToString("D")</h4>
+<p>@ViewBag.OneActivity.Description</p>
+<h4>Guests: </h4>
+
+<!-- // If not Admin, user can join or leave activity (Admin cannot leave activity and is joined to activity by default). -->
+@if(@ViewBag.LoggedUserId != @ViewBag.AdminId && @ViewBag.Attending == false)
+{
+  <a href="/JoinActivity/@ViewBag.OneActivity.ActivityId" class="btn-sm btn-success">Join Activity</a>
+}
+<!-- // If user is already part of activity allow him to leave. -->
+@if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && @ViewBag.Attending == true)
+{
+  <a href="/LeaveActivity/@ViewBag.ActivityId" class="btn-sm btn-danger">Leave Activity</a>
+}
+
+
+@if(@ViewBag.LoggedUserId == @ViewBag.OneActivity.AdminId)
+{
+    <a href="/DeleteActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-danger">Delete Activity</a>
+}
+
+
+
+

@@ -1,0 +1,65 @@
+@model FinalProject.Models.ActivityViewModel
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+     <a class="navbar-brand" href="#">Activity Center </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/Account">Home</a></li>
+      <li><a href="/Account">|</a></li>
+      <li><a href="/Logout"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<h1>Plan Your Activity!</h1>
+
+
+
+<form asp-controller="Activity" asp-action="NewActivity" method="post" class="form-group">
+    <label asp-for="Title">Title</label>
+    <input asp-for="Title" placeholder="Title" class="form-control" id="Title"> 
+    <span asp-validation-for="Title"></span>
+
+    <br>
+    
+    <label asp-for="Time">Time</label>
+    <input type="time" asp-for="Time" placeholder="Time" class="form-control" id="Time"> 
+    <span asp-validation-for="Time"></span>
+
+    
+    <br>
+
+    <label asp-for="Date">Address</label>
+    <input type="date" asp-for="Date" placeholder="Date" class="form-control" id="Date"> 
+    <span asp-validation-for="Date"></span>
+
+    <br>
+
+    <label asp-for="Duration">Duration Of Activity</label>
+    <input asp-for="Duration" placeholder="Duration of Activity" class="form-control" id="Duration"> 
+    <span asp-validation-for="Duration"></span>
+
+    
+    <select asp-for="DurationType" class="form-control" id="DurationType">
+      <option value="Hours" selected>Hours</option>
+      <option value="Minutes">Minutes</option>
+      <option value="Days">Days</option>
+    </select>
+    <span asp-validation-for="DurationType"></span>
+
+    <br>
+
+    <label asp-for="Description">Description</label>
+    <textarea asp-for="Description" placeholder="Description of Activity" class="form-control" id="Description"></textarea>
+    <span asp-validation-for="Description"></span>
+
+    <span> @ViewBag.ActivityErrors </span>
+    
+    <br>
+    <br>
+    
+    <button type="submit" class="btn btn-primary">Create New Activity Plan!</button>
+
+</form>

@@ -66,6 +66,7 @@ namespace FinalProject.Controllers
                     else
                     {
                         ViewBag.email = "That email is already in use. Please try again using another.";
+                        return View("register");
                     }
                 }
                 // Catch should only run if there was an error with the db connection/query
@@ -80,7 +81,7 @@ namespace FinalProject.Controllers
 
         [HttpGet]
         [Route("LoginPage")]
-        public IActionResult LoginPage(LoginViewModel model)
+        public IActionResult LoginPage()
         {
             return View("login");
         }
@@ -93,12 +94,25 @@ namespace FinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                // The User object is being instantiated out here in order to establish it as a global variable and accessible by all the different try/catch statments. 
+                User LoggedUser;
+
                 try
                 {
                     // If there are no errors upon form submit check db for proper creds.
-                    User LoggedUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
+                    LoggedUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
+                }
+                // Catch will run if matching email is not found in DB.
+                catch
+                {
+                    ViewBag.loginError = "Your email was incorrect.";
+                    return View("login");
+                }
+                // If email is correct, verify that password is correct.
+                try
+                {
                     var Hasher = new PasswordHasher<User>();
-                    // Check hashed password.
+                    // Check hashed password. 0 = negative match.
                     if (Hasher.VerifyHashedPassword(LoggedUser, LoggedUser.Password, model.Password) != 0)
                     {
                         // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
@@ -106,20 +120,21 @@ namespace FinalProject.Controllers
                         HttpContext.Session.SetString("LoggedUserName", LoggedUser.FirstName);
                         return RedirectToAction("Account");
                     }
+                    // If password does not match
                     else
                     {
-                        ViewBag.loginError = "Sorry, your password was incorrect.";
+                        ViewBag.loginError = "Your password was incorrect.";
                         return View("login");
                     }
                 }
-                // If no proper creds redirect to login page and return error.
+                // Catch should only run if there was some unusual error, like a DB connection error. Logout will clear session. That might have an effect.
                 catch
                 {
-                    ViewBag.loginError = "Sorry, your email or password were incorrect.";
-                    return View("login");
+                    ViewBag.loginError = "Sorry, there was a problem logging you in. Please try again.";
+                    return RedirectToAction("Logout");
                 }
             }
-            // If form submit was illegal redirect to login and display model validation errors.
+            // If ModelState was illegal return login and display model validation errors.
             else
             {
                 return View("login");
@@ -136,11 +151,12 @@ namespace FinalProject.Controllers
             {
                 try
                 {
-
                     // Save first name in session to display greeting on navbar.
                     ViewBag.FirstName = HttpContext.Session.GetString("LoggedUserName");
+
                     // Save id in session and then send to View using Viewbag
                     ViewBag.UserId = HttpContext.Session.GetInt32("LoggedUserId");
+
                     // Get User info to display and to determine whether or not the user is attending the activity.
                     var AccountInfo = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("LoggedUserId")).SingleOrDefault();
                     ViewBag.AccountInfo = AccountInfo;
@@ -149,22 +165,23 @@ namespace FinalProject.Controllers
                     List<Activity> AllActivities = _context.Activities.OrderBy(a => a.Date).ToList();
                     ViewBag.AllActivities = AllActivities;
 
+
                     // Get Subscriptions in order to determine how many guests are attending and whether current user is attending each activity.
                     List<Subscription> AllSubscriptions = _context.Subscriptions.ToList();
-
                     ViewBag.AllSubscriptions = AllSubscriptions;
-                    var GuestCounter = 0;
-                    foreach (var x in AllActivities)
-                    {
-                        for (var i = 0; i < x.ActivityId; i++)
-                        {
-                            GuestCounter = AllSubscriptions.Count(t => t.GuestId > 0);
-                        }
 
 
-                        ViewBag.GuestCounter = GuestCounter;
-                    }
+                    // var GuestCounter = 0;
+                    // foreach (var x in AllActivities)
+                    // {
+                    //     for (var i = 0; i < x.ActivityId; i++)
+                    //     {
+                    //         GuestCounter = AllSubscriptions.Count(t => t.GuestId > 0);
+                    //     }
 
+
+                    //     ViewBag.GuestCounter = GuestCounter;
+                    // }
 
                     return View("Account");
                 }

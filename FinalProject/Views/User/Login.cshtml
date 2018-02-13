@@ -3,13 +3,13 @@
 
 <form asp-controller="User" asp-action="LoginSubmit" method="post" class="form-group">
     <label asp-for="Email">Email</label>
-    <input asp-for="Email" placeholder="Email Address" class="form-control" id="Email"> 
+    <input asp-for="Email" placeholder="Email Address" class="form-control"> 
     <span asp-validation-for="Email"></span>
 
     <br><br>
 
     <label asp-for="Password">Password</label>
-    <input asp-for="Password" placeholder="Password" class="form-control" id="Password"> 
+    <input asp-for="Password" placeholder="Password" class="form-control"> 
     <span asp-validation-for="Password"></span>
 
     <p>@ViewBag.loginError</p>
@@ -17,4 +17,8 @@
     
     <button type="submit" class="btn btn-primary">Submit</button>
     <a href="/">Back To Registration.</a>
-</form>
+    
+    <!-- There is a problem with my validation messages -->
+    <!-- <div asp-validation-summary="All"></div> -->
+</form>                         
+

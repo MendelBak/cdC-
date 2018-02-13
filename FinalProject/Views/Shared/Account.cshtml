@@ -1,29 +1,4 @@
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Activity Center </a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="/Account">
-                    <span>Welcome @ViewBag.FirstName!</span>
-                </a>
-            </li>
-            <li>
-                <a href="/Account">
-                    <span>|</span>
-                </a>
-            </li>
-            <li>
-                <a href="/Logout">
-                    <span class="glyphicon glyphicon-log-out">Logout</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-
+@Html.Partial("navbar")
 
 <table class="table table-responsive">
     <thead>
@@ -36,39 +11,47 @@
     </thead>
     <tbody>
         @foreach(var activity in @ViewBag.AllActivities) 
-        { 
+        {
             <tr>
-            @if(@activity.Date > DateTime.Now) 
-            {
-                <td>
-                    <a href="ActivityDetails/@activity.ActivityId">@activity.Title</a>
-                </td>
-            }
-            
-
-            <td>@activity.Date.ToString("D") | @activity.Time.ToString("h:m tt")</td>
-            <td>@activity.Duration @activity.DurationType</td>
-            <td>@activity.AdminId</td>
-            <td>@ViewBag.GuestCounter</td>
-            <td>
-                @if(@ViewBag.UserId == @activity.AdminId) 
+                @if(@activity.Date > DateTime.Now) 
                 {
-                    <a href="/DeleteActivity/@activity.ActivityId" class="btn-sm btn-danger">Delete Activity</a>
-                }
-                @if(@ViewBag.UserId != @activity.AdminId) 
-                {
-                    <a href="/JoinActivity/@activity.ActivityId" class="btn-sm btn-success">Join Activity</a>
-                }
-                @if(@ViewBag.UserId != @activity.AdminId) 
-                {
-                    <a href="/LeaveActivity/@activity.ActivityId" class="btn-sm btn-danger">Leave Activity</a>
-                }
-            </td>
-        </tr>
-    }
+                    <td>
+                        <a href="ActivityDetails/@activity.ActivityId">@activity.Title</a>
+                    </td>
+                    <td>@activity.Date.ToString("D") | @activity.Time.ToString("h:m tt")</td>
+                    <td>@activity.Duration @activity.DurationType</td>
+                    <td>@activity.AdminId</td>
+                    <td>@ViewBag.GuestCounter</td>
+                    <td>
+                        @if(@ViewBag.UserId == @activity.AdminId) 
+                        {
+                            <a href="/DeleteActivity/@activity.ActivityId" class="btn btn-danger">Delete Activity</a>
+                        } 
+                        else
+                        {
+                            bool RSVP = false;
 
-
-
+                            @foreach(var attending in @activity.Guests) 
+                            { 
+                                if (@ViewBag.UserId != @activity.AdminId && @ViewBag.UserId == @attending.GuestId)
+                                {
+                                    RSVP = true;
+                                }
+                            if (RSVP == true)
+                            {
+                                <a href="/LeaveActivity/@activity.ActivityId" class="btn btn-danger">Leave Activity</a>
+                                
+                            }
+                            else
+                            {
+                                <a href="/JoinActivity/@activity.ActivityId" class="btn btn-success">Join Activity</a>
+                            }
+                        }
+                }                
+                    </td>
+                } 
+            </tr>
+        }
     </tbody>
 </table>
 

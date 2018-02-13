@@ -122,6 +122,53 @@ namespace FinalProject.Controllers
         }
 
 
+        // Add single user to activity Guest List.
+        [HttpGet]
+        [Route("JoinActivity/{ActivityId}")]
+        public IActionResult JoinActivity(int ActivityId)
+        {
+            // Get activity in order to display in ActivityDetails View.
+            Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
+            ViewBag.OneActivity = OneActivity;
+
+            // Get UserId to add Subscription table to Join activity.
+            int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
+
+            Subscription NewSubscription = new Subscription
+            {
+                GuestId = (int)LoggedUserId,
+                ActivityId = OneActivity.ActivityId,
+            };
+            _context.Subscriptions.Add(NewSubscription);
+            _context.SaveChanges();
+
+            return RedirectToAction("ActivityDetails", new { ActivityId = OneActivity.ActivityId });
+        }
+
+
+        // Remove single user from activity Guest List.
+        [HttpGet]
+        [Route("LeaveActivity/{ActivityId}")]
+        public IActionResult LeaveActivity(int ActivityId)
+        {
+            // Get activity in order to display in ActivityDetails View.
+            Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
+            ViewBag.OneActivity = OneActivity;
+
+            // Get UserId to know which user is Leaving activity.
+            int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
+
+            // Query to get the subscription for the guest to be dropped from DB.
+            Subscription CurrentSubscription = _context.Subscriptions.FirstOrDefault(s => s.GuestId == LoggedUserId);
+
+            _context.Subscriptions.Remove(CurrentSubscription);
+            _context.SaveChanges();
+
+            return RedirectToAction("Account", "User");
+        }
+
+
+        // Delete activity from DB.
         [HttpGet]
         [Route("DeleteActivity/{ActivityId}")]
         public IActionResult DeleteActivity(int ActivityId)
@@ -142,51 +189,6 @@ namespace FinalProject.Controllers
                 ViewBag.DeleteError = "Sorry, we were unable to delete that activity. Please try again or try logging in with the account that is the Administrator of this activity.";
                 return View("ActivityDetails", new { ActivityId = OneActivity.ActivityId });
             }
-        }
-
-
-
-        [HttpGet]
-        [Route("JoinActivity/{ActivityId}")]
-        public IActionResult JoinActivity(int ActivityId)
-        {
-            // Get activity in order to display in ActivityDetails View.
-            Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
-            ViewBag.OneActivity = OneActivity;
-
-            // Get UserId to add Subscription table to Join activity.
-            int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
-
-            Subscription NewSubscription = new Subscription
-            {
-                GuestId = (int)LoggedUserId,
-                ActivityId = OneActivity.ActivityId,
-            };
-            _context.Subscriptions.Add(NewSubscription);
-            _context.SaveChanges();
-
-            return View("ActivityDetails", new { ActivityId = OneActivity.ActivityId });
-        }
-
-
-        [HttpGet]
-        [Route("LeaveActivity/{ActivityId}")]
-        public IActionResult LeaveActivity(int ActivityId)
-        {
-            // Get activity in order to display in ActivityDetails View.
-            Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
-            ViewBag.OneActivity = OneActivity;
-
-            // Get UserId to know which user is Leaving activity.
-            int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
-
-            // Query to get the subscription for the guest to be dropped from DB.
-            Subscription CurrentSubscription = _context.Subscriptions.FirstOrDefault(s => s.GuestId == LoggedUserId);
-
-            _context.Subscriptions.Remove(CurrentSubscription);
-            _context.SaveChanges();
-
-            return RedirectToAction("Account", "User");
         }
 
 

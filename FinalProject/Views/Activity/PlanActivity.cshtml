@@ -1,17 +1,6 @@
 @model FinalProject.Models.ActivityViewModel
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-     <a class="navbar-brand" href="#">Activity Center </a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/Account">Home</a></li>
-      <li><a href="/Account">|</a></li>
-      <li><a href="/Logout"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
-    </ul>
-  </div>
-</nav>
+@Html.Partial("navbar")
 
 <h1>Plan Your Activity!</h1>
 

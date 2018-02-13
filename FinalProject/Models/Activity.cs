@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinalProject.Models
 {
@@ -9,6 +10,12 @@ namespace FinalProject.Models
     {
         public int ActivityId { get; set; }
         public int AdminId { get; set; }
+
+        // Foreign key, and the User (admin) object below it, is in order to be able to display Admin name on Account page.
+        [ForeignKey("AdminId")]
+        public User Admin { get; set; }
+
+
         public string Title { get; set; }
         public DateTime Time { get; set; }
         public DateTime Date { get; set; }
@@ -22,6 +29,7 @@ namespace FinalProject.Models
 
         // Many To Many relationship with User model. Many Users can sign up for many events.
         public List<Subscription> Guests { get; set; }
+        // Constructor that instantiates an empty list.
         public Activity()
         {
             Guests = new List<Subscription>();

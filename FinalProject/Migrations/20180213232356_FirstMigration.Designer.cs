@@ -8,8 +8,8 @@ using FinalProject.Models;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(BeltExamContext))]
-    [Migration("20180126175125_ChangedModelsMigration")]
-    partial class ChangedModelsMigration
+    [Migration("20180213232356_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,15 +42,35 @@ namespace FinalProject.Migrations
 
                     b.HasKey("ActivityId");
 
+                    b.HasIndex("AdminId");
+
                     b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Subscription", b =>
+                {
+                    b.Property<int>("SubscriptionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ActivityId");
+
+                    b.Property<int>("GuestId");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("SubscriptionId");
+
+                    b.HasIndex("ActivityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("FinalProject.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<double>("Balance");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -67,6 +87,26 @@ namespace FinalProject.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Activity", b =>
+                {
+                    b.HasOne("FinalProject.Models.User", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Subscription", b =>
+                {
+                    b.HasOne("FinalProject.Models.Activity", "Activity")
+                        .WithMany("Guests")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FinalProject.Models.User", "User")
+                        .WithMany("EventsAttending")
+                        .HasForeignKey("UserId");
                 });
         }
     }

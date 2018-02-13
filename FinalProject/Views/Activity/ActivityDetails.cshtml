@@ -25,12 +25,12 @@
 <!-- // If user is already attending activity, allow him to leave. -->
 @if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && RSVP == true)
 {
-  <a href="/LeaveActivity/@ViewBag.OneActivity.ActivityId" class="btn-sm btn-danger">Leave Activity</a>
+  <a href="/LeaveActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-warning">Leave Activity</a>
 }
 <!-- // If user is not yet attending activity, allow him to join. -->
 @if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && RSVP == false)
 {
-  <a href="/JoinActivity/@ViewBag.OneActivity.ActivityId" class="btn-sm btn-success">Join Activity</a>
+  <a href="/JoinActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-success">Join Activity</a>
 }  
 
 <!-- Admin can delete activity. Creds check on backend. -->

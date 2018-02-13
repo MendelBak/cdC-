@@ -10,8 +10,9 @@
         <th>Actions</th>
     </thead>
     <tbody>
-        @foreach(var activity in @ViewBag.AllActivities) 
-        {
+        @{ 
+            @foreach(var activity in @ViewBag.AllActivities) 
+            {
             <tr>
                 @if(@activity.Date > DateTime.Now) 
                 {
@@ -20,37 +21,37 @@
                     </td>
                     <td>@activity.Date.ToString("D") | @activity.Time.ToString("h:m tt")</td>
                     <td>@activity.Duration @activity.DurationType</td>
-                    <td>@activity.AdminId</td>
+                    <td>@activity.Admin.FirstName</td>
                     <td>@ViewBag.GuestCounter</td>
                     <td>
                         @if(@ViewBag.UserId == @activity.AdminId) 
                         {
                             <a href="/DeleteActivity/@activity.ActivityId" class="btn btn-danger">Delete Activity</a>
                         } 
-                        else
-                        {
-                            bool RSVP = false;
-
-                            @foreach(var attending in @activity.Guests) 
-                            { 
-                                if (@ViewBag.UserId != @activity.AdminId && @ViewBag.UserId == @attending.GuestId)
-                                {
-                                    RSVP = true;
-                                }
-                            if (RSVP == true)
+                        else 
+                        { 
+                            bool RSVP = false; 
+                            foreach(var attending in @activity.Guests) 
                             {
-                                <a href="/LeaveActivity/@activity.ActivityId" class="btn btn-danger">Leave Activity</a>
-                                
-                            }
-                            else
+                                if (@ViewBag.UserId != @activity.AdminId && @ViewBag.UserId == @attending.GuestId) 
+                                { 
+                                    RSVP = true; 
+                                } 
+                            } 
+                            if (RSVP == true) 
+                            {
+                                <a href="/LeaveActivity/@activity.ActivityId" class="btn btn-warning">Leave Activity</a>
+
+                            } 
+                            else 
                             {
                                 <a href="/JoinActivity/@activity.ActivityId" class="btn btn-success">Join Activity</a>
-                            }
+                            } 
                         }
-                }                
                     </td>
-                } 
+                }
             </tr>
+            }
         }
     </tbody>
 </table>

@@ -162,12 +162,15 @@ namespace FinalProject.Controllers
                     ViewBag.AccountInfo = AccountInfo;
 
                     // Get all activities in order to display in Account View.
-                    List<Activity> AllActivities = _context.Activities.OrderBy(a => a.Date).ToList();
+                    // List<Activity> AllActivities = _context.Activities.OrderBy(a => a.Date).ToList();
+
+                    List<Activity> AllActivities = _context.Activities.Include(a => a.Admin).OrderBy(a => a.Date).ToList();
                     ViewBag.AllActivities = AllActivities;
+                    
 
 
-                    // Get Subscriptions in order to determine how many guests are attending and whether current user is attending each activity.
                     List<Subscription> AllSubscriptions = _context.Subscriptions.ToList();
+                    // Get Subscriptions in order to determine how many guests are attending and whether current user is attending each activity.
                     ViewBag.AllSubscriptions = AllSubscriptions;
 
 

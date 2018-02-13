@@ -41,6 +41,8 @@ namespace FinalProject.Migrations
 
                     b.HasKey("ActivityId");
 
+                    b.HasIndex("AdminId");
+
                     b.ToTable("Activities");
                 });
 
@@ -84,6 +86,14 @@ namespace FinalProject.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Activity", b =>
+                {
+                    b.HasOne("FinalProject.Models.User", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FinalProject.Models.Subscription", b =>

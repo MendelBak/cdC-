@@ -99,7 +99,7 @@ namespace FinalProject.Controllers
         [Route("ActivityDetails/{ActivityId}")]
         public IActionResult ActivityDetails(int ActivityId)
         {
-            // Get activity in order to display in ActivityDetails View.
+            // Get Activity in order to display in ActivityDetails View.
             Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
             ViewBag.OneActivity = OneActivity;
 
@@ -111,13 +111,6 @@ namespace FinalProject.Controllers
             var AccountInfo = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("LoggedUserId")).SingleOrDefault();
             ViewBag.AccountInfo = AccountInfo;
 
-            ViewBag.Attending = false;
-            var OneSubscription = _context.Subscriptions.FirstOrDefault(s => s.GuestId == LoggedUserId && s.ActivityId == OneActivity.ActivityId);
-            if(OneSubscription != null)
-            {
-                ViewBag.Attending = true;
-            }
-            
             return View("ActivityDetails");
         }
 
@@ -127,12 +120,21 @@ namespace FinalProject.Controllers
         [Route("JoinActivity/{ActivityId}")]
         public IActionResult JoinActivity(int ActivityId)
         {
-            // Get activity in order to display in ActivityDetails View.
+            // Get UserId to add Subscription table to Join activity.
+            int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
+            
             Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
             ViewBag.OneActivity = OneActivity;
 
-            // Get UserId to add Subscription table to Join activity.
-            int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
+            // Get subscription in order to display in ActivityDetails View.
+            List<Subscription> OneSubscription = _context.Subscriptions.Where(s => s.ActivityId == ActivityId && s.GuestId == LoggedUserId).ToList();
+
+                if(OneSubscription.Count > 0)
+                {
+                    return RedirectToAction("Account", "User");
+                }
+
+
 
             Subscription NewSubscription = new Subscription
             {

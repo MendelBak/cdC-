@@ -67,12 +67,12 @@ namespace FinalProject.Controllers
                         };
                         // Add new Activity to DB.
                         _context.Activities.Add(NewActivity);
+                        _context.SaveChanges();
+
                         // Get the ActivityId in order to redirect to the proper page. 
                         var CurrentActivity = _context.Activities.Where(w => w.AdminId == AdminId).LastOrDefault();
                         
-                        _context.SaveChanges();
-
-                        // After successful creation of new Activity redirect to that Activity's specific page.
+                        // After successful creation of new Activity, redirect to that Activity's specific page.
                         return RedirectToAction("ActivityDetails", new { ActivityId = CurrentActivity.ActivityId });
                     }
                     // Catch should only run if insertion of data into DB failed. 

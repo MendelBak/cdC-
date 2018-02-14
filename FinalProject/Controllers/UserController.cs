@@ -103,7 +103,7 @@ namespace FinalProject.Controllers
                 // If block will run if matching email is not found in DB.
                 if(LoggedUser == null)
                 {
-                    ViewBag.loginError = "Your email was incorrect.";
+                    ViewBag.loginError = "Your email was incorrect or does not exist in our database.";
                     return View("login");
                 }
 

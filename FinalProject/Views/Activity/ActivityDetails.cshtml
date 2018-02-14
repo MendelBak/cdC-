@@ -9,34 +9,41 @@
 <!-- // If not Admin, user can join or leave activity (Admin cannot leave activity and is joined to activity by default). -->
 
 <!-- Iterate through the Guest List to display guest names and also to check if Current User is attending.-->
-@{bool RSVP = false;}
-@foreach(var attending in @ViewBag.OneActivity.Guests)
-{
-  // Print each guest ID (translate to names of each guest)
-  <p>ID # @attending.GuestId</p>
-  
-  // If current user is attending the event, change RSVP boolean to true.
-  if (@ViewBag.LoggedUserId == @attending.GuestId)
+@{
+  bool RSVP = false;
+  foreach(var user in @ViewBag.OneSubscription)
   {
-      RSVP = true;
+    // If current user is attending the event, change RSVP boolean to true.
+    if (@ViewBag.LoggedUserId == @user.UserId)
+    {
+        RSVP = true;
+    }
   }
-}
 
-<!-- // If user is already attending activity, allow him to leave. -->
-@if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && RSVP == true)
-{
-  <a href="/LeaveActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-warning">Leave Activity</a>
-}
-<!-- // If user is not yet attending activity, allow him to join. -->
-@if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && RSVP == false)
-{
-  <a href="/JoinActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-success">Join Activity</a>
-}  
+  foreach (var attendingUser in @ViewBag.OneActivity.Guests)
+  {
+    // Print each guest name
+    <p>ID # @attendingUser.UserId</p>
+  }
+    
 
-<!-- Admin can delete activity. Creds check on backend. -->
-@if(@ViewBag.LoggedUserId == @ViewBag.OneActivity.AdminId)
-{
-    <a href="/DeleteActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-danger">Delete Activity</a>
+  <!-- // If user is not yet attending activity, allow him to join. -->
+  if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && RSVP == false)
+  {
+    <a href="/JoinActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-success">Join Activity</a>
+  }  
+
+  <!-- // If user is already attending activity, allow him to leave. -->
+  if(@ViewBag.LoggedUserId != @ViewBag.OneActivity.AdminId && RSVP == true)
+  {
+    <a href="/LeaveActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-warning">Leave Activity</a>
+  }
+
+  <!-- Admin can delete activity. Creds check on backend. -->
+  @if(@ViewBag.LoggedUserId == @ViewBag.OneActivity.AdminId)
+  {
+      <a href="/DeleteActivity/@ViewBag.OneActivity.ActivityId" class="btn btn-danger">Delete Activity</a>
+  }
 }
 
 

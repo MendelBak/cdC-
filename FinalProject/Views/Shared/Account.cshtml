@@ -33,7 +33,7 @@
                             bool RSVP = false; 
                             foreach(var attending in @activity.Guests) 
                             {
-                                if (@ViewBag.UserId != @activity.AdminId && @ViewBag.UserId == @attending.GuestId) 
+                                if (@ViewBag.UserId != @activity.AdminId && @ViewBag.UserId == @attending.UserId) 
                                 { 
                                     RSVP = true; 
                                 } 

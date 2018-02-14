@@ -12,12 +12,12 @@
     <input asp-for="Password" placeholder="Password" class="form-control"> 
     <span asp-validation-for="Password"></span>
 
-    <p>@ViewBag.loginError</p>
-    <br><br>
+    <br>
     
     <button type="submit" class="btn btn-primary">Submit</button>
     <a href="/">Back To Registration.</a>
-    
+    <br>
+    <p>@ViewBag.loginError</p>
     <!-- There is a problem with my validation messages -->
     <!-- <div asp-validation-summary="All"></div> -->
 </form>                         

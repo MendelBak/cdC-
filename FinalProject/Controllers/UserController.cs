@@ -97,41 +97,32 @@ namespace FinalProject.Controllers
                 // The User object is being instantiated out here in order to establish it as a global variable and accessible by all the different try/catch statments. 
                 User LoggedUser;
 
-                try
-                {
-                    // If there are no errors upon form submit check db for proper creds.
-                    LoggedUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
-                }
-                // Catch will run if matching email is not found in DB.
-                catch
+                // If there are no errors upon form submit check db for proper creds.
+                LoggedUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
+
+                // If block will run if matching email is not found in DB.
+                if(LoggedUser == null)
                 {
                     ViewBag.loginError = "Your email was incorrect.";
                     return View("login");
                 }
+
                 // If email is correct, verify that password is correct.
-                try
+                var Hasher = new PasswordHasher<User>();
+
+                // Check hashed password. 0 = negative match.
+                if (Hasher.VerifyHashedPassword(LoggedUser, LoggedUser.Password, model.Password) != 0)
                 {
-                    var Hasher = new PasswordHasher<User>();
-                    // Check hashed password. 0 = negative match.
-                    if (Hasher.VerifyHashedPassword(LoggedUser, LoggedUser.Password, model.Password) != 0)
-                    {
-                        // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
-                        HttpContext.Session.SetInt32("LoggedUserId", LoggedUser.UserId);
-                        HttpContext.Session.SetString("LoggedUserName", LoggedUser.FirstName);
-                        return RedirectToAction("Account");
-                    }
-                    // If password does not match
-                    else
-                    {
-                        ViewBag.loginError = "Your password was incorrect.";
-                        return View("login");
-                    }
+                    // Set user id and first name in session for use in identification, future db calls, and for greeting the user.
+                    HttpContext.Session.SetInt32("LoggedUserId", LoggedUser.UserId);
+                    HttpContext.Session.SetString("LoggedUserName", LoggedUser.FirstName);
+                    return RedirectToAction("Account");
                 }
-                // Catch should only run if there was some unusual error, like a DB connection error. Logout will clear session. That might have an effect.
-                catch
+                // If password does not match.
+                else
                 {
-                    ViewBag.loginError = "Sorry, there was a problem logging you in. Please try again.";
-                    return RedirectToAction("Logout");
+                    ViewBag.loginError = "Your password was incorrect.";
+                    return View("login");
                 }
             }
             // If ModelState was illegal return login and display model validation errors.
@@ -179,7 +170,7 @@ namespace FinalProject.Controllers
                     // {
                     //     for (var i = 0; i < x.ActivityId; i++)
                     //     {
-                    //         GuestCounter = AllSubscriptions.Count(t => t.GuestId > 0);
+                    //         GuestCounter = AllSubscriptions.Count(t => t.UserId > 0);
                     //     }
 
 

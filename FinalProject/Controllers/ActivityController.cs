@@ -69,6 +69,7 @@ namespace FinalProject.Controllers
                         _context.Activities.Add(NewActivity);
                         // Get the ActivityId in order to redirect to the proper page. 
                         var CurrentActivity = _context.Activities.Where(w => w.AdminId == AdminId).LastOrDefault();
+                        
                         _context.SaveChanges();
 
                         // After successful creation of new Activity redirect to that Activity's specific page.
@@ -103,13 +104,13 @@ namespace FinalProject.Controllers
             Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
             ViewBag.OneActivity = OneActivity;
 
-            // Send LoggedUserId to View to be compared to AdminId to see if user is granted admin abilities (ability to delete event).
+            // Check (on frontend) if user is admin(ability to delete event).
             int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
             ViewBag.LoggedUserId = LoggedUserId;
 
-            // Get User info to display and to determine whether or not the user is attending the activity and which button (Leave or Join) to display.
-            var AccountInfo = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("LoggedUserId")).SingleOrDefault();
-            ViewBag.AccountInfo = AccountInfo;
+            // Get subscription in order to check if Current User is attending and whether  to display Leave/Join button.
+            List<Subscription> OneSubscription = _context.Subscriptions.Where(s => s.ActivityId == ActivityId && s.UserId == LoggedUserId).ToList();
+            ViewBag.OneSubscription = OneSubscription;
 
             return View("ActivityDetails");
         }
@@ -122,23 +123,23 @@ namespace FinalProject.Controllers
         {
             // Get UserId to add Subscription table to Join activity.
             int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
-            
+
             Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
             ViewBag.OneActivity = OneActivity;
 
-            // Get subscription in order to display in ActivityDetails View.
-            List<Subscription> OneSubscription = _context.Subscriptions.Where(s => s.ActivityId == ActivityId && s.GuestId == LoggedUserId).ToList();
+            // Get subscription in order to display in ActivityDetails View
+            List<Subscription> OneSubscription = _context.Subscriptions.Where(s => s.ActivityId == ActivityId && s.UserId == LoggedUserId).ToList();
 
-                if(OneSubscription.Count > 0)
-                {
-                    return RedirectToAction("Account", "User");
-                }
+            if (OneSubscription.Count > 0)
+            {
+                return RedirectToAction("Account", "User");
+            }
 
 
 
             Subscription NewSubscription = new Subscription
             {
-                GuestId = (int)LoggedUserId,
+                UserId = (int)LoggedUserId,
                 ActivityId = OneActivity.ActivityId,
             };
             _context.Subscriptions.Add(NewSubscription);
@@ -161,7 +162,7 @@ namespace FinalProject.Controllers
             int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
 
             // Query to get the subscription for the guest to be dropped from DB.
-            Subscription CurrentSubscription = _context.Subscriptions.FirstOrDefault(s => s.GuestId == LoggedUserId);
+            Subscription CurrentSubscription = _context.Subscriptions.FirstOrDefault(s => s.UserId == LoggedUserId);
 
             _context.Subscriptions.Remove(CurrentSubscription);
             _context.SaveChanges();

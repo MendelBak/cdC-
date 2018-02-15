@@ -95,20 +95,20 @@ namespace FinalProject.Controllers
             }
         }
 
-
+        // Shows details of a specific activity.
         [HttpGet]
         [Route("ActivityDetails/{ActivityId}")]
         public IActionResult ActivityDetails(int ActivityId)
         {
             // Get Activity in order to display in ActivityDetails View.
-            Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).SingleOrDefault();
+            Activity OneActivity = _context.Activities.Where(w => w.ActivityId == ActivityId).Include(g => g.Guests).ThenInclude(u => u.User).SingleOrDefault();
             ViewBag.OneActivity = OneActivity;
 
             // Check (on frontend) if user is admin(ability to delete event).
             int? LoggedUserId = HttpContext.Session.GetInt32("LoggedUserId");
             ViewBag.LoggedUserId = LoggedUserId;
 
-            // Get subscription in order to check if Current User is attending and whether  to display Leave/Join button.
+            // Get subscription in order to check if Current User is attending and whether to display Leave/Join button.
             List<Subscription> OneSubscription = _context.Subscriptions.Where(s => s.ActivityId == ActivityId && s.UserId == LoggedUserId).ToList();
             ViewBag.OneSubscription = OneSubscription;
 

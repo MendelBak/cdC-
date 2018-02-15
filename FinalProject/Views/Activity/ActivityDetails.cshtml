@@ -10,21 +10,21 @@
 
 <!-- Iterate through the Guest List to display guest names and also to check if Current User is attending.-->
 @{
-  bool RSVP = false;
-  foreach(var user in @ViewBag.OneSubscription)
-  {
-    // If current user is attending the event, change RSVP boolean to true.
-    if (@ViewBag.LoggedUserId == @user.UserId)
+    bool RSVP = false;
+    foreach(var user in @ViewBag.OneSubscription)
     {
-        RSVP = true;
+        // If current user is attending the event, change RSVP boolean to true.
+        if (@ViewBag.LoggedUserId == @user.UserId)
+        {
+            RSVP = true;
+        }
     }
-  }
 
-  foreach (var attendingUser in @ViewBag.OneActivity.Guests)
-  {
     // Print each guest name
-    <p>ID # @attendingUser.UserId</p>
-  }
+    foreach (var attendingUser in @ViewBag.OneActivity.Guests)
+    {
+        <p>@attendingUser.User.FirstName</p>
+    }
     
 
   <!-- // If user is not yet attending activity, allow him to join. -->

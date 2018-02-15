@@ -34,7 +34,6 @@ namespace FinalProject.Models
 
 
         [Required]
-        [MinLength(10)]
         public string Description { get; set; }
 
 

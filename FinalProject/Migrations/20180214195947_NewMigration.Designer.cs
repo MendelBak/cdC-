@@ -8,8 +8,8 @@ using FinalProject.Models;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(BeltExamContext))]
-    [Migration("20180213232356_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20180214195947_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,9 +54,7 @@ namespace FinalProject.Migrations
 
                     b.Property<int>("ActivityId");
 
-                    b.Property<int>("GuestId");
-
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("SubscriptionId");
 
@@ -106,7 +104,8 @@ namespace FinalProject.Migrations
 
                     b.HasOne("FinalProject.Models.User", "User")
                         .WithMany("EventsAttending")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

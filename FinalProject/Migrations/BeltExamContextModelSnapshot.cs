@@ -53,9 +53,7 @@ namespace FinalProject.Migrations
 
                     b.Property<int>("ActivityId");
 
-                    b.Property<int>("GuestId");
-
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("SubscriptionId");
 
@@ -105,7 +103,8 @@ namespace FinalProject.Migrations
 
                     b.HasOne("FinalProject.Models.User", "User")
                         .WithMany("EventsAttending")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

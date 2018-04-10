@@ -82,10 +82,8 @@ namespace basic13
             // Create list which will be converted to an array later, since arrays must be hardcoded in regards to their length.
             List<int> myList = new List<int>();
 
-            for(int i = 1; i < 256; i++) {
-                if(i % 2 != 0) {
+            for(int i = 1; i < 256; i+=2) {
                     myList.Add(i);
-                }
             }
             int[] myArr = myList.ToArray();
             foreach(int x in myArr) {

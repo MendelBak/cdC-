@@ -171,13 +171,13 @@ namespace basic13
         public static void numberToString(object[] myArr) {
             for(int i = 0; i < myArr.Length; i++) 
             {
-                if((int)myArr[i] < 0) 
+                if(myArr[i] is int)
                 {
-                    myArr[i] = "Dojo";
+                    if((int)myArr[i] < 0) 
+                    {
+                        myArr[i] = "Dojo";
+                    }
                 }
-            }
-            foreach(object x in myArr) 
-            {
                 System.Console.WriteLine(x);
             }
         }

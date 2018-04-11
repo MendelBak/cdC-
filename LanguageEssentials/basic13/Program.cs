@@ -178,7 +178,7 @@ namespace basic13
                         myArr[i] = "Dojo";
                     }
                 }
-                System.Console.WriteLine(x);
+                System.Console.WriteLine(i);
             }
         }
 
@@ -240,12 +240,6 @@ namespace basic13
 
             // Negative number to String: Function Call.
             numberToString(new object[] {1, 3, -5, -2, 7, 13});
-
-
-
-
-
-
 
         }
 

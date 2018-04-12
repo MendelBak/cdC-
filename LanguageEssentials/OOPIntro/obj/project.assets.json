@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
       "Microsoft.NETCore.App/2.0.0": {
@@ -194,7 +194,7 @@
           "lib/netstandard1.0/_._": {}
         },
         "build": {
-          "build/NETStandard.Library.targets": {}
+          "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       }
     }
@@ -664,26 +664,41 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mendel\\.nuget\\packages\\": {}
+    "C:\\Users\\Mendel\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\OOPIntro.csproj",
+      "projectUniqueName": "C:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\OOPIntro.csproj",
       "projectName": "OOPIntro",
-      "projectPath": "c:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\OOPIntro.csproj",
-      "outputPath": "c:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\obj\\",
+      "projectPath": "C:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\OOPIntro.csproj",
+      "packagesPath": "C:\\Users\\Mendel\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Mendel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
-      "files": {
-        "lib/netcoreapp2.0/OOPIntro.dll": "c:\\Users\\Mendel\\Desktop\\Coding Dojo\\DojoAssignments\\cdCSharp\\LanguageEssentials\\OOPIntro\\bin\\placeholder\\netcoreapp2.0\\OOPIntro.dll"
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {}
         }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
       }
     },
     "frameworks": {
@@ -691,9 +706,15 @@
         "dependencies": {
           "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "2.0"
+            "version": "[2.0.0, )",
+            "autoReferenced": true
           }
-        }
+        },
+        "imports": [
+          "net461"
+        ],
+        "assetTargetFallback": true,
+        "warn": true
       }
     }
   }

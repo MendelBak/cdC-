@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+
+class MainClass 
+{
+  public static void Main (string[] args) 
+  {
+    boxingUnboxing();
+  }
+  
+  public static void boxingUnboxing()
+  {
+    List<object> myList = new List<object>();
+    myList.Add(7);
+    myList.Add(-3);
+    myList.Add(null);
+    myList.Add("Moshiach");
+    myList.Add(true);
+    
+    int sum = 0;
+    foreach(var item in myList)
+    {
+      if(item is int)
+      {
+        sum += (int)item;
+      }
+      // Console.WriteLine(item);
+    }
+    Console.WriteLine(sum);
+  }
+  
+  
+  
+}

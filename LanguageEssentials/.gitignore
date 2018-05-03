@@ -2,7 +2,6 @@ Debug/
 **/Debug
 obj/
 **obj
-**/obj
 bin/
 **/bin
 .vscode/

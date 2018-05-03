@@ -17,6 +17,6 @@ namespace callingCard.Controllers
                 favoriteColor = favoriteColor
             };
             return Json(anonObject);
-        }
+        } 
     }
 }

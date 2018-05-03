@@ -1,9 +1,7 @@
 Debug/
-**/Debug
+**Debug
 obj/
 **obj
-**/obj
 bin/
-**/bin
+**bin
 .vscode/
-**/.vscode

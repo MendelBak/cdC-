@@ -45,7 +45,7 @@ namespace randomPasscode.Controllers
                 attempts = HttpContext.Session.GetInt32("attemptNum")
             };
 
-            // Convert anonymous object to a JSON object and return it to the view that calld it (Index).
+            // Convert anonymous object to a JSON object and return it to the view that called it (Index).
             return Json(result);
         }
         

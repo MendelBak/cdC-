@@ -44,7 +44,7 @@ namespace dojodachi.Controllers
 
         [HttpGet]
         [Route("Feed")]
-        public IActionResult Feed()
+        public JsonResult Feed()
         {
             // Retrieve dachi
             dachi myDachi = HttpContext.Session.GetObjectFromJson<dachi>("DachiData");
@@ -54,7 +54,7 @@ namespace dojodachi.Controllers
             {
                 myDachi.actionMessage = "You cannot feed your Dachi. You have no meals left!";
                 HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-                return RedirectToAction("Index");
+                return Json(myDachi);
             }
 
             // 1/4th chance that Dachi won't like the meal
@@ -63,7 +63,7 @@ namespace dojodachi.Controllers
                 myDachi.meals -= 1;
                 myDachi.actionMessage = "Oh no! Your Dachi didn't like the meal you served.";
                 HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-                return RedirectToAction("Index");
+                return Json(myDachi);
             }
 
             // Manipulate dachi values
@@ -77,12 +77,12 @@ namespace dojodachi.Controllers
 
             // Send dachi to front end
             ViewBag.DachiData = myDachi;
-            return RedirectToAction("Index");
+            return Json(myDachi);
         }
 
         [HttpGet]
         [Route("Play")]
-        public IActionResult Play()
+        public JsonResult Play()
         {
             // Retrieve dachi
             dachi myDachi = HttpContext.Session.GetObjectFromJson<dachi>("DachiData");
@@ -92,7 +92,7 @@ namespace dojodachi.Controllers
             {
                 myDachi.actionMessage = "You can't play with your Dachi. Your energy is too low!";
                 HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-                return RedirectToAction("Index");
+                return Json(myDachi);
             }
 
             // 1/4 chance that the Dachi won't want to play
@@ -101,7 +101,7 @@ namespace dojodachi.Controllers
                 myDachi.energy -= 5;
                 myDachi.actionMessage = "Your Dachi doesn't want to play right now...";
                 HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-                return RedirectToAction("Index");
+                return Json(myDachi);
             }
 
             // Manipulate Dachi values
@@ -114,12 +114,12 @@ namespace dojodachi.Controllers
             HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
 
             // Send dachi to front end
-            return RedirectToAction("Index");
+            return Json(myDachi);
         }
 
         [HttpGet]
         [Route("Work")]
-        public IActionResult Work()
+        public JsonResult Work()
         {
             // Retrieve dachi
             dachi myDachi = HttpContext.Session.GetObjectFromJson<dachi>("DachiData");
@@ -128,7 +128,7 @@ namespace dojodachi.Controllers
             {
                 myDachi.actionMessage = "Your Dachi is too tired to work...";
                 HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-                return RedirectToAction("Index");
+                return Json(myDachi);
             }
 
             int mealsGained = rand.Next(1,4);
@@ -136,12 +136,12 @@ namespace dojodachi.Controllers
             myDachi.energy -= 5;
             myDachi.actionMessage = $"Your Dachi worked really hard and earned {mealsGained} Meals!";
             HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-            return RedirectToAction("Index");
+            return Json(myDachi);
         }
 
         [HttpGet]
         [Route("Sleep")]
-        public IActionResult Sleep()
+        public JsonResult Sleep()
         {
             dachi myDachi = HttpContext.Session.GetObjectFromJson<dachi>("DachiData");
 
@@ -149,14 +149,14 @@ namespace dojodachi.Controllers
             {
                 myDachi.actionMessage = "You cannot go to sleep with a hungry or a sad Dachi!";
                 HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-                return RedirectToAction("Index");
+                return Json(myDachi);
             }
             myDachi.happiness -= 5;
             myDachi.fullness -= 5;
             myDachi.energy += 15;
             myDachi.actionMessage = "Your Dachi took a nap and gained 15 Energy!";
             HttpContext.Session.SetObjectAsJson("DachiData", myDachi);
-            return RedirectToAction("Index");
+            return Json(myDachi);
         }
 
         [HttpGet]
@@ -168,10 +168,9 @@ namespace dojodachi.Controllers
         }
 
 
-
-
-
     }
+
+    // This extension enables Session to hold objects instead of just ints and strings.
     public static class SessionExtensions
     {
         // We can call ".SetObjectAsJson" just like our other session set methods, by passing a key and a value

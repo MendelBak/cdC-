@@ -5,25 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="~/wwwroot/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Dojodachi</title>
 </head>
 <body>
     <div>
         <div id="header">
-            <span id="totalFullness">Fullness: @ViewBag.myDachi.fullness</span>
-            <span id="totalHappiness">Happiness: @ViewBag.myDachi.happiness </span>
-            <span id="totalMeals">Meals: @ViewBag.myDachi.meals</span>
-            <span id="totalEnergy">Energy: @ViewBag.myDachi.energy</span>
+            <span id="totalFullness"></span>
+            <span id="totalHappiness"></span>
+            <span id="totalMeals"></span>
+            <span id="totalEnergy"></span>
         </div>
         <div id="main">
             <img src="~/wwwroot/img/tamagatchi.jpg" alt="">
             <p id="actionMessage">@ViewBag.myDachi.actionMessage</p>
         </div>
+        <script>
+            $(document).ready(function(){
+                $("#feed").click(function(){
+                    $.get("/Feed", function(res){
+                        $("#totalFullness").text(`Fullness: ${res.fullness}`)
+                        $("#totalHappiness").text(`Happiness: ${res.happiness}`)
+                        $("#totalMeals").text(`Meals: ${res.meals}`)
+                        $("#totalEnergy").text(`Energy: ${res.energy}`)
+                        $("#actionMessage").text(res.actionMessage)
+                    });
+                });
+                $("#play").click(function(){
+                    $.get("/Play", function(res){
+                        $("#totalFullness").text(`Fullness: ${res.fullness}`)
+                        $("#totalHappiness").text(`Happiness: ${res.happiness}`)
+                        $("#totalMeals").text(`Meals: ${res.meals}`)
+                        $("#totalEnergy").text(`Energy: ${res.energy}`)
+                        $("#actionMessage").text(res.actionMessage)
+                    });
+                });
+                $("#work").click(function(){
+                    $.get("/Work", function(res){
+                        $("#totalFullness").text(`Fullness: ${res.fullness}`)
+                        $("#totalHappiness").text(`Happiness: ${res.happiness}`)
+                        $("#totalMeals").text(`Meals: ${res.meals}`)
+                        $("#totalEnergy").text(`Energy: ${res.energy}`)
+                        $("#actionMessage").text(res.actionMessage)
+                    });
+                });
+                $("#sleep").click(function(){
+                    $.get("/Sleep", function(res){
+                        $("#totalFullness").text(`Fullness: ${res.fullness}`)
+                        $("#totalHappiness").text(`Happiness: ${res.happiness}`)
+                        $("#totalMeals").text(`Meals: ${res.meals}`)
+                        $("#totalEnergy").text(`Energy: ${res.energy}`)
+                        $("#actionMessage").text(res.actionMessage)
+                    });
+                });
+
+            });
+        </script>
         <div>
-            <button onclick="window.location.href='/Feed'" id="feed">Feed</button>
-            <button onclick="window.location.href='/Play'" id="play">Play</button>
-            <button onclick="window.location.href='/Work'" id="work">Work</button>
-            <button onclick="window.location.href='/Sleep'" id="sleep">Sleep</button>
+            <button id="feed">Feed</button>
+            <button id="play">Play</button>
+            <button id="work">Work</button>
+            <button id="sleep">Sleep</button>
         </div>
         @{
             if(ViewBag.myDachi.winStatus == true || ViewBag.myDachi.loseStatus == true)

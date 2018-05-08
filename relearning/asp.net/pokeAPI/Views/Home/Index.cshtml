@@ -1,0 +1,21 @@
+﻿<div>
+    <p>Name: @ViewBag.PokeInfo["name"]</p>
+    <img src="@ViewBag.PokeInfo["sprites"]["front_default"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["back_default"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["front_female"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["front_shiny_female"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["back_shiny"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["front_shiny"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["shiny_female"]" alt="">
+    <img src="@ViewBag.PokeInfo["sprites"]["back_shiny_female"]" alt="">
+    <p>Weight: @ViewBag.PokeInfo["weight"]</p>
+    <p>Height: @ViewBag.PokeInfo["height"]</p>
+    <p>Base Stats: @ViewBag.PokeInfo["stats"][0]["base_stat"]</p>
+    <p>@ViewBag.PokeInfo["moves"]</p>
+    <p>@ViewBag.PokeInfo["held_items"]</p>
+    <p>@ViewBag.PokeInfo["species"]["name"]</p>
+    <p>ID: @ViewBag.PokeInfo["id"]</p>
+    <p>Abilities: @ViewBag.PokeInfo["abilities"][0]["ability"]["name"]</p>
+</div>
+
+<button onclick="window.location.href='/GetPokemonDataAsync'">Get your </button>

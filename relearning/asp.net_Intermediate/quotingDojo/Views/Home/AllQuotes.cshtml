@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Quotes</title>
+</head>
+<body>
+    <h1>Here Are All The Quotes</h1>
+    @{
+        foreach (var quote in ViewBag.allQuotes)
+        {
+            <p style="margin-left: 25px;">@quote["quote"]</p>
+            <p style="margin-left: 75px;">-@quote["author"] at @quote["created_at"]</p>
+            <hr>
+        }
+    }
+</body>
+</html>

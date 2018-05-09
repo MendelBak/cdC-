@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form Submission</title>
+</head>
+<body>
+    <h2>Enter Your Information. We promise to NEVER missuse it... Lol</h2>
+    <form action="FormSubmit" method="POST">
+        <input type="text" name="firstName" placeholder="First Name">
+        <br>
+        <input type="text" name="lastName" placeholder="Last Name">
+        <br>
+        <input type="text" name="age" placeholder="How Old Are You?">
+        <br>
+        <input type="text" name="email" placeholder="Email Address">
+        <br>
+        <input type="text" name="password" placeholder="Password">
+        <br>
+        <button type="submit" >Submit</button>
+    </form>
+    <div>
+    @{
+        foreach(var error in ViewBag.errors)
+        {
+            //If there are any errors for a field...
+            if(@error.Errors.Count > 0)
+            {
+                // We show the first error for that field
+                <p>@error.Errors[0].ErrorMessage</p>
+            }
+        }
+    }
+</div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿@model loginReg.Models.User
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Registration</title>
+</head>
+<body>
+    <h1>index.html</h1>
+    <form asp-controller="Home" asp-action="FormSubmit" method="POST">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" placeholder="First Name">
+        <span asp-validation-for="FirstName"></span>
+        <br>
+
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" placeholder="Last Name">
+        <span asp-validation-for="LastName"></span>
+
+        <br>
+
+        <label asp-for="Email"></label>
+        <input asp-for="Email" placeholder="Email">
+        <span asp-validation-for="Email"></span>
+
+        <br>
+
+        <label asp-for="Password"></label>
+        <input asp-for="Password" placeholder="Password">
+        <span asp-validation-for="Password"></span>
+
+        <br>
+
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" placeholder="Confirm Password">
+        <span asp-validation-for="ConfirmPassword"></span>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

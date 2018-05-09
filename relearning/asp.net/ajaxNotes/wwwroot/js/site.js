@@ -4,7 +4,6 @@ $(document).ready(function () {
     $(".editNote").click(function () {
         // Only display one form at a time
         if ($("#UpdateNote").css("display") === "none") {
-            console.log($("#UpdateNote").css("display"));
             $(this).hide()
             $("#UpdateNote").show();
         }
@@ -17,7 +16,9 @@ $(document).ready(function () {
     });
 
     // If updateNoteButton button is clicked make AJAX GET call to refresh values
-    $("#updateNoteButton").click(function(){
-        $.get("/UpdateNote/@note["id"]"),
-    });
+    // $("#updateNoteButton").click(function(){
+    //     $.get("/UpdateNote/@note['id']", function(res){
+    //         $(".editNote").append(res.title)
+    //     });
+    // });
 });

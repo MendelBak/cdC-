@@ -31,12 +31,14 @@ namespace ajaxNotes.Controllers
 
         [HttpPost]
         [Route("UpdateNote/{id}")]
-        public IActionResult UpdateNote(string title, string description, int id)
+        public JsonResult UpdateNote(string title, string description, int id)
         {
             string SqlTitle = "'" + title.Trim() + "'";
             string SqlDesc = "'" + description.Trim() + "'";
             DbConnector.Execute($"UPDATE notes SET title = {SqlTitle}, description = {SqlDesc} WHERE id = {id}");
-            return RedirectToAction("Index");
+
+            var AllNotes = DbConnector.Query("SELECT * FROM notes");
+            return Json(AllNotes);
         }
 
         [HttpGet]

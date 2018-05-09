@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="~/js/site.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h2>Ajax Notes</h2>
+    <hr>
+
+    @{
+        foreach (var note in @ViewBag.AllNotes)
+        {
+            <div class="editNote">
+                <p>Author: @note["author"]</p>
+                <p>Title: @note["title"]</p>
+                <p >Description: @note["description"]</p>
+                <p>Created At: @note["created_at"].ToString("MM/dd/yyy  HH:mm")</p>
+                <p>Updated At: @note["updated_at"].ToString("MM/dd/yyy  HH:mm")</p>
+                <a href="/Delete/@note["id"]">Delete This Note</a>
+                <hr>
+            </div>
+
+            <form action="UpdateNote/@note["id"]" method="POST" id="UpdateNote" style="display:none">
+                <h3>Edit Your Note</h3>
+                <label>New Title
+                    <input type="text" name="title" value="@note["title"]">
+                </label>
+                <br><br>
+                <label>New Description 
+                    <br>
+                    <textarea name="description" cols="30" rows="10">@note["description"]</textarea>
+                </label>
+                <br><br>
+                <button id="updateNoteButton">Update Note</button>
+                <hr>                            
+            </form>
+        }
+    }
+
+    <button id="allowNewNote">Add A New Note!</button>
+
+    
+
+    <form action="NewNote" method="POST" id="NewNote" style="display:none">
+        <label>Author
+            <br>
+            <input type="text" name="author" placeholder="Author Name" >
+        </label>
+        <br><br>
+        <label>Title
+            <br>
+            <input type="text" name="title" placeholder="Title goes here">
+        </label>
+        <br><br>
+        <label>Description 
+            <br>
+            <textarea name="description" placeholder="Write your note here" cols="30" rows="10"></textarea>
+        </label>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

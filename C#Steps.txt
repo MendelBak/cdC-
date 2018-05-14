@@ -1,6 +1,6 @@
 STEPS FOR C SHARP!
 
-dotnet new web // starts a new ASP.NET Core MVC app
+dotnet new mvc // starts a new ASP.NET Core MVC app
 
 // In Program.cs* //
 using System;

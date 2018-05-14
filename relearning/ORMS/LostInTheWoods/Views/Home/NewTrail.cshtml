@@ -1,0 +1,53 @@
+@model LostInTheWoods.Models.Trails
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Trail Page</title>
+</head>
+<body>
+    <h1>Add A New Trail</h1>
+    <form asp-controller="Home" asp-action="AddTrail" class="form-group" method="post">
+
+        <label asp-for="Name"></label>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Trail Name">
+        <span asp-validation-for="Name"></span>
+
+        <br>
+        <br>
+
+        <label asp-for="Description"></label>
+        <input type="text" asp-for="Description" class="form-control" placeholder="Description">
+        <span asp-validation-for="Description"></span>
+
+        <br>
+        <br>
+
+        <label asp-for="Length"></label>
+        <input type="number" asp-for="Length" class="form-control" placeholder="Trail Length">
+        <span asp-validation-for="Length"></span>
+        <br>
+        <br>
+
+        <label asp-for="ElevChange"></label>
+        <input type="number" asp-for="ElevChange" class="form-control" placeholder="Elevation Change">
+        <span asp-validation-for="ElevChange"></span>
+        <br>
+        <br>
+
+        <label> Latitude and Longitude</label>
+        <input type="double" asp-for="Latitude" class="form-control" placeholder="Latitude">
+        <span asp-validation-for="Latitude"></span>
+        <input type="double" asp-for="Longitude" class="form-control" placeholder="Longitude">
+        <span asp-validation-for="Longitude"></span>
+
+        <br><br>
+
+        <button type="submit" class="btn btn-primary">Add New Trail</button>
+        <a href="/" class="btn btn-primary">Go Home</a>
+    </form>
+</body>
+</html>

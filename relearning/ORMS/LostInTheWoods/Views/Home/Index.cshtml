@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lost In The Woods</title>
+</head>
+<body>
+    <h1>Lost In The Woods</h1>
+    <h3>List of Hiking Trails</h3>
+    <table class="table">
+        <thead>
+            <th>Trail Name</th>
+            <th>Trail Length</th>
+            <th>Elevation Change</th>
+        </thead>
+        <tbody>
+            @{
+                foreach (var trail in ViewBag.AllTrails)
+                {
+                    <tr>
+                        <td><a href="ViewTrail/@trail.Id">@trail.Name</a></td>
+                        <td>@trail.Length</td>
+                        <td>@trail.ElevChange</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <a href="NewTrail" class="btn btn-primary">Add A Trail</a>
+
+</body>
+</html>

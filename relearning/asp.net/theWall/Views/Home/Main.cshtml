@@ -1,0 +1,72 @@
+﻿@model theWall.Models.MessageAndCommentViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The Wall</title>
+</head>
+
+<body>
+    @Html.Partial("Navbar.cshtml")
+    <form asp-controller="Home" asp-action="NewPost" method="post">
+        <label asp-for="MessageViewModel.Message"></label>
+        <br>
+        <textarea asp-for="MessageViewModel.Message" cols="30" rows="10"></textarea>
+        <span asp-validation-for="MessageViewModel.Message"></span>
+
+        <br>
+
+        <button type="submit">Post A Message</button>
+    </form>
+    <span>@TempData["MessageConfirm"]</span>
+    <span>@TempData["CommentConfirm"]</span>
+
+    @{ foreach (var message in ViewBag.AllMessages) 
+        { if(@message.Count > 0) 
+            {
+            <div style="border: 1px black solid; width: 400px; margin: 25px auto;">
+                <h4 style="margin: 5px;">Your Message</h4>
+                <hr>
+                <p>@message["message"]</p>
+                <p>User #@message["users_id"] at @message["created_at"]</p>
+                <hr> 
+
+                @{
+                    int MessageId = @message["id"]; int MessagePosterId = @message["users_id"];
+                }
+
+                <h4>Comments</h4>
+                <hr> 
+
+                @foreach (var comment in ViewBag.AllComments) 
+                    { if(@comment.Count > 0 && @comment["messages_id"] == @message["id"])
+                        {
+                        <div style="border: 0.5px black solid; width: 250px; margin: 5px auto;">
+                            <p>@comment["comment"]</p>
+                        </div>
+                        } 
+                    }
+
+                    <form asp-controller="Home" asp-action="NewComment" method="post">
+                        <input type="hidden" value="@MessageId" name="MessageId">
+                        <input type="hidden" value="@MessagePosterId" name="MessagePosterId">
+
+                        <label asp-for="CommentViewModel.Comment"></label>
+                        <input type="text" asp-for="CommentViewModel.Comment" placeholder="Comment here">
+                        <span asp-validation-for="CommentViewModel.Comment"></span>
+                        <br>
+                        <button type="submit">Comment</button>
+                    </form>
+            </div>
+
+            } 
+        } 
+    }
+
+</body>
+
+</html>

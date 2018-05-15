@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Reviews</title>
+</head>
+<body>
+    <h1>Reviews.cshtml</h1>
+    @{
+        foreach (var review in ViewBag.AllReviews)
+        {
+            <p>Reviewer Name: @review.ReviewerName</p>
+            <p>Restaurant: @review.RestaurantName</p>
+            <p>Date Of Visit: @review.DateOfVisit</p>
+            <p>Submitted On: @review.CreatedAt</p>
+            <p>Review: @review.Review</p>
+            <p>Review Rating: @review.Helpful</p>
+
+            <p>Was this review helpful?
+                <a asp-controller="Home" asp-action="HelpfulReview" asp-route-id="@review.Id" asp-route-response="true">Yes</a>
+                |
+                <a asp-controller="Home" asp-action="HelpfulReview" asp-route-id="@review.Id" asp-route-response="false" >No</a>
+            </p>
+            <span>@ViewBag.HelpfulReviewResponse</span>
+            <hr style="border: black 0.5px dotted">
+        }
+    }
+</body>
+</html>

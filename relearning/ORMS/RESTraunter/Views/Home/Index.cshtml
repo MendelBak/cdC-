@@ -1,0 +1,54 @@
+﻿@model RESTraunter.Models.ReviewViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Write a Review</h1>
+
+    <form asp-controller="Home" asp-action="SubmitReview" method="post" class="form-group">
+        <label asp-for="ReviewerName"></label>
+        <input asp-for="ReviewerName" class="form-control">
+        <span asp-validation-for="ReviewerName"></span>
+
+        <br><br>
+        
+        <label asp-for="RestaurantName"></label>
+        <input asp-for="RestaurantName" class="form-control">
+        <span asp-validation-for="RestaurantName"></span>
+
+        <br><br>
+
+        <label asp-for="Review"></label>
+        <input asp-for="Review" class="form-control">
+        <span asp-validation-for="Review"></span>
+
+        <br><br>
+
+        <label asp-for="Stars"></label>
+        <select asp-for="Stars" class="form-control">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        
+        <br><b>
+
+        <label for="DateOfVisit"></label>
+        <input asp-for="DateOfVisit" type="date" class="form-control">
+        <span asp-validation-for="DateOfVisit"></span>
+
+        <br><br>
+
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+        <a href="Reviews">See All Reviews</a>
+    </form>
+</body>
+</html>

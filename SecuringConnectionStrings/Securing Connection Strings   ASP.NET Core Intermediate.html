@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Securing Connection Strings | ASP.NET Core Intermediate</title>
+    <link href="http://learn.codingdojo.com/assets/black_ninja-db2fe4f1051012ab89c235cc9bf3cd5a.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <link href="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/chapter_modules_layout-474356936341af8b3fe4ecd96b05c773.css" media="all" rel="stylesheet">
+    <link href="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/modules_layout-b55a981b5e7bcfee89d6f5bcaf7cb362.css" media="all" rel="stylesheet">
+
+
+    <script type="text/javascript" id="www-widgetapi-script" src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/www-widgetapi.js" async=""></script><script id="iframe-demo" src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/iframe_api"></script><script async="" src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/analytics.js"></script><script src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/chapter_modules_scripts-70dc99a404e8fbaa01fd82dd5ae76baa.js"></script><style></style>
+    <script src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/modules_scripts-62b2a6b8e056024dd43b15819a680f18.js"></script>
+
+    <meta content="authenticity_token" name="csrf-param">
+<meta content="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" name="csrf-token">
+    <script>
+//<![CDATA[
+var AUTH_TOKEN = '76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=';
+//]]>
+</script>
+    
+      <script src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/socket.js" type="text/javascript"></script>
+
+    <script src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/player.js"></script>
+
+        <!-- Google Analytics -->
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', "UA-115891107-1", 'auto');
+
+			ga('set', 'userId', 37412); 
+			
+            ga('send', 'pageview');
+        </script>
+
+    <!-- GA EVENT TRACKING -->
+    <script type="text/javascript"> 	
+		function send_ga_event(category, action, label) {
+			ga('send', 'event', category, action, label);
+		}
+    </script>
+
+    <!-- USER TRACKING -->
+	    <script type="text/javascript">
+	var on_download = false;
+	var yt_videos   = []; 
+	var params_data = get_page_subdata_params();
+	var user_session_page_id;
+
+	$(document).on('ready', function(){
+
+		var yt_count = 0;
+		$('#module_container iframe').each(function(){
+		    src = this.src;
+		    this.src = src+'?enablejsapi=1'
+		    yt_count += 1;
+
+		    $(this).attr("id", "yt_video_" + yt_count);
+		    yt_videos.push("yt_video_" + yt_count);
+		});
+
+		// USER PAGE VIEWS TRACKING
+		$.post('/create_new_session_page', params_data, function(result) {
+			user_session_page_id = result.user_session_page_id;
+
+			window.onbeforeunload = function() {
+				$.ajax({
+					url:   '/update_user_session_page',
+					type:  'POST',
+					async: false,
+					data:  {"user_session_page_id" : user_session_page_id },
+					success: function() {
+
+					}
+				});
+			}
+		}, "json");
+
+		// USER ACTIVITY TRACKING ON CHAPTER MODULES
+	
+			setTimeout(function(){
+				if ( ($('iframe').attr('src').toLowerCase().indexOf("vimeo")) != -1 ) {
+					var iframe = document.querySelector('iframe');
+				    var player = new Vimeo.Player(iframe);
+
+				    player.on('play', function() {
+				        save_activity_log(1.1, null);
+				    });
+
+				    player.on('pause', function() {
+				        save_activity_log(1.2, null);
+				    });
+				}
+			}, 1000);
+
+			$('body').on('click', '#copy-toolbar', function(){
+				save_activity_log(1.4, null);
+			});
+
+			$('body').on('click', '.show_checklist_btn', function(){
+				save_activity_log(4.1, null);
+			});
+
+			$('.module_description').on('click', 'a', function(){
+				// save_activity_log(1.3, $(this).attr("href"));
+				save_activity_log(1.3, null);
+			});
+
+			$("#start_working_modal").on("click", "#discontinue_task_btn", function(){
+				if($(this).attr("href") != "#") {
+					// save_activity_log(1.3, $(this).attr("href"));
+					save_activity_log(1.3, null);
+				}
+			});
+			
+			$("body").on("click", "#checklist_body .download_link_btn", function(){
+				if($(this).attr("href") != "#") {
+					on_download = true;
+					save_activity_log(4.2, null);
+					// save_activity_log(4.2, $(this).attr("href"));
+				}
+			});
+
+			$("body").on("click", "#checklist_body .github_link_btn", function(){
+				if($(this).attr("href") != "#") {
+					// save_activity_log(4.3, $(this).attr("href"));
+					save_activity_log(4.3, null);
+				}
+			});
+
+			$("body").on("click", "#module_container #answersheet", function(){
+				save_activity_log(2.3, null);
+			});
+    });
+
+	
+	function save_activity_log(activity_log_id, link) {
+
+
+		$.post('/create_activity_log', { 
+			activity_log_id : activity_log_id, 
+			params_data : params_data, 
+			link : link, 
+			user_session_page_id: user_session_page_id }, 
+		function(result) {
+			on_download = false;
+		}, "json");
+	}
+
+	function get_page_subdata_params() {
+		var params_data = {
+			"page_title" 	  : document.title, 
+			"page_url"   	  : window.location.pathname,
+			"page_type_id" 	  : 1,
+		}
+
+			params_data = {
+				"page_title"  	  : document.title, 
+				"page_url"    	  : window.location.pathname,
+				"track_id"	  	  : 25,
+				"course_id"	 	  : 1571,
+				"chapter_id"	  : 4786,
+				"module_id"	 	  : 31895,
+				"page_type_id" 	  : 2
+			}
+
+		return params_data;
+	}
+</script>
+
+	
+<style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
+<body>
+<script type="text/javascript">
+	var io;
+</script>
+
+<input id="activate_menu_checkbox" class="hidden" checked="checked" type="checkbox">
+
+<div id="menu_button">
+		<label for="activate_menu_checkbox" class="glyphicon glyphicon-menu-hamburger"></label>
+		<a href="http://learn.codingdojo.com/dashboard#tracks_container" class="button_text unload_link">
+			<div class="track_button">
+				Back to Tracks
+			</div>
+		</a>
+	<!-- <label label for="activate_menu_checkbox" class="glyphicon menu_indicator"></label> -->
+</div>  
+
+<div class="hidden_chapter_title">
+
+				
+				
+				<a class="chapter_title unload_link" data-chapter-module="31792" href="http://learn.codingdojo.com/m/25/4786">
+
+				<!-- -->	
+					<h3><span class="chapter-title"> 1. ASP.NET Core Intermediate </span></h3>
+					<!--  -->
+						<div class="progress_container">
+							<span class="chapter_item_progress">
+								87%
+							</span>
+						</div>
+				</a>
+				<ul class="tab_list  module-list" id="module_list_4786" data-chapter-id="4786">
+
+
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31792" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31792">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31792">
+										<h4>Generated Files</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31794" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31794">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31794">
+										<h4>Backend API Calls</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32060" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32060">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32060">
+										<h4>PokeInfo</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31795" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31795">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31795">
+										<h4>Configuring for Azure Deployment</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31796" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31796">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31796">
+										<h4>Deploying to Azure</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do  " data-module-type="to_do" data-module-id="32073" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32073">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32073">
+										<h4>Practice Deployment</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31884" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31884">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31884">
+										<h4>Connecting to a Database</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32065" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32065">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32065">
+										<h4>Quoting Dojo</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32066" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32066">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32066">
+										<h4>Ajax Notes</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab current " data-module-type="text" data-module-id="31895" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31895">
+
+									<div class="tab_label">
+										<span class="tab_icon sort_tab_icon"></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31895">
+										<h4>Securing Connection Strings</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do  " data-module-type="to_do" data-module-id="32064" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32064">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32064">
+										<h4>Movie API</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31894" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31894">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31894">
+										<h4>Deploying with a Database</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31886" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31886">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31886">
+										<h4>Models</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31887" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31887">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31887">
+										<h4>Model Validation</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32069" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32069">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32069">
+										<h4>Form Submission</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31888" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31888">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31888">
+										<h4>Advanced Razor</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32067" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32067">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32067">
+										<h4>Login and Registration</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31889" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31889">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31889">
+										<h4>ViewModels (Optional)</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31892" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31892">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31892">
+										<h4>Partials (Optional)</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32072" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32072">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32072">
+										<h4>The Wall</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do  " data-module-type="to_do" data-module-id="32076" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32076">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32076">
+										<h4>Cognitive Services (Optional)</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="32185" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32185">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32185">
+										<h4>Adv. ASP.NET Core</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31791" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31791">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31791">
+										<h4>Candyman</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+								<li class="survey completed_tab " data-module-type="survey" data-module-id="" data-chapter-id="4786" data-is-duplicate="0" data-program-type="">
+									<a id="chapter_survey_link" class="tab_title unload_link" href="javascript:void(0);">
+										<div class="tab_label">
+											<i class="fa fa-pencil-square sort_tab_icon ui-sortable-handle" aria-hidden="true"></i>
+										</div>
+										<span class="tab_details" id="">
+											<h4>Chapter Survey</h4>
+										</span>
+									</a>
+								</li>
+				</ul>
+			</div>
+<div id="sidebar" class="nano  has-scrollbar" style="height: 100px;">
+	
+	<ul id="chapter_list" class="nano-content  chapter-list" data-track-id="25" data-course-id="1571" tabindex="0" style="right: -17px;">
+			<li class=" active">
+
+				
+				
+				<a class="chapter_title unload_link" data-chapter-module="31792" href="http://learn.codingdojo.com/m/25/4786">
+
+				<!-- -->	
+					<h3><span class="chapter-title"> 1. ASP.NET Core Intermediate </span></h3>
+					<!--  -->
+						<div class="progress_container">
+							<span class="chapter_item_progress">
+								87%
+							</span>
+						</div>
+				</a>
+				<ul class="tab_list  module-list" id="module_list_4786" data-chapter-id="4786">
+
+
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31792" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31792">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31792">
+										<h4>Generated Files</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31794" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31794">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31794">
+										<h4>Backend API Calls</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32060" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32060">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32060">
+										<h4>PokeInfo</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab  is_ellipsis" data-module-type="text" data-module-id="31795" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body" title="" data-original-title="Configuring for Azure Deployment">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31795">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31795">
+										<h4>Configuring for Azure Deployment</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31796" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31796">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31796">
+										<h4>Deploying to Azure</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do  " data-module-type="to_do" data-module-id="32073" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32073">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32073">
+										<h4>Practice Deployment</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31884" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31884">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31884">
+										<h4>Connecting to a Database</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32065" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32065">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32065">
+										<h4>Quoting Dojo</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32066" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32066">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32066">
+										<h4>Ajax Notes</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab current " data-module-type="text" data-module-id="31895" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31895">
+
+									<div class="tab_label">
+										<span class="tab_icon sort_tab_icon"></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31895">
+										<h4>Securing Connection Strings</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do  " data-module-type="to_do" data-module-id="32064" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32064">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32064">
+										<h4>Movie API</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31894" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31894">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31894">
+										<h4>Deploying with a Database</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31886" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31886">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31886">
+										<h4>Models</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31887" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31887">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31887">
+										<h4>Model Validation</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32069" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32069">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32069">
+										<h4>Form Submission</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31888" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31888">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31888">
+										<h4>Advanced Razor</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32067" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32067">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32067">
+										<h4>Login and Registration</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31889" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31889">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31889">
+										<h4>ViewModels (Optional)</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31892" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31892">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31892">
+										<h4>Partials (Optional)</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do completed_tab " data-module-type="to_do" data-module-id="32072" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32072">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32072">
+										<h4>The Wall</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="to_do  " data-module-type="to_do" data-module-id="32076" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32076">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32076">
+										<h4>Cognitive Services (Optional)</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="32185" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/32185">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_32185">
+										<h4>Adv. ASP.NET Core</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+
+							<li class="text completed_tab " data-module-type="text" data-module-id="31791" data-chapter-id="4786" data-is-duplicate="0" data-program-type="[1,3]" data-first_module="" data-container="body">
+
+
+
+									<a class="tab_title unload_link" href="http://learn.codingdojo.com/m/25/4786/31791">
+
+									<div class="tab_label">
+										<span class="tab_icon "></span>
+									</div>
+
+									<span class="tab_details" id="quiz_id_31791">
+										<h4>Candyman</h4> <!-- % if contents["type"] == QUIZ_MODULE % -->
+									</span>
+								</a>
+							</li>							
+								<li class="survey completed_tab " data-module-type="survey" data-module-id="" data-chapter-id="4786" data-is-duplicate="0" data-program-type="">
+									<a id="chapter_survey_link" class="tab_title unload_link" href="javascript:void(0);">
+										<div class="tab_label">
+											<i class="fa fa-pencil-square sort_tab_icon ui-sortable-handle" aria-hidden="true"></i>
+										</div>
+										<span class="tab_details" id="">
+											<h4>Chapter Survey</h4>
+										</span>
+									</a>
+								</li>
+				</ul>
+			</li>
+	</ul>
+<div class="nano-pane" style="display: block;"><div class="nano-slider" style="height: 837px; transform: translate(0px, 110px);"></div></div></div>
+<nav id="main_navigation">
+	<div id="navbar">
+		<ul id="breadcrumbs" class="left_align">
+			<li>C# / .NET Core</li>
+			<li>ASP.NET</li>
+			<li id="chapter_title">ASP.NET Core Intermediate</li>
+			<li class="module_title">Securing Connection Strings 
+			</li>
+		</ul>
+		<div id="profile_block" class="pull-right">
+			<img src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/FB_IMG_1490070400279.jpg" alt="Menachem" class="profile_image">
+			<div class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<div id="user_name_block">
+						<div>
+							<span class="decor_text">Hello,  </span> 
+							<span class="user_name">Menachem B</span>
+						</div>
+					</div>
+					<span class="caret"></span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right" role="menu">
+					<div class="dropdown_content">	
+						<ul>
+							<li>
+								<a href="http://learn.codingdojo.com/dashboard">Dashboard</a>
+								<span class="glyphicon glyphicon-home pull-right" aria-hidden="true"></span>
+							</li>
+							<li>
+								<a href="http://learn.codingdojo.com/dashboard#tracks_container">Tracks</a>
+								<span class="glyphicon glyphicon-book pull-right" aria-hidden="true"></span>
+							</li>
+							<li data-target="#my_account_modal" data-toggle="modal">
+								<a href="#" class="view_user_info">My Account</a>
+								<span class="glyphicon glyphicon-user pull-right" aria-hidden="true"></span>
+							</li>
+							<li class="dropdown_buttons">
+								<a id="signout_button" class="btn btn-primary btn-lg btn-block unload_link" href="http://learn.codingdojo.com/signout">Log Out</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<section id="main_content">
+	<div class="info_container">
+	</div>
+
+    	<div id="content_navigation">
+
+		<div id="return_button" class="right_align">
+			<a href="http://learn.codingdojo.com/dashboard" class="unload_link">
+				<span class="glyphicon glyphicon-th-large"></span><span>Home</span> 
+			</a>
+			<input name="authenticity_token" value="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" current-module="31895" type="hidden"> 
+		</div>
+	</div>
+	
+	<div id="section_content">
+
+		<a href="#" data-track-id="25" data-chapter-id="4786" data-module-id="31895" class="btn btn-primary show_checklist_btn">Checklist</a>
+	<div id="assignment-metadata"></div>
+		<div class="content_block">
+			<div id="module_container">
+				<div class="module_content module_content_block">
+							
+
+								<div class="module_description active_lesson active_lesson_with_video ">
+									
+            <h1>Securing Connection Strings</h1>
+<p>Now that we are able to work with a&nbsp;MySQL&nbsp;database, it's 
+good to take a step back and think a little bit about what is going on. 
+Currently, we have the Database access string hard-coded directly into 
+our <code>DbConnector</code> class. This works&nbsp;but ends up being a 
+security flaw since our connection information is located directly in 
+our source code. If we were to push our project to GitHub&nbsp;(which we
+ often will in order to deploy) anyone who views the repo would know our
+ connection username and password, making infiltrating our database much
+ easier.&nbsp;What we need to do is move this info to a separate file 
+that our ASP.NET Core app will pull from, but isn't pushed out with the 
+rest of our code on deployment.</p>
+<h2>appsettings.json</h2>
+<p>appsettings.json is the name of the file that is going to hold our 
+sensitive information for us. Here we can list just about anything we 
+may want as a JSON object and our program will be able to make use of 
+them. As long as we include <code>appsettings.json</code> in our <code>.gitignore</code>
+ it will not be&nbsp;pushed out where others can see it. In this case, 
+we are just going to add the connection string and a name representing 
+the connection to an&nbsp;object we name "DBInfo".</p>
+<pre data-language="json" class="rainbow">{
+    <span class="string from-rainbow">"DBInfo"</span>:
+    {
+        <span class="string from-rainbow">"Name"</span>: <span class="string from-rainbow">"MySQLconnect"</span>,
+        <span class="string from-rainbow">"ConnectionString"</span>: <span class="string from-rainbow">"server=localhost;userid=root;password=root;port=8889;database=mydb;SslMode=None"</span>
+    }
+}
+</pre>
+<p>It's a good point to note here that again since the information in this file is sensitive, the file itself is also sensitive. <strong> Do not push your appsettings.json file to GitHub! </strong>
+</p>
+<p>So, we have our variables separated, we now need to tell our app to be looking for the appsetting.json file.</p>
+<p>Also, we need may need to to add two new namespaced to our list of 
+using statements in Startup.cs, depending on how we scaffolded our 
+project (<code>dotnet new mvc</code> for example, does this by default).</p>
+<pre data-language="csharp" class="rainbow">    <span class="keyword from-rainbow">using</span> Microsoft.Extensions.Configuration;
+    <span class="comment from-rainbow">// and</span>
+    <span class="keyword from-rainbow">using</span> Microsoft.AspNetCore.Hosting;
+</pre>
+<p>From there, we also need to add a constructor function to our Startup
+ that runs code to include the new appsettings.json file when the 
+program builds.</p>
+<h3>Startup.cs</h3>
+<pre data-language="csharp" class="rainbow"><span class="keyword from-rainbow">using</span> Microsoft.Extensions.Configuration;
+<span class="keyword from-rainbow">using</span> Microsoft.AspNetCore.Hosting;
+<span class="comment from-rainbow">// Other usings</span>
+ 
+<span class="comment from-rainbow">// Other code</span>
+<span class="keyword from-rainbow">public</span> IConfiguration Configuration { <span class="keyword from-rainbow">get</span>; <span class="keyword from-rainbow">private</span> <span class="keyword from-rainbow">set</span>; }
+ 
+<span class="keyword from-rainbow">public</span> Startup(IHostingEnvironment env)
+{
+    <span class="keyword from-rainbow">var</span> builder <span class="operator from-rainbow">=</span> <span class="keyword new from-rainbow">new</span> <span class="support class from-rainbow">ConfigurationBuilder</span>()
+    .SetBasePath(env.ContentRootPath)
+    .AddJsonFile(<span class="string from-rainbow">"appsettings.json"</span>, optional<span class="operator from-rainbow">:</span> <span class="constant from-rainbow">true</span>, reloadOnChange<span class="operator from-rainbow">:</span> <span class="constant from-rainbow">true</span>)
+    .AddEnvironmentVariables();
+    Configuration <span class="operator from-rainbow">=</span> builder.Build();
+}
+</pre>
+<p>Now that we have the file linked to our code we need to add the 
+"DBInfo" object as a service. This allows us to access the object in 
+other parts of our code outside of the Startup.cs file. Note, that if we
+ only need access to the info in appsettings.json in our Startup class, 
+we do not need this step.</p>
+<h3>Startup.cs</h3>
+<pre data-language="csharp" class="rainbow"><span class="keyword from-rainbow">public</span> <span class="keyword from-rainbow">void</span> ConfigureServices(IServiceCollection services)
+{
+    <span class="comment from-rainbow">// Add framework services.</span>
+    services.Configure&lt;MySqlOptions&gt;(Configuration.GetSection(<span class="string from-rainbow">"DBInfo"</span>));
+}
+</pre>
+<p>Notice we said Configure took on type "MySqlOptions". Here we are 
+making use of the Options pattern for configuration which enables using 
+custom option classes to represent a group of related settings. We need 
+to also make sure to create this option class so we have access to it 
+later. By convention we add a folder called <code>Properties</code> in the root of our project and add the <code>MySqlOptions</code> class definition inside:</p>
+<h3>Properties/MySqlOptions.cs</h3>
+<pre data-language="csharp" class="rainbow"><span class="keyword from-rainbow">namespace</span> YourNamespace
+{
+    <span class="keyword from-rainbow">public</span> <span class="storage class from-rainbow">class</span> <span class="entity name class from-rainbow">MySqlOptions</span>
+    {
+        <span class="keyword from-rainbow">public</span> <span class="keyword from-rainbow">string</span> Name { <span class="keyword from-rainbow">get</span>; <span class="keyword from-rainbow">set</span>; }
+        <span class="keyword from-rainbow">public</span> <span class="keyword from-rainbow">string</span> ConnectionString { <span class="keyword from-rainbow">get</span>; <span class="keyword from-rainbow">set</span>; }
+    }
+}
+</pre>
+<p>So with the service added there are only a few more steps left. First
+ off anything added as a service is available to us anywhere through a 
+process called <strong>dependency injection</strong> . What happens with
+ services and dependency injection is some of the magic ASP.NET Core 
+provides. Any method we call from here on out that has access to the 
+service we have added can list the service variable as a parameter then 
+have access to that service. It may seem a little confusing now, but 
+hopefully, after we access our MySqlOption service we've added it will 
+start to make sense.</p>
+<p>We can use&nbsp;dependency injection to pass our connection string from <code>appsettings.json</code> to our <code>DbConnector</code> , removing the hard-coded version we currently use. In order to take advantage of dependency injection in our <code>DbConnector</code>
+ we'll have to make some changes to the class. Static classes cannot 
+perform dependency injection, so we'll need to make the class 
+instantiable:</p>
+<pre data-language="csharp" class="rainbow"><span class="keyword from-rainbow">using</span> System.Collections.Generic;
+<span class="keyword from-rainbow">using</span> System.Data;
+<span class="keyword from-rainbow">using</span> Microsoft.Extensions.Options;
+<span class="keyword from-rainbow">using</span> MySql.Data.MySqlClient;
+ 
+<span class="keyword from-rainbow">namespace</span> YourNamespace
+{
+    <span class="keyword from-rainbow">public</span> <span class="storage class from-rainbow">class</span> <span class="entity name class from-rainbow">DbConnector</span>
+    {
+        <span class="keyword from-rainbow">private</span> <span class="keyword from-rainbow">readonly</span> IOptions&lt;MySqlOptions&gt; MySqlConfig;
+ 
+        <span class="keyword from-rainbow">public</span> DbConnector(IOptions&lt;MySqlOptions&gt; config)
+        {
+            MySqlConfig <span class="operator from-rainbow">=</span> config;
+        }
+        <span class="keyword from-rainbow">internal</span> IDbConnection Connection {
+            <span class="keyword from-rainbow">get</span> {
+                <span class="keyword from-rainbow">return</span> <span class="keyword new from-rainbow">new</span> <span class="support class from-rainbow">MySqlConnection</span>(MySqlConfig.Value.ConnectionString);
+            }
+        }
+        
+        <span class="comment from-rainbow">//This method runs a query and stores the response in a list of dictionary records</span>
+        <span class="keyword from-rainbow">public</span> List&lt;Dictionary&lt;<span class="keyword from-rainbow">string</span>, <span class="keyword from-rainbow">object</span><span class="operator from-rainbow">&gt;&gt;</span> Query(<span class="keyword from-rainbow">string</span> queryString)
+        {
+            <span class="keyword from-rainbow">using</span>(IDbConnection dbConnection <span class="operator from-rainbow">=</span> Connection)
+            {
+                <span class="keyword from-rainbow">using</span>(IDbCommand command <span class="operator from-rainbow">=</span> dbConnection.CreateCommand())
+                {
+                   command.CommandText <span class="operator from-rainbow">=</span> queryString;
+                   dbConnection.Open();
+                   <span class="keyword from-rainbow">var</span> result <span class="operator from-rainbow">=</span> <span class="keyword new from-rainbow">new</span> <span class="support class from-rainbow">List</span>&lt;Dictionary&lt;<span class="keyword from-rainbow">string</span>, <span class="keyword from-rainbow">object</span><span class="operator from-rainbow">&gt;&gt;</span>();
+                   <span class="keyword from-rainbow">using</span>(IDataReader rdr <span class="operator from-rainbow">=</span> command.ExecuteReader())
+                   {
+                      <span class="keyword from-rainbow">while</span>(rdr.Read())
+                      {
+                          <span class="keyword from-rainbow">var</span> dict <span class="operator from-rainbow">=</span> <span class="keyword new from-rainbow">new</span> <span class="support class from-rainbow">Dictionary</span>&lt;<span class="keyword from-rainbow">string</span>, <span class="keyword from-rainbow">object</span>&gt;();
+                          <span class="keyword from-rainbow">for</span>( <span class="keyword from-rainbow">int</span> i <span class="operator from-rainbow">=</span> <span class="integer from-rainbow">0</span>; i &lt; rdr.FieldCount; i<span class="operator from-rainbow">++</span> ) {
+                              dict.Add(rdr.GetName(i), rdr.GetValue(i));
+                          }
+                          result.Add(dict);
+                      }
+                   }
+                   <span class="keyword from-rainbow">return</span> result;
+                }
+            }
+        }
+        <span class="comment from-rainbow">//This method run a query and returns no values</span>
+        <span class="keyword from-rainbow">public</span> <span class="keyword from-rainbow">void</span> Execute(<span class="keyword from-rainbow">string</span> queryString)
+        {
+            <span class="keyword from-rainbow">using</span> (IDbConnection dbConnection <span class="operator from-rainbow">=</span> Connection)
+            {
+                <span class="keyword from-rainbow">using</span>(IDbCommand command <span class="operator from-rainbow">=</span> dbConnection.CreateCommand())
+                {
+                    command.CommandText <span class="operator from-rainbow">=</span> queryString;
+                    dbConnection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+}
+</pre>
+<p>Note how the <code>
+        IOptions&lt;MySqlOptions&gt; config
+    </code> &nbsp;passed to the constructor function doesn't seem to 
+come from anywhere, yet it's still something we can access. This is the 
+dependency injection for our service mentioned earlier! Simply by 
+listing our service as a method parameter ASP.NET knows to fill it in 
+and grant us access to it. You can actually configure as many services 
+as you like to make use of dependency injection. If we don't alter our 
+other existing code from here, our controller will now be throwing an 
+error since it is trying to use the <code>DbConnector</code> class 
+statically, but it is no longer a static class. We have to create an 
+instance of the class but the constructor takes one parameter for 
+construction (which we know is actually just the injected service 
+variable). We can inject the service to the controller as well and pass 
+it along, but a better approach is to make the <code>DbConnector</code> a
+ service itself then inject it into the controller. This idea of added 
+services so as to work with dependency injection better is referred to 
+as chaining!</p>
+<h3>Startup.cs</h3>
+<pre data-language="csharp" class="rainbow"><span class="keyword from-rainbow">public</span> <span class="keyword from-rainbow">void</span> ConfigureServices(IServiceCollection services)
+{
+    <span class="comment from-rainbow">// Add framework services.</span>
+    <span class="comment from-rainbow">//Added DbConnector as a service</span>
+    services.AddScoped&lt;DbConnector&gt;();
+}
+</pre>
+<p>Because <code>DbConnector</code> is no longer static we need an instance of it to perform database operations. In order to use our <code>DbConnector</code> service our controller must have a constructor that accepts it as a parameter. We add a private property that holds the <code>DbConnector</code> and set it on construction:</p>
+<h3>YourController.cs</h3>
+<pre data-language="csharp" class="rainbow"><span class="keyword from-rainbow">namespace</span> YourNamespace.Controllers
+{
+    <span class="keyword from-rainbow">public</span> <span class="keyword from-rainbow">class</span> YourController <span class="operator from-rainbow">:</span> Controller
+    {
+        <span class="keyword from-rainbow">private</span> <span class="keyword from-rainbow">readonly</span> DbConnector _dbConnector;
+ 
+        <span class="keyword from-rainbow">public</span> YourController(DbConnector connect)
+        {
+            _dbConnector <span class="operator from-rainbow">=</span> connect;
+        }
+ 
+        [HttpGet]
+        [Route(<span class="string from-rainbow">""</span>)]
+        <span class="keyword from-rainbow">public</span> IActionResult Index()
+        {
+            List&lt;Dictionary&lt;<span class="keyword from-rainbow">string</span>, <span class="keyword from-rainbow">object</span><span class="operator from-rainbow">&gt;&gt;</span> AllUsers <span class="operator from-rainbow">=</span> _dbConnector.Query(<span class="string from-rainbow">"SELECT * FROM users"</span>);
+            <span class="comment from-rainbow">// Other code</span>
+        }
+    }
+}
+</pre>
+        									
+								</div>
+
+
+
+
+						
+
+					
+					
+					<!-- Modal Inactivity Notice Modal -->
+					<div class="modal fade info_modal" id="inactivity_notice_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog" style="margin-top: 284.1px;">
+							<div class="modal-content">
+								<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+								<div class="modal_header">
+									<h4>Inactivity Notice</h4>
+									<span class="glyphicon glyphicon-question-sign notice_tooltip pull-right" data-toggle="tooltip" data-placement="right" title="" data-original-title="The system keeps track if you are active or not. We are saving the total time you spent on each topic for course improvement and student support purposes."></span>
+								</div>
+								<div class="modal_body">
+									<p>You have been idle for a long time, click the button below if you are you are still there.</p>
+									<a href="#" class="btn btn-primary continue_btn" data-dismiss="modal">CLICK TO CONTINUE</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end of Modal Inactivity Notice Modal -->
+
+					<!-- Log out from another device modal --> <!-- end of Log out from another device modal -->
+				</div>
+			</div>
+
+		</div>	
+		<div class="content_footer_block">
+			<a class="site_terms_link" data-target=".privacy_policy_modal" data-toggle="modal">Privacy Policy</a>
+			<div id="report_mistake_label_container" class="pull-right">
+				<span>To report a mistake, highlight the selection you believe is in error.</span>
+			</div>
+		</div>
+	</div>	
+
+
+	<!-- 	<div class="content_footer_block">
+			<a class="site_terms_link" data-target='.privacy_policy_modal' data-toggle='modal'>Privacy Policy</a>
+			<div id="report_mistake_label_container" class="pull-right">
+				<span>To report a mistake, highlight the selection you believe is in error.</span>
+			</div>
+		</div> -->
+
+		<!-- cts warning modal -->
+		<div class="modal fade info_modal cts_warning_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="margin-top: 284.1px;">
+				<div class="modal-content">
+					<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+					<form action="" id="cts_warning_form">
+						<div class="modal_header"><h4>Confirm Action</h4></div>
+						<div class="modal_body">
+							<p>Only <span class="time_passed"></span> had passed since you 
+started this assignment. Are you sure you want to view the Answersheet? 
+The more you code on your own, the more you become a self-sufficient 
+software engineer</p>
+							<a href="javascript:void(0);" class="btn btn-default cancel_btn" data-dismiss="modal">CANCEL</a>
+							<!-- <a href="javascript:void(0);" class="btn btn-primary submit_btn continue_btn" data-dismiss="modal">CONTINUE</a> -->
+							<input class="btn btn-primary submit_btn continue_btn" id="view_answersheets" data-dismiss="modal" value="CONTINUE" type="submit">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	 
+
+	<!-- Reported a mistake popover -->
+	<a href="#" class="hidden" id="report_mistake_popover" data-placement="bottom"></a>
+	<div class="hidden" id="report_mistake_popover_clone">
+		<span class="report_mistake_label">Report a mistake</span>
+		<form id="report_mistake_container" action="/report_mistake">
+			<h5>Report a mistake</h5>
+			<input name="chapter_module_id" value="31895" type="hidden">
+			<input name="authenticity_token" value="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" type="hidden">
+			<input name="course_id" value="1571" type="hidden">
+			<input name="chapter_id" value="4786" type="hidden">
+			<input name="track_id" value="25" type="hidden">
+			<textarea name="report_mistake_textarea" id="report_mistake_textarea" rows="5" placeholder="Tell us what's wrong"></textarea>
+			<input value="SUBMIT" class="btn btn-primary btn-block" type="submit">
+		</form>
+	</div>
+	<!-- END of Reported a mistake popover -->
+
+	<ul class="create_message_container">
+		<!-- Append the Chat here -->
+		<li class="chat_counter hidden"> 
+			<span class="glyphicon glyphicon-comment"></span> 
+			<span id="number_of_hidden_chat"></span>
+		</li>
+	</ul>
+
+	<div id="content_footer">	
+		<div class="prev_button">  
+			<a href="http://learn.codingdojo.com/m/25/4786/32066" class="btn btn-primary previous_button_link unload_link">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Previous
+			</a>
+			<!-- <span class="glyphicon glyphicon-chevron-left"></span>
+			<a href="/m/25/4786/32066" class="previous_button_link unload_link">Prev</a> -->
+		</div>
+		<a href="javascript:void(0);" class="back_button">Back to Track</a>
+		<div class="next_button pull-right">
+				<a href="http://learn.codingdojo.com/m/25/4786/32064" class="btn btn-primary next_button_link unload_link">
+					Next
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+				<!-- <a href="/m/25/4786/32064" class="next_button_link unload_link">Next</a> -->
+				<a href="http://learn.codingdojo.com/m/25/4786/32064" class="real_next_link hidden"></a>
+				<!-- <span class="glyphicon glyphicon-chevron-right"></span> -->
+		</div>
+		
+		<input id="current_module_id" name="authenticity_token" value="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" current-module="31895" course-percentage="91" track-content-id="998" type="hidden"> 
+
+		<div id="linkage" data-target="#inactivity_notice_modal" data-toggle="modal" style="display:none;"></div>
+	</div>
+	<!-- My Account Modal -->
+	  <div id="my_account_modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	      	<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+	        <div class="user_information_block">
+	          <form action="/upload_profile_pic" id="upload_profile_pic_form" class="profile_pic" enctype="multipart/form-data" method="post">
+	            <input name="authenticity_token" value="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" type="hidden">
+	            <input id="browse_pic" class="browse_profile_pic hidden" type="file">
+	              <label for="browse_pic">
+	                <span class="profile_preview">
+	                  <img src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/FB_IMG_1490070400279.jpg" alt="Menachem"> 
+	              </span>
+	              </label>
+	          </form>
+	          <ul class="list-unstyled">
+	            <li>Name: Menachem Bakaleynik</li>
+	            <li>Email: mendelbak@gmail.com</li>
+	            <li>Password: <span class="password">************</span> <span class="change_password">change password</span></li>
+	            <li>Program Type: Onsite Web Development</li>
+	            <li>Location: Chicago</li>
+	            <li>Start Date: October 16, 2017</li>
+	            <li>Access Expiration: August 2, 2018</li>
+	          </ul>
+	        </div>
+	        <form class="change_password_block">
+	          <ul class="list-unstyled">
+	            <li>
+	              <span>Old Password:</span>
+	              <input class="old_password_input match" type="password">
+	            </li>
+	            <li>
+	              <span>New Password:</span>
+	              <input class="new_password_input match" type="password">
+	            </li>
+	            <li>
+	              <span>Confirm New Password:</span>
+	              <input class="confirm_new_password_input match" type="password">
+	            </li>
+	            <li>
+	              <button type="button" class="btn btn-primary save_new_password_button">SAVE</button>
+	            </li>
+	          </ul>
+	        </form>
+	        <p class="modal-messages"></p>
+	      </div>
+	    </div>
+	  </div>    
+	<!-- end of My Account Modal  -->
+
+	<!-- Privacy Policy Modal -->
+	<div class="modal fade privacy_policy_modal" tabindex="-1" role="dialog" data-keyboard="">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+				
+				<div id="terms_of_service">
+					<div class="greetings">
+						<p id="thank_you_greeting">Thank you for taking the time to learn about our legal policies.</p>
+						<p id="greeting">Your privacy is important to us.</p>
+					</div>
+					<div class="links">
+						<p id="privacy_policy">
+							<a href="http://www.codingdojo.com/files/Privacy_Policy.pdf" target="_blank">Privacy Policy</a>
+						</p>
+						<p id="acceptable_use">
+							<a href="http://www.codingdojo.com/files/Acceptable_Use_Policy.pdf" target="_blank">Acceptable Use</a>
+						</p>
+						<p id="site_terms">
+							<a href="http://www.codingdojo.com/files/Site_Terms.pdf" target="_blank">Site Terms</a>
+						</p>
+					</div>
+					<a href="javascript:void(0)" class="btn btn-primary" id="close_button" data-dismiss="modal">CLOSE</a>
+				</div>
+			</div>
+		</div>
+	</div> 
+
+</section>
+
+<!-- Checklist -->
+<div id="checklist_backdrop"></div>
+<div id="checklist_side_container" class="simple_view">
+	<div class="loading_container hidden">
+		<span class="blob blob-0"></span>
+		<span class="blob blob-1"></span>
+		<span class="blob blob-2"></span>
+		<span class="blob blob-3"></span>
+		<span class="blob blob-4"></span>
+		<span class="blob blob-5"></span>
+	</div>
+</div>
+
+<!-- Checklist Feedback Modal -->
+<div class="modal fade" id="checklist_feedback_modal" tabindex="-1" role="dialog" aria-labelledby="">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="" id="manage_checklist_feedback_form">
+				<input name="assignment_feedback_id" value="" type="hidden">
+				<div class="modal-header">
+					<h4 class="modal-title">Feedback for <span class="assignment_name"></span> assignment.</h4>
+				</div>
+				<div class="modal-body">
+					<textarea name="feedback_description" id="feedback_textarea" class="form-control" placeholder="Type your feedback here."></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<!-- <button type="submit" class="btn btn-primary">Save</button> -->
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Clone Template -->
+<div id="clone_template_container" class="hidden">
+	<ul id="chat_item">
+		<li data-chat-id="" data-module-id="" class="active_chat chat"> 
+		    <input class="chat_checkbox" id="" checked="checked" type="checkbox"> 
+		    <div class="chat_container"> 	
+		        <div class="chat_header"> 
+		            <label for="chat_checkbox_" class="hide_chat"> 
+		                <span class="glyphicon glyphicon-comment"></span> 
+		                <span class="name"></span> 
+		                <span class="glyphicon glyphicon-triangle-bottom"></span> 
+		                <span class="glyphicon glyphicon-remove remove_chat"></span> 
+		            </label> 
+		        </div>  
+		        <div class="chat_body"> 
+		            <div class="settings"> 
+		                <span class="start_this_call glyphicon glyphicon-facetime-video" title="Video call. Click to start a video call."></span>
+		            </div> 
+		            <div class="conversation_container nano has-scrollbar"> 
+		                <ul class="nano-content" tabindex="0" style="right: -17px;"> 
+		                </ul> 
+		            <div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 20px; transform: translate(0px, 0px);"></div></div></div> 
+		            <div class="hidden_div"></div> 
+		        </div> 
+		        <form class="input_container"> 
+		            <textarea name="" class="form-control enter_message" placeholder="Send a message"></textarea> 
+		            <input type="hidden"> 
+		        </form> 
+		    </div> 
+		</li>
+	</ul>
+
+	<div id="video_walk_through">
+		<a class="how_we_did_video"> 
+	    	<div class="how_we_did_block">
+	        	<div id="video_logo"><img src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/play_button.png" alt=""></div> 
+	        	<div class="how_we_did_info"> 
+	            	<span class="title">Wanna see how we did it?</span> 
+	            	<span class="video_time_to_unlock"></span> 
+	        	</div> 
+	    	</div> 
+	     </a>
+	</div>
+
+	<ul id="question_clone">
+		<li class="question"> 
+            <img src="" alt="profile_picture" class="profile_image"> 
+            <div class="right_question_content"> 
+                <div class="question_block">
+                    <span class="name"></span> 
+                    <span class="date"></span> 
+                    <span class="glyphicon glyphicon-remove pull-right remove_question" id=""></span> 
+                    <p class="main_question"></p> 
+                    <a href="#" class="add_question_answer" id="">Add answer</a> 
+                    <span class="middle_dot">·</span>
+                    <a href="#" class="number_of_vote" data-value=""></a> 
+                    <button id="" class="vote_up vote_button" value="1"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></button> 
+                    <button id="" class="vote_down vote_button" value="-1"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button> 
+                </div>
+                <form class="list-unstyled create_answer_container" id="post_answer" action="/helps/post_answer" method="post"> 
+                    <img src="" alt="profile_picture" class="profile_image"> 
+                    <div class="create_answer_form"> 
+                        <input name="authenticity_token" value="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" type="hidden">
+                        <input class="answer_id_input" name="answer[question_id]" value="" type="hidden">
+                        <textarea class="form-control answer_value" name="answer[text_answer]" rows="2" placeholder=""></textarea>
+                        <div class="post_answer_buttons">
+                            <button class="btn btn-default cancel_post_answer">CANCEL</button>
+                            <button class="btn btn-primary post_reply_answer">ANSWER</button>
+                        </div>
+                    </div>
+                </form>
+                <ul class="list-unstyled answers_container">
+                </ul> 
+            </div>
+        </li>
+	</ul>
+
+	<ul id="answer_clone">
+		<li> 
+		    <div class="left_answers_block"> 
+		        <img src="" alt="profile_picture" class="profile_image"> 
+		    </div> 
+		    <div class="right_answers_block"> 
+		        <span class="name"></span> 
+		        <span class="date"></span> 
+		        <span class="glyphicon glyphicon-remove pull-right remove_answer" id=""></span> 
+		        <p></p> 
+		        <a href="#" class="number_of_vote" data-value=""></a> 
+		        <button id="" class="vote_up vote_button answer_vote" value="1"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></button> 
+		        <button id="" class="vote_down vote_button answer_vote" value="-1"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button> 
+		    </div> 
+		</li>
+	</ul>
+</div>
+
+<!-- Html5 Videos speed Clone -->
+<div class="hidden html5_video_speed_clone">
+	<div class="btn-group" role="group" aria-label="..."> 
+		<button type="button" class="btn btn-default reduce_video_speed"> <span class="glyphicon glyphicon-minus"></span> </button> 
+		<button type="button" class="btn btn-default current_speed">1.0</button>
+		<button type="button" class="btn btn-default add_video_speed"> <span class="glyphicon glyphicon-plus"></span> </button>
+	</div>
+</div>
+
+<div id="page_info">
+	<input value="http://learn.codingdojo.com/m/25/4786/31895" type="hidden">
+	<input value="25" type="hidden">
+	<input value="1571" type="hidden">
+	<input value="4786" type="hidden">
+	<input id="module_id_current" value="31895" type="hidden">
+	<input value="216.80.4.142" type="hidden">
+	<input value="21126" id="page_current_user" user="Menachem Bakaleynik" type="hidden">
+</div>
+
+
+
+
+
+<div class="quiz_result_details_block" id="quiz_result_details" style="display: none;">
+	<div class="quiz_result_user_image">
+		<img src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/FB_IMG_1490070400279.jpg" alt="Menachem" class="profile_image">
+	</div>
+	<div class="quiz_result_info">
+		<h3 id="user_name"></h3>
+		<p id="quiz_date"></p>
+	</div>
+	<div class="clear"></div>
+	<p class="quiz_result_score"></p>
+	<div class="quiz_result_content">
+	</div>
+</div>
+		
+
+
+<script>
+	/* for showing of checklist details in chapter module page */
+
+    var checklist_details = JSON.parse('null');
+	
+    if(checklist_details != null){
+
+        if(Object.keys(checklist_details).length > 0){
+            var days = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+            var level = ["", "Basic", "Intermediate", "Advanced", "Hacker"];
+            var details_to_append = '<ul class="list-inline information_checklist_list">';
+
+            	console.log(checklist_details)
+            $.each(checklist_details, function(index, value){
+                switch(index){
+                    case 'is_optional':
+                        status = (value == 1) ? "Optional" : "Mandatory";
+                        details_to_append += '<li>'+status+'</li>';
+                        break;
+                    case 'day':
+                        if(value && checklist_details.week != 0){
+                            details_to_append += "<li>Deadline: "+days[value]+" of Week "+checklist_details.week+"</li>"
+                        }
+                        break;
+                    case 'difficulty_level':
+                        if(value != 0 && value != null)
+                        details_to_append += "<li>Difficulty Level: "+level[value]+"</li>";
+                        break;
+                    case 'estimated_time':
+                        if(value != "" && value != null){
+                            details_to_append += "<li>Estimated Time: "+value+"</li>";
+                        }
+                        break;
+                }
+            });
+
+            details_to_append += "</ul>";  
+			$('#assignment-metadata').html(details_to_append)
+        }
+    }
+</script>
+<script type="text/javascript" src=""></script>
+
+
+
+<div class="loading_container hidden">
+	<img src="Securing%20Connection%20Strings%20%20%20ASP.NET%20Core%20Intermediate_files/loading_white.gif" alt="">
+	<div class="back_ground"></div>
+</div>
+
+
+	<!-- Modals -->
+	<!-- Delete Chapter Modal -->
+	<div class="modal fade info_modal delete_chapter_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="margin-top: 284.1px;">
+			<div class="modal-content">
+				<input name="chapter_id" value="" type="hidden">
+
+				<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+				<div class="modal_header"><h4>Delete Chapter?</h4></div>
+				<div class="modal_body">
+					<p>Chapter will be permanently deleted. Are you sure?</p>
+					<a href="#" class="btn btn-default cancel_btn" data-dismiss="modal">CANCEL</a>
+					<a href="#" class="btn btn-primary confirm_delete_chapter" data-dismiss="modal">DELETE CHAPTER</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Module Modal -->
+	<div class="modal fade info_modal delete_module_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="margin-top: 284.1px;">
+			<div class="modal-content">
+				<input name="module_id" data-module="31895" type="hidden">
+				<input name="chapter_id" data-chapter="4786" type="hidden">
+				<input name="track_id" data-track="25" type="hidden">
+
+				<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+				<div class="modal_header"><h4>Delete Module?</h4></div>
+				<div class="modal_body">
+					<p>Module will be permanently deleted. Are you sure?</p>
+					<a href="#" class="btn btn-default cancel_btn" data-dismiss="modal">CANCEL</a>
+					<a href="#" class="btn btn-primary confirm_delete_module" data-dismiss="modal">DELETE MODULE</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- copy/move module to Modal -->
+	<div class="modal fade info_modal action_confirm_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="margin-top: 284.1px;">
+			<div class="modal-content">
+				<input name="module_id" data-module="31895" type="hidden">
+				<input name="chapter_id" data-chapter="" type="hidden">
+				<input name="track_id" data-track="25" type="hidden">
+				<input name="current_chapter_id" data-current-chapter="4786" type="hidden">
+
+				<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+				<div class="modal_header"><h4>Copy Module</h4></div>
+				<div class="modal_body">
+					<p>Are you sure you want to <span class="action_name"></span> this module to <span class="chapter_title"></span></p>
+					<a href="#" class="btn btn-default cancel_btn" data-dismiss="modal">CANCEL</a>
+					<a href="#" class="btn btn-primary action_btn" data-dismiss="modal"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- chapter_module_modal -->
+	<div class="modal fade info_modal chapter_module_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="margin-top: 284.1px;">
+			<div class="modal-content">
+				<input name="chapter_id" value="" type="hidden">
+
+				<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+				<div class="modal_header"><h4>New Chapter</h4></div>
+				<div class="modal_body">
+					<input id="" placeholder="Chapter Title" type="text">
+					<a href="#" class="btn btn-primary">SAVE</a>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<!-- My files modal -->
+	<div id="myfiles_modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+				<h5>My files</h5>
+				<form class="my_files_upload" enctype="multipart/form-data">
+					<input class="browse_upload_file hidden" name="file_data" type="file">
+					<input name="authenticity_token" value="76bAbAo/4yoyFPwRi6RhixBcKM77p4FG/YZKxT8jsPM=" type="hidden">
+					<span class="upload_my_files"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
+				</form>
+				<span class="hide_modal glyphicon glyphicon-remove" data-dismiss="modal" aria-label="Close"></span>
+				<div class="content">
+					<div class="nano has-scrollbar">
+						<ul id="my_files_list" class="nano-content list-unstyled" tabindex="0" style="right: -17px;">
+							<span>Loading . . . . .</span>
+						</ul>
+						<div class="nano-pane" style="display: none;">
+							<div class="nano-slider" style="height: 20px; transform: translate(0px, 0px);"></div>
+						</div>
+					</div>
+				</div>
+	      </div>
+	    </div>
+	</div> 
+	<!-- end of My files modal -->
+
+	<!-- Manage Module Modal -->
+    <div class="modal fade new_edit_module_modal manage_module_modal " tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal_head">
+                    <h4></h4>
+					<!-- <span class="pull-right">SETTINGS</span> -->
+				</div>
+				<div class="modal_body">
+                    
+	            </div>     
+			</div>	
+		</div>
+	</div>
+
+	<!-- CLONE ITEMS -->
+	<ul class="hidden hidden_module_list">
+		<li class="completed_tab" data-module-type="">
+			<a class="tab_title" href="#">
+				<div class="tab_label"><span class="tab_icon"></span></div>
+				<span class="tab_details">
+					<h4>Overview</h4>
+				</span>
+			</a>
+
+			<div class="dropdown">
+				<span class="glyphicon glyphicon-menu-down dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></span>
+				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="">
+					<li><a href="#" data-toggle="modal" data-target=".new_edit_module_modal" class="dropdown_edit_module_btn">Edit</a></li>
+					<li><a href="#" class="dropdown_duplicate_module_btn">Duplicate</a></li>
+					<li><a href="#" class="dropdown_delete_module_btn">Delete</a></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+
+	<ul class="hidden hidden_question_option_list">
+		<li class="quiz_option_item">
+			<span class="glyphicon glyphicon-th tester"></span>
+			<span class="glyphicon glyphicon-remove-sign delete_quiz_option_item"></span>
+			<input name="quiz_radio_option_1" id="quiz_radio_option_1_1" class="quiz_radio_option hidden" type="radio">
+			<label for="quiz_radio_option_1_1">
+				<span class="radio_marker">
+					<span class="marker"></span>
+				</span>
+			</label>
+
+			<input name="question_option_input" class="question_option_input" type="text">
+		</li>
+	</ul>
+
+	<ul class="hidden hidden_to_do_list">
+		<li class="to_do_item">
+			<span class="glyphicon glyphicon-th"></span>
+			<span class="glyphicon glyphicon-remove-sign delete_to_do_item"></span>
+			<div class="redactor_container">
+				<div class="redactor_click_to_edit">Work on the exercise above.</div>
+			</div>
+		</li>
+	</ul>
+
+	<ul class="hidden hidden_new_question_list">
+		<li class="question_item">
+			<div class="question_container">
+				<span class="glyphicon glyphicon-th"></span>
+				<span class="glyphicon glyphicon-remove-sign delete_question_item"></span>
+				<div class="redactor_container">
+					<div class="redactor_click_to_edit"></div>
+				</div>
+			</div>
+
+			<ul class="list-unstyled quiz_option_list">
+				<li class="add_new_quiz_option_item">
+					<input placeholder="Add a choice" class="add_new_quiz_choice_input" type="text">
+					<span class="glyphicon glyphicon-plus-sign add_new_quiz_choice"></span>
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<!--  Lesson Module  -->
+	<div class="lesson_module_clone hidden">
+	    <div class="module_description">
+			<div class="module_redactor">
+		        <h1 class="module_title_content"></h1>
+			</div>
+	    </div>
+	</div>
+
+    <!-- Quiz Module -->
+	<div class="quiz_module_clone hidden">
+		<div class="quiz_description_block">
+			<div class="module_redactor"> 
+				<h1 class="module_title_content">Quiz</h1> 
+
+			</div>
+		</div> 	
+		<div class="quiz_questions_block hidden">
+		 	<div class="quiz_results">
+		 		<h4>Quiz Results</h4>
+		 		<table class="quiz_result_table table">
+		 			<thead>
+		 				<tr> 
+		 					<th class="quiz_result_header">#</th>
+		 					<th class="quiz_result_header">Date Took</th>
+		 					<th class="quiz_result_header">Minutes Spent</th>
+		 					<th class="quiz_result_header">Score</th> 					                 
+		 				</tr> 					               
+		 			</thead> 
+		 			<tbody>
+		 				<tr>
+		 					<td>1</td>
+		 					<td>March 31, 2014 (Monday)</td>
+		 					<td>2</td>
+		 					<td><a href="javascript:void(0);" class="display_quiz_result" data-quiz-title="Quiz" data-id="6121">80.00% (4/5)</a></td>
+		 				</tr>          
+	 				</tbody> 					            
+	 			</table> 
+
+	 			<div id="retake_quiz" class="btn btn-primary">Retake Quiz</div>
+
+	 		</div> 	
+	 		<div class="quiz_instructions">
+	 			<button id="start_quiz" class="btn btn-primary">Start Quiz</button>
+	 		</div>
+
+	 		<form action="/students/submit_quiz" method="post" class="form_submit_quiz">
+	 		 	<h4>Quiz</h4>
+	 		 	<ol>
+	 		 	 	<li class="quiz_item">
+	 		 	 		<span class="question_description">	It is the main markup language for creating web pages and other information that can be displayed in a web browser. </span>
+	 		 	 		<input name="questions[1]" value="It is the main markup language for creating web pages and other information that can be displayed in a web browser." type="hidden">
+	 		 	 		<ul>
+	 		 	 			<li>
+	 		 	 				<input value="0" id="quiz_radio_option_1_1" name="choices[1][is_answer]" type="radio">
+	 		 	 				<label class="choice" for="quiz_radio_option_1_1">DOCTYPE</label>
+	 		 	 			</li>
+							<li>
+							 	<input value="0" id="quiz_radio_option_1_2" name="choices[1][is_answer]" type="radio">
+							 	<label class="choice" for="quiz_radio_option_1_2">HTML</label>
+							</li>
+							<li>
+								<input value="0" id="quiz_radio_option_1_3" name="choices[1][is_answer]" type="radio">
+								<label class="choice" for="quiz_radio_option_1_3">Web Pages</label>
+							</li>
+						</ul> 
+					</li>
+					<li class="quiz_item">
+						<span class="question_description">Some tags normally come in 
+pairs. But there are some that do not need pairs. Which of the following
+ tag does not need a closing pair tag?</span>
+						<input name="questions[3]" value="Some tags normally come in pairs. But there are some that do not need pairs. Which of the following tag does not need a closing pair tag?" type="hidden">
+						<ul>
+							<li>
+								<input value="0" id="quiz_radio_option_2_1" name="choices[2][is_answer]" type="radio">
+								<label class="choice" for="quiz_radio_option_2_1">head</label>
+							</li>
+							<li>
+								<input value="0" id="quiz_radio_option_2_2" name="choices[2][is_answer]" type="radio">
+								<label class="choice" for="quiz_radio_option_2_2">input</label>
+							</li>
+							<li>
+								<input value="0" id="quiz_radio_option_2_3" name="choices[2][is_answer]" type="radio">
+								<label class="choice" for="quiz_radio_option_2_3">table</label>
+							</li> 
+						</ul>
+					</li>
+				</ol>
+				<input class="btn btn-primary" id="submit_quiz_button" value=" Submit " type="submit">
+			</form>
+			<div class="clear"></div>
+		</div>
+	</div>
+
+	<div class="dropup language_rainbow_dropup hidden">
+	  <a href="#" class="selected_rainbow_option html_rainbow_option" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+		<ul class="dropdown-menu list-unstyled language_rainbow_option_list">
+			<li class="language_rainbow_option_item">
+				<a href="#" class="html_rainbow_option" data-option-language="html"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="css_rainbow_option" data-option-language="css"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="javascript_rainbow_option" data-option-language="javascript"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="python_rainbow_option" data-option-language="python"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="ruby_rainbow_option" data-option-language="ruby"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="java_rainbow_option" data-option-language="java"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="php_rainbow_option" data-option-language="php"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="coffeescript_rainbow_option" data-option-language="coffeescript"></a>
+			</li>
+			<li class="language_rainbow_option_item">
+				<a href="#" class="c_sharp_rainbow_option" data-option-language="c_sharp"></a>
+			</li>
+		</ul>
+	</div>
+	<div id="alert_modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="content save_successfully_content hidden">
+					<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+					<h1>Saving Successfully</h1>
+					<a href="#" class="btn form-control" data-dismiss="modal">OK</a>
+				</div>
+				<div class="content failed_to_save_content hidden">
+					<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+					<h1>Saving Failed</h1>
+					<a href="#" class="btn form-control" data-dismiss="modal">OK</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<script type="text/javascript">
+	var tag = document.createElement('script');
+	tag.id = 'iframe-demo';
+	tag.src = 'https://www.youtube.com/iframe_api';
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+	var player;
+	if (($('iframe').attr('src').indexOf("youtube")) != -1) {
+		function onYouTubeIframeAPIReady() {
+		    for(yt_video in yt_videos) {
+				console.log(yt_videos[yt_video])
+			    player = new YT.Player(yt_videos[yt_video], {
+			        events: {
+			        	'onStateChange': onPlayerStateChange
+			        }
+			    });
+			}
+		}
+
+		function onPlayerStateChange(event) {
+			console.log(event.data);
+			if(event.data == 1) {
+				save_activity_log(1.1, null);
+			} else if (event.data == 2) {
+				save_activity_log(1.2, null);
+			}
+		}
+	}
+</script>
+
+    <script type="text/javascript">
+		
+		var last_date_activity;
+		var is_io_request = false;
+
+        var io = io.connect('https://learn.codingdojo.com:8787', {force_connection: true, path: '/app1socket'});
+        var pair_hangout = false;
+        var admin_as_student = "";
+       
+        io.on("error", function(){
+            console.log('Failed connecting to node js server.');
+        });
+       	
+       	// USER ACTIVITY TRACKING
+	        io.emit("connect", { user_activity_session_id: "56115" }, function(){
+	            console.log("Connecting to socket.io");
+	        });
+
+	        io.on("save_last_active_date", function(data){
+	        	last_date_activity = data.last_active_date;
+
+	             $(document).on("mousemove", function() {
+		            var date_now = new Date();
+		            var mouse_move_minute = (date_now.getTime() - last_date_activity) / 1000;
+
+		            // CHECK UPDATING OF LAST DATE ACTIVITY (PING TO NODE)
+		            if(mouse_move_minute >= 60 && is_io_request == false) {
+		            	is_io_request = true;
+		            	io.emit("update_last_active_data", { last_date_activity: date_now.getTime(), mouse_move_minute: mouse_move_minute }, function(data){
+		            		
+		            		if(data.expired == true) {
+		            			last_date_activity = data.last_active_date;
+
+		            			$.post('/update_session', function(session_result) {
+		            				// Refresh Page
+					    			// params_data.end_session_page = 1;
+									// location.reload();
+
+					            	// USER PAGE VIEWS TRACKING
+					    			params_data.end_session_page = 1;
+									
+									$.post('/create_new_session_page', params_data, function(result) { 
+										is_io_request = false;
+										user_session_page_id = result.user_session_page_id;
+									}, "json");
+									
+					            }, "json");
+		            		} else {
+			            		is_io_request = false;
+			            		last_date_activity = data.last_active_date;
+		            		}
+				        });
+		            }
+
+		            // console.log("check_mouse_move_minute -> ", mouse_move_minute);
+		        });
+	        });
+
+        if(admin_as_student != "true"){
+            io.on('server:logout', function(){
+                io.emit("student:signout");
+
+                $.ajax({
+                    url: "/before_signout/",
+                    type: "get",
+                    success: function(values) {
+                        if(values.status){
+                            window.location.href = "/signout";
+                        }
+                    }
+                });
+            });
+        }
+
+        $(document).on('ready page:load', function (){
+            io.on('need_signin', function(socket_data) {
+            	io.emit('student:signin', {user_information: {"id":21126,"first_name":"Menachem","last_name":"Bakaleynik","email":"mendelbak@gmail.com","image_url":"https://s3.amazonaws.com/General_V88/boomyeah2015/codingdojo/user21126/profile_pic/FB_IMG_1490070400279.jpg?1507656665","alternate_email":null,"current_stack_id":null,"current_stack_schedule_id":null,"track_access_level_id":null,"created_at":"2017-08-28T22:14:07.000Z","user_level":1,"applicant_id":37412,"is_automated":null,"updated_at":"2018-05-15T16:00:24.000Z","last_visited_url":"/m/25/4786/","last_used_filter":null,"is_course_editor":null,"access_expiration":"2018-08-02T00:00:00.000Z","first_logged_in":null,"graduation_flag":1,"graduation_flag_created_at":"2018-02-17T06:10:58.000Z"}, ip_address: $("#page_info input:nth-child(6)").val(), device: navigator.userAgent}, function(data){
+            		new_track();
+            	});
+            });
+
+            if(admin_as_student != "true"){
+                io.on('server:warning_duplicate_user', function(data){
+                    console.log("warning!!");
+                    io.emit("track:logout_duplicate", data);
+                });
+            }
+
+            function new_track(){
+            	io.emit('track:new', {
+    	        	url: $("#page_info input:nth-child(1)").val(),
+    	        	track_id: $("#page_info input:nth-child(2)").val(),
+    	        	course_id: $("#page_info input:nth-child(3)").val(),
+    	        	chapter_id: $("#page_info input:nth-child(4)").val(),
+    	        	module_id: $("#page_info input:nth-child(5)").val(),
+    	        	ip_address: $("#page_info input:nth-child(6)").val()
+    	        });
+            }
+
+            new_track();
+
+            $("#logout_button").click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                io.emit("student:signout");
+                window.location.href = "/signout";
+            });
+
+            io.on("new_chat_message", function(new_message){
+                display_sent_chat_message(new_message);
+            });
+
+            io.on("send_new_message", function(message){
+                display_received_chat_message(message);
+            });
+
+            io.on('make_user_unavailable', function(call_information){
+                make_user_unavailable(call_information);
+            });
+
+            io.on('make_user_available', function(user){
+                make_user_available(user);
+            });
+
+            io.on("invite_student", function(call_information){
+                display_call_request(call_information);
+            });
+
+        });
+    </script> 
+</body><!-- YOUTUBE API --></html>

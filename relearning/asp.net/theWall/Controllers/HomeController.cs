@@ -90,7 +90,6 @@ namespace theWall.Controllers
         {
             ViewBag.AllMessages = _dbConnector.Query("SELECT * FROM messages ORDER BY created_at DESC");
             ViewBag.AllComments = _dbConnector.Query("SELECT * FROM comments");
-            System.Console.WriteLine(ViewBag.AllMessages[0]["users_id"]);
             return View("Main");
         }
 

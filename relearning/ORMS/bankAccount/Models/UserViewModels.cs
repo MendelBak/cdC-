@@ -1,13 +1,16 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace bankAccount
+namespace bankAccount.Models
 {
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name="First Name")]
         public string FirstName { get; set; }
 
         [Required]
+        [Display(Name="Last Name")]
         public string LastName { get; set; }
         
         [Required]
@@ -17,7 +20,9 @@ namespace bankAccount
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        
         [Required]
+        [Display(Name="Confirm Password")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage="Passwords do not match.")]
         public string ConfirmPassword { get; set; }
@@ -34,9 +39,9 @@ namespace bankAccount
         public string Password { get; set; }
     }
 
-    public class LoginRegisterViewModels
+    public class UserViewModels
     {
-        public RegisterViewModel RegisterViewModel { get; set; }
-        public LoginViewModel LoginViewModel { get; set; }
+        public RegisterViewModel RegVM { get; set; }
+        public LoginViewModel LogVM { get; set; }
     }
 }

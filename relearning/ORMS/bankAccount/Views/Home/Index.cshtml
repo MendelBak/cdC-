@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model bankAccount.Models.UserViewModels
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,36 +11,38 @@
 <body>
     <h1>Bank Account Register</h1>
 
-    <form method="POST">
-        <label></label>
-        <input>
-        <span></span>
+    <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
+        <label asp-for="RegVM.FirstName"></label>
+        <input asp-for="RegVM.FirstName" class="form-control">
+        <span asp-validation-for="RegVM.FirstName"></span>
 
         <br><br>
-        <label></label>
-        <input>
-        <span></span>
+        <label asp-for="RegVM.LastName"></label>
+        <input asp-for="RegVM.LastName" class="form-control">
+        <span asp-validation-for="RegVM.LastName"></span>
 
         <br><br>
-        <label></label>
-        <input>
-        <span></span>
+        <label asp-for="RegVM.Email"></label>
+        <input asp-for="RegVM.Email" class="form-control">
+        <span asp-validation-for="RegVM.Email"></span>
 
         <br><br>
-        <label></label>
-        <input>
-        <span></span>
+        <label asp-for="RegVM.Password"></label>
+        <input asp-for="RegVM.Password" class="form-control">
+        <span asp-validation-for="RegVM.Password"></span>
 
         <br><br>
-        <label></label>
-        <input>
-        <span></span>
+        <label asp-for="RegVM.ConfirmPassword"></label>
+        <input asp-for="RegVM.ConfirmPassword" class="form-control">
+        <span asp-validation-for="RegVM.ConfirmPassword"></span>
 
         <br><br>
 
-        @Html.Partial("Login")
+        <button class="btn btn-success">Register</button>
+        <span>@ViewBag.RegisterError</span>
 
-
+        <br>
     </form>
+    @Html.Partial("Login")
 </body>
 </html>

@@ -1,0 +1,43 @@
+@model bankAccount.Models.TransactionViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Account</title>
+</head>
+<body>
+    <h1>Welcome, @ViewBag.CurrentUser.FirstName</h1>
+
+    <div style="border: black 0.5px ridge; padding: 5px;">
+        <form asp-controller="Account" asp-action="ChangeBalance" method="post" class="form-group form-inline">
+            <label>Deposit</label>
+            <input type="radio" asp-for="TransactionType" checked value= "Deposit" class="form-control" style="margin-right: 20px;">
+            
+            <label>Withdrawal</label>
+            <input type="radio" asp-for="TransactionType" value= "Withdrawl" class="form-control">
+
+            <br>
+
+            <input asp-for="TransactionAmount" class="form-control" step="0.01">
+            <br><br>
+            <button class="btn btn-primary">Submit Transaction</button>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+            <th>Debit</th>
+            <th>Credit</th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div style="border: 0.5px black solid; padding: 5px;">
+        <p>Current Balance: @ViewBag.CurrentUser</p>
+    </div>
+</body>
+</html>

@@ -1,3 +1,5 @@
+@model bankAccount.Models.UserViewModels
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,10 +11,21 @@
 <body>
     <h1>Login</h1>
 
-    <form method="post">
-        <label></label>
-        <input>
-        <span></span>
+    <form asp-controller="Home" asp-action="Login" method="post" class="form-group">
+        <label asp-for="LogVM.Email"></label>
+        <input asp-for="LogVM.Email" class="form-control">
+        <span asp-validation-for="LogVM.Email"></span>
+
+        <br><br>
+
+        <label asp-for="LogVM.Password"></label>
+        <input asp-for="LogVM.Password" class="form-control">
+        <span asp-validation-for="LogVM.Password"></span>
+        
+        <br>
+
+        <button class="btn btn-success">Login</button>
+        <span>@ViewBag.LoginError</span>
     </form>
 </body>
 </html>

@@ -32,7 +32,7 @@ namespace bankAccount
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddDbContext<RestaurantContext>(options => options.UseMySql(Configuration["DBInfo:ConnectionString"]));
+            services.AddDbContext<BankContext>(options => options.UseMySql(Configuration["DBInfo:ConnectionString"]));
             services.Configure<MySqlOptions>(Configuration.GetSection("DBInfo"));
             services.AddMvc();
             services.AddSession();

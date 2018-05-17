@@ -69,7 +69,7 @@ namespace bankAccount.Controllers
                     HttpContext.Session.SetInt32("CurrentUserId", NewUser.UserId);
                     return RedirectToAction("Account", "Account");
                 }
-                // Catch should only run if there was a problem saving the user in the DB.
+                // Catch should only run if there was a problem saving the user to the DB.
                 catch
                 {
                     ViewBag.RegisterError = "There was an error creating your new account. Please try again.";
@@ -88,27 +88,28 @@ namespace bankAccount.Controllers
                 try
                 {
                     //Create new Hasher object.
-                    PasswordHasher<LoginViewModel> Hasher = new PasswordHasher<LoginViewModel>();
-
-                    // This line is purely for testing
-                    // string TestPassword = Hasher.HashPassword(model.LogVM, model.LogVM.Password);
+                    PasswordHasher<User> Hasher = new PasswordHasher<User>();
 
                     // Retrieve user from DB where submitted email matches.
                     User CurrentUser = _context.Users.Where(u => u.Email == model.LogVM.Email).SingleOrDefault();
 
                     // Check against user submitted password. Hash verification function will return 0 for a negative match.
-                    if (0 != Hasher.VerifyHashedPassword(model.LogVM, CurrentUser.Password, model.LogVM.Password))
+                    if (0 != Hasher.VerifyHashedPassword(CurrentUser, CurrentUser.Password, model.LogVM.Password))
                     {
                         // Set user id in session.
                         HttpContext.Session.SetInt32("CurrentUserId", CurrentUser.UserId);
                         // Send user to Account controller and method.
                         return RedirectToAction("Account", "Account");
                     }
+                    // if the password verification fails (user error) return error message.
+                    ViewBag.LoginError = "Your password was incorrect. Please try again.";
+                    return View("Index");
                 }
-                // Catch will fire if the password verification faile (user error) or if no user was fetched from the DB (server-side error).
+                // If no match with email in DB or if can't contact DB.
                 catch
                 {
-                    ViewBag.LoginError = "Your email or password was incorrect. Please try again.";
+                    ViewBag.LoginError = "You entered an incorrect email or there is a problem communicating with our Database. Please try again.";
+                    return View("Index");
                 }
             }
             // Returns validation errors if ModelState is invalid.

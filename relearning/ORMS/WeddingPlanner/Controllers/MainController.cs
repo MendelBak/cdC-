@@ -25,9 +25,9 @@ namespace WeddingPlanner.Controllers
         [Route("Account")]
         public IActionResult Account()
         {
-            User CurrentUser = _context.Users.Where( u => u.UserId == HttpContext.Session.GetInt32("CurrentUserId")).SingleOrDefault();
+            var CurrentUser = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("CurrentUserId")).Include(w => w.WeddingsAttending).ThenInclude(x => x.Weddings).SingleOrDefault();
 
-            if(CurrentUser == null)
+            if (CurrentUser == null)
             {
                 ViewBag.LoginError = "Sorry, a problem occured while attempting to grab your account. Please login again.";
                 return RedirectToAction("Index", "Home");
@@ -37,7 +37,7 @@ namespace WeddingPlanner.Controllers
                 ViewBag.CurrentUser = CurrentUser;
 
                 // Get all Weddings to display in table
-                ViewBag.AllWeddings = _context.Weddings.Where( w => w.Bride == w.Bride).ToList();
+                ViewBag.AllWeddings = _context.Weddings.Where(w => w.Bride == w.Bride).ToList();
                 return View("Main");
             }
         }
@@ -54,7 +54,7 @@ namespace WeddingPlanner.Controllers
         [Route("SubmitNewWedding")]
         public IActionResult SubmitNewWedding(WeddingsViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Weddings NewWedding = new Weddings
                 {
@@ -72,16 +72,15 @@ namespace WeddingPlanner.Controllers
             }
             return RedirectToAction("Account");
         }
-        
+
         [HttpGet]
         [Route("ShowWedding/{WeddingId}")]
         public IActionResult ShowWedding(int WeddingId)
         {
             try
             {
-                var CurrentWedding = _context.Weddings.Where(w => w.WeddingsId == WeddingId).Include(a => a.Atendees).ThenInclude(u => u.User);
+                var CurrentWedding = _context.Weddings.Where(w => w.WeddingsId == WeddingId).Include(a => a.Atendees).ThenInclude(u => u.User).SingleOrDefault();
                 ViewBag.CurrentWedding = CurrentWedding;
-                Console.WriteLine(CurrentWedding);
                 return View("ShowWedding");
             }
             catch
@@ -95,8 +94,16 @@ namespace WeddingPlanner.Controllers
         public IActionResult JoinWedding(int WeddingId)
         {
             // Get user object
-            User CurrentUser = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("CurrentUserId")).SingleOrDefault();
+            var CurrentUser = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("CurrentUserId")).Include(w => w.WeddingsAttending).ThenInclude(x => x.Weddings).SingleOrDefault();
+            
+            // Change UpdatedAt field in User object
             CurrentUser.UpdatedAt = DateTime.Now;
+
+            // Check if user is already attending the wedding.
+            // if(CurrentUser.WeddingsAttending.WeddingsId == WeddingId)
+            // {
+
+            // }
 
             // Get wedding object
             Weddings SelectedWedding = _context.Weddings.Where(w => w.WeddingsId == WeddingId).SingleOrDefault();
@@ -110,7 +117,7 @@ namespace WeddingPlanner.Controllers
             };
             _context.Atendees.Add(NewAtendee);
             _context.SaveChanges();
-            return RedirectToAction("ShowWedding", new {WeddingId = WeddingId});
+            return RedirectToAction("ShowWedding", new { WeddingId = WeddingId });
         }
 
         [HttpGet]
@@ -122,7 +129,7 @@ namespace WeddingPlanner.Controllers
             // Get wedding if creds match
             Weddings SelectedWedding = _context.Weddings.Where(w => w.AdminId == (int)CurrentUserId && w.WeddingsId == WeddingId).SingleOrDefault();
 
-            if(SelectedWedding.Bride != SelectedWedding.Bride)
+            if (SelectedWedding.Bride != SelectedWedding.Bride)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -134,6 +141,6 @@ namespace WeddingPlanner.Controllers
             }
         }
 
-    
+
     }
 }

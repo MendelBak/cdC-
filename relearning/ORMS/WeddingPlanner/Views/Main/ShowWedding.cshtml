@@ -3,16 +3,18 @@
 <br>
 
 @{
-    foreach (var datapoint in ViewBag.CurrentWedding)
-    {
-        
-        <h1>Welcome to @datapoint.Bride and @datapoint.Groom's Wedding</h1>
+    
+        <h1>Welcome to @ViewBag.CurrentWedding.Bride and @ViewBag.CurrentWedding.Groom's Wedding</h1>
         <a href="/Account">Dashboard</a>
         <a href="/Logout">Log Out</a>
 
-        <p>Address: @datapoint.Address at @datapoint.Date</p> 
+        <p>Address: @ViewBag.CurrentWedding.Address at @ViewBag.CurrentWedding.Date</p> 
 
         <h3>Guests: </h3>
-        <p></p>
-    }
+        foreach(var guest in @ViewBag.CurrentWedding.Atendees)
+        {
+            <p>@guest.User.FirstName</p>
+        }
+        
+
 }

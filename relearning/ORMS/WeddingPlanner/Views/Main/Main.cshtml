@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Account</title>
+</head>
+<body>
+    <br><br><br><br>
+<h1>Welcome To The Wedding Planner</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Wedding</th>
+            <th>Date</th>
+            <th>Num of Guests</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var wedding in ViewBag.AllWeddings)
+            {
+                <tr>
+                    <td><a href="ShowWedding/@wedding.WeddingsId">@wedding.Bride and @wedding.Groom</a> </td>
+                    <td>@wedding.Date</td> 
+                    <td>@wedding.NumGuests</td>
+                    @{
+                        if(ViewBag.CurrentUser.UserId == @wedding.AdminId)
+                        {
+                            <td><a href="Delete/@wedding.WeddingsId">Delete</td>
+                        }
+                        <td><a href="JoinWedding/@wedding.WeddingsId">RSVP</a></td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<a href="NewWedding">New Wedding</a>
+</body>
+</html>

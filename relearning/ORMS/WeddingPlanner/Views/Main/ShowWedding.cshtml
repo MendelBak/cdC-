@@ -1,0 +1,18 @@
+<br>
+<br>
+<br>
+
+@{
+    foreach (var datapoint in ViewBag.CurrentWedding)
+    {
+        
+        <h1>Welcome to @datapoint.Bride and @datapoint.Groom's Wedding</h1>
+        <a href="/Account">Dashboard</a>
+        <a href="/Logout">Log Out</a>
+
+        <p>Address: @datapoint.Address at @datapoint.Date</p> 
+
+        <h3>Guests: </h3>
+        <p></p>
+    }
+}

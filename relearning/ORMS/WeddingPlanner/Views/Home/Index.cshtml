@@ -1,0 +1,49 @@
+﻿@model WeddingPlanner.Models.UserViewModels
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wedding Planner</title>
+</head>
+<body>
+    <br><br><br><br>
+    <h1>Wedding Planner Register</h1>
+
+    <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
+        <label asp-for="RegVM.FirstName"></label>
+        <input asp-for="RegVM.FirstName" class="form-control">
+        <span asp-validation-for="RegVM.FirstName"></span>
+
+        <br><br>
+        <label asp-for="RegVM.LastName"></label>
+        <input asp-for="RegVM.LastName" class="form-control">
+        <span asp-validation-for="RegVM.LastName"></span>
+
+        <br><br>
+        <label asp-for="RegVM.Email"></label>
+        <input asp-for="RegVM.Email" class="form-control">
+        <span asp-validation-for="RegVM.Email"></span>
+
+        <br><br>
+        <label asp-for="RegVM.Password"></label>
+        <input asp-for="RegVM.Password" class="form-control">
+        <span asp-validation-for="RegVM.Password"></span>
+
+        <br><br>
+        <label asp-for="RegVM.ConfirmPassword"></label>
+        <input asp-for="RegVM.ConfirmPassword" class="form-control">
+        <span asp-validation-for="RegVM.ConfirmPassword"></span>
+
+        <br><br>
+
+        <button class="btn btn-success">Register</button>
+        <span>@ViewBag.RegisterError</span>
+
+        <br>
+    </form>
+    @Html.Partial("Login")
+</body>
+</html>

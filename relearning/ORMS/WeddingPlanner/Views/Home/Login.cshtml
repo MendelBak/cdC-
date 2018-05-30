@@ -1,0 +1,31 @@
+@model WeddingPlanner.Models.UserViewModels
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Wedding Planner Login</h1>
+
+    <form asp-controller="Home" asp-action="Login" method="post" class="form-group">
+        <label asp-for="LogVM.Email"></label>
+        <input asp-for="LogVM.Email" class="form-control">
+        <span asp-validation-for="LogVM.Email"></span>
+
+        <br><br>
+
+        <label asp-for="LogVM.Password"></label>
+        <input asp-for="LogVM.Password" class="form-control">
+        <span asp-validation-for="LogVM.Password"></span>
+        
+        <br>
+
+        <button class="btn btn-success">Login</button>
+        <span>@ViewBag.LoginError</span>
+    </form>
+</body>
+</html>

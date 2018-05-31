@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WeddingPlanner.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class CompositePrimaryKey : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,33 +39,54 @@ namespace WeddingPlanner.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Groom = table.Column<string>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    NumGuests = table.Column<int>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Weddings", x => x.WeddingsId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Atendees",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    WeddingsId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Atendees", x => new { x.UserId, x.WeddingsId });
                     table.ForeignKey(
-                        name: "FK_Weddings_Users_UserId",
+                        name: "FK_Atendees_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Atendees_Weddings_WeddingsId",
+                        column: x => x.WeddingsId,
+                        principalTable: "Weddings",
+                        principalColumn: "WeddingsId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Weddings_UserId",
-                table: "Weddings",
-                column: "UserId");
+                name: "IX_Atendees_WeddingsId",
+                table: "Atendees",
+                column: "WeddingsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Weddings");
+                name: "Atendees");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Weddings");
         }
     }
 }

@@ -37,7 +37,8 @@ namespace WeddingPlanner.Controllers
                 ViewBag.CurrentUser = CurrentUser;
 
                 // Get all Weddings to display in table
-                ViewBag.AllWeddings = _context.Weddings.Where(w => w.Bride == w.Bride).ToList();
+                var AllWeddings = _context.Weddings.Where(w => w.Bride == w.Bride).Include(a => a.Atendees).ThenInclude(u => u.User);
+                ViewBag.AllWeddings = AllWeddings;
                 return View("Main");
             }
         }
@@ -96,16 +97,20 @@ namespace WeddingPlanner.Controllers
             // Get user object
             var CurrentUser = _context.Users.Where(u => u.UserId == HttpContext.Session.GetInt32("CurrentUserId")).Include(w => w.WeddingsAttending).ThenInclude(x => x.Weddings).SingleOrDefault();
             
+            // Check if user is already attending the wedding.
+            foreach (var wedding in CurrentUser.WeddingsAttending)
+            {
+                if(wedding.WeddingsId == WeddingId)
+                {
+                    TempData["RsvpError"] = "You're already attending that wedding!";
+                    return RedirectToAction("Account");
+                }
+            }
+
             // Change UpdatedAt field in User object
             CurrentUser.UpdatedAt = DateTime.Now;
 
-            // Check if user is already attending the wedding.
-            // if(CurrentUser.WeddingsAttending.WeddingsId == WeddingId)
-            // {
-
-            // }
-
-            // Get wedding object
+            // Get wedding object in order to increment NumGuests
             Weddings SelectedWedding = _context.Weddings.Where(w => w.WeddingsId == WeddingId).SingleOrDefault();
             SelectedWedding.NumGuests++;
 
@@ -118,6 +123,21 @@ namespace WeddingPlanner.Controllers
             _context.Atendees.Add(NewAtendee);
             _context.SaveChanges();
             return RedirectToAction("ShowWedding", new { WeddingId = WeddingId });
+        }
+
+        [HttpGet]
+        [Route("LeaveWedding/{WeddingId}")]
+        public IActionResult LeaveWedding(int WeddingId)
+        {
+            Atendees SelectedAtendeeObject = _context.Atendees.Where(w => w.WeddingsId == WeddingId && w.UserId == HttpContext.Session.GetInt32("CurrentUserId")).SingleOrDefault();
+            _context.Remove(SelectedAtendeeObject);
+
+            // Get wedding object in order to decrement NumGuests
+            Weddings SelectedWedding = _context.Weddings.Where(w => w.WeddingsId == WeddingId).SingleOrDefault();
+            SelectedWedding.NumGuests--;
+
+            _context.SaveChanges();
+            return RedirectToAction("Account");
         }
 
         [HttpGet]

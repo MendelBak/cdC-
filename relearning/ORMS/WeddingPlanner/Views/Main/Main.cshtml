@@ -27,18 +27,33 @@
                     <td><a href="ShowWedding/@wedding.WeddingsId">@wedding.Bride and @wedding.Groom</a> </td>
                     <td>@wedding.Date</td> 
                     <td>@wedding.NumGuests</td>
-                    @{
-                        if(ViewBag.CurrentUser.UserId == @wedding.AdminId)
-                        {
-                            <td><a href="Delete/@wedding.WeddingsId">Delete</td>
-                        }
+
+                    @if(ViewBag.CurrentUser.UserId == @wedding.AdminId)
+                    {
+                        <td><a href="Delete/@wedding.WeddingsId">Delete</td>
+                    }
+                    @if(@wedding.Atendees.Count < 1)
+                    {
                         <td><a href="JoinWedding/@wedding.WeddingsId">RSVP</a></td>
+                    }
+                    @foreach (var Atendee in @wedding.Atendees)
+                    {
+                        @if(@Atendee.UserId == ViewBag.CurrentUser.UserId)
+                        {
+                            <td><a href="LeaveWedding/@wedding.WeddingsId">Un-RSVP</a></td>
+                            break;  
+                        }
+                        else
+                        {
+                            <td><a href="JoinWedding/@wedding.WeddingsId">RSVP</a></td>
+                        }
                     }
                 </tr>
             }
         }
     </tbody>
 </table>
+<p>@TempData["RsvpError"]</p>
 
 <a href="NewWedding">New Wedding</a>
 </body>

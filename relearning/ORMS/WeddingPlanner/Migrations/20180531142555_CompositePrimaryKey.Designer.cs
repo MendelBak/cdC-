@@ -11,8 +11,8 @@ using WeddingPlanner.Models;
 namespace WeddingPlanner.Migrations
 {
     [DbContext(typeof(WeddingContext))]
-    [Migration("20180529192017_Secondmigration")]
-    partial class Secondmigration
+    [Migration("20180531142555_CompositePrimaryKey")]
+    partial class CompositePrimaryKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,19 @@ namespace WeddingPlanner.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+
+            modelBuilder.Entity("WeddingPlanner.Models.Atendees", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("WeddingsId");
+
+                    b.HasKey("UserId", "WeddingsId");
+
+                    b.HasIndex("WeddingsId");
+
+                    b.ToTable("Atendees");
+                });
 
             modelBuilder.Entity("WeddingPlanner.Models.User", b =>
                 {
@@ -64,20 +77,22 @@ namespace WeddingPlanner.Migrations
 
                     b.Property<DateTime>("UpdatedAt");
 
-                    b.Property<int?>("UserId");
-
                     b.HasKey("WeddingsId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Weddings");
                 });
 
-            modelBuilder.Entity("WeddingPlanner.Models.Weddings", b =>
+            modelBuilder.Entity("WeddingPlanner.Models.Atendees", b =>
                 {
-                    b.HasOne("WeddingPlanner.Models.User")
-                        .WithMany("Weddings")
-                        .HasForeignKey("UserId");
+                    b.HasOne("WeddingPlanner.Models.User", "User")
+                        .WithMany("WeddingsAttending")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WeddingPlanner.Models.Weddings", "Weddings")
+                        .WithMany("Atendees")
+                        .HasForeignKey("WeddingsId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

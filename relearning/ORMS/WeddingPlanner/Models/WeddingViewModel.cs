@@ -12,6 +12,7 @@ namespace WeddingPlanner.Models
             return d >= DateTime.Now; //Dates Less than or equal to today are valid (true)
         }
     }
+    
     public class WeddingsViewModel
     {
         [Required]

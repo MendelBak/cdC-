@@ -12,7 +12,9 @@ dotnet run
 dotnet watch run
 // Set development environment variable for developer exception/error messages in your terminal:
 export ASPNETCORE_ENVIRONMENT=Development
-// Install MySQL in your project
+// Microsoft SQL Server database provider for Entity Framework Core.
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 2.1.0
+// (optional) Install MySQL in your project
 dotnet add package MySql.Data -v 8.0.11-*
 
 
@@ -291,3 +293,14 @@ namespace WeddingPlanner.Controllers
 
 
 // End Controller.cs
+
+// web.config Connection string for SQL Server
+
+<configuration>
+    <connectionStrings>
+    <add name="AjaxPaginationConnectionString"
+    connectionString="server =DESKTOP-7H64GG8\SQLEXPRESS; database=ajax_pagination; integrated security=True" providerName="System.Data.SqlClient"/>
+    </connectionStrings>
+</configuration>
+
+// END web.config

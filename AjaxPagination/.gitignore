@@ -1,7 +1,8 @@
-.vs
-bin
-.vscode
-obj
-lib
+.vs/
+bin/
+.vscode/
+obj/
+lib/
 favicon.ico
-js
+js/
+appsettings/

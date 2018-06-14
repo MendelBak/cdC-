@@ -22,26 +22,63 @@ namespace AjaxPagination.Controllers
 
         [HttpGet]
         [Route("")]
-        public IActionResult Index(string FirstName)
+        public IActionResult Index()
         {
             // Do a math.ceiling
-            int TotalUsers = (_context.Users.Count() / 3);
-            List<User> AllUsers = _context.Users.ToList();
-            ViewBag.TotalUsers = TotalUsers;
+            int UsersPerPage = (_context.Users.Count() / 5);
+            int CurrentPageNum = 0;
+            List<User> AllUsers = _context.Users.Skip(CurrentPageNum * UsersPerPage - 5).Take(UsersPerPage).ToList();
+            ViewBag.UsersPerPage = UsersPerPage;
             ViewBag.AllUsers = AllUsers;
             return View();
         }
 
+
+        // I can build two additional overloaded methods here, that take in 1) LastName, 2) LastName, StartDate, 3) LastName, StartDate, EndDate.
+        // Instead of overloaded methods, I'm going to make this single FilterUsers method have default Start and End dates.
         [HttpPost]
         [Route("FilterUsers")]
-        public IActionResult FilterUsers(string LastName)
+        public JsonResult FilterUsers(string LastName, DateTime? StartDate = null, DateTime? EndDate = null)
         {
-            // Do a math.ceiling
-            int TotalUsers = (_context.Users.Count() / 3);
-            List<User> AllUsers = _context.Users.Where(e => e.last_name == LastName).ToList();
-            ViewBag.TotalUsers = TotalUsers;
+            int UsersPerPage = _context.Users.Count() / 5;
+            List<User> AllUsers;
+
+            // There are waaay too many if/else checks here. There has to be a better way to do this. This feels like an immensely poor implementation.
+            if (LastName == "GetAllUsers" && StartDate == null && EndDate == null)
+            {
+                AllUsers = _context.Users.ToList();
+            }
+            else if (LastName == "GetAllUsers" && StartDate != null && EndDate == null)
+            {
+                AllUsers = _context.Users.Where(user => (user.created_at > (DateTime)StartDate)).ToList();
+            }
+            else if (LastName == "GetAllUsers" && EndDate != null && StartDate == null)
+            {
+                AllUsers = _context.Users.Where(user => (user.created_at < (DateTime)EndDate)).ToList();
+            }
+            else if (LastName == "GetAllUsers" && EndDate != null && StartDate != null)
+            {
+                AllUsers = _context.Users.Where(user => (user.created_at > (DateTime)StartDate) && (user.created_at < (DateTime)EndDate)).ToList();
+            }
+            else if (StartDate == null && EndDate == null)
+            {
+                AllUsers = _context.Users.Where(user => (user.last_name == LastName.First().ToString().ToUpper().Trim()) || (user.last_name == LastName)).ToList();
+            }
+            else if (EndDate == null)
+            {
+                AllUsers = _context.Users.Where(user => (user.last_name == LastName.First().ToString().ToUpper().Trim()) || (user.last_name == LastName) && (user.created_at > (DateTime)StartDate)).ToList();
+            }
+            else if (StartDate == null)
+            {
+                AllUsers = _context.Users.Where(user => (user.last_name == LastName.First().ToString().ToUpper().Trim()) || (user.last_name == LastName) && (user.created_at < (DateTime)EndDate)).ToList();
+            }
+            else
+            {
+                AllUsers = _context.Users.Where(user => (user.last_name == LastName.First().ToString().ToUpper().Trim()) || (user.last_name == LastName) && (user.created_at > (DateTime)StartDate) && (user.created_at < (DateTime)EndDate)).ToList();
+            }
+            ViewBag.UsersPerPage = UsersPerPage;
             ViewBag.AllUsers = AllUsers;
-            return View("Index");
+            return Json(AllUsers);
         }
 
         // This route takes the id of the last user that is being displayed on the view as well as the page (via pagination of all the users) that the user wants to go to and returns the approriate reponse.
@@ -53,6 +90,6 @@ namespace AjaxPagination.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
     }
 }

@@ -1,12 +1,17 @@
 ﻿<h3>Welcome to the Ajax Pagination example page</h3>
 <p>This page makes AJAX calls to a SQL Server database based on the three types of input you can choose; Name, Start Date, and End Date. </p>
+<p>Since I'm working with a small set of User data I set the pagination to break after only a small number of results have been returned, this can obviously be changed easily.</p>
 <br>
 
+<button id="Jquerytestbutton">testbutton</button>
+
+<form action="/FilterUsers" method="post">
 <div class="form-inline">
     <div class="form-group">
         <label for="name">Last Name</label>
         <input type="text" name="name" id="name" class="form-control">
     </div>
+</form>
     
     <div class="form-group">
         <label for="startDate">Start Date</label>
@@ -22,6 +27,14 @@
 <br>    
 
 <h3>Results</h3>
+<h5 id="DisplayPageNumber">Page Number:</h5>
+@{
+    for(var idx = 1; idx <= ViewBag.TotalUsers; idx++)
+    {
+        // Pass in the last user that was displayed on this page as well as the number page that you selected.
+        // <a href="ChoosePage/@ViewBag.AllUsers[i].Id/@idx">@idx</a>
+    }
+}
 
 <table class="table">
     <thead>
@@ -35,7 +48,7 @@
     </thead>
     <tbody>
             @{
-                foreach (var user in ViewBag.testString)
+                foreach (var user in ViewBag.AllUsers)
                 {
                     <tr>
                     <td>@user.Id</td>
